@@ -39,7 +39,6 @@ public class Hurtable : MonoBehaviour
         {
             Hurt(dotDamage);
             dotLastDamage = Time.time;
-            Debug.Log(currentHealth);
         }
     }
 
