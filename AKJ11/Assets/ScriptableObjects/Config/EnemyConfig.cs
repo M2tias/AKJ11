@@ -17,9 +17,6 @@ public class EnemyConfig : ScriptableObject {
     public HealthScriptableObject HealthConfig {get; private set;}
 
     [field: SerializeField]
-    public UnityEvent DeadAction {get; private set;}
-
-    [field: SerializeField]
     public WeaponConfig WeaponConfig { get; private set; }
 
     [field: SerializeField]
