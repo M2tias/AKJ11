@@ -13,6 +13,11 @@ public class Enemy : MonoBehaviour
     [SerializeField]
     private float moveSpeed;
 
+    [SerializeField]
+    private float attackRange = 1.0f;
+
+    private Weapon weapon;
+
     private NavMeshPath path;
     private int cornerIndex;
 
@@ -21,20 +26,23 @@ public class Enemy : MonoBehaviour
     private Vector2 moveTargetPos;
 
 
+
     // Start is called before the first frame update
     void Start()
     {
         InvokeRepeating("UpdatePathing", pathingFrequency, pathingFrequency);
         rb = GetComponent<Rigidbody2D>();
+        weapon = GetComponentInChildren<Weapon>();
     }
 
     // Update is called once per frame
     void Update()
     {
         targetPos = target.position;
+        weapon.LookAt(targetPos);
         if (HasPath())
         {
-            if (IsLastCorner() && distanceToNextCorner() < 1.0f)
+            if (IsLastCorner() && distanceToNextCorner() < 0.1f)
             {
                 moveTargetPos = transform.position;
             }
@@ -42,6 +50,13 @@ public class Enemy : MonoBehaviour
             {
                 moveTargetPos = getNextCorner();
             }
+        }
+
+        Debug.Log(Vector2.Distance(target.position, transform.position));
+
+        if (Vector2.Distance(target.position, transform.position) < attackRange)
+        {
+            weapon.Attack();
         }
     }
 
