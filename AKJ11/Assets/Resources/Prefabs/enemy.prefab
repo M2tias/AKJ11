@@ -197,6 +197,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 63dc8c74aadad75469d23d178a70b1c1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  DieEffect: {fileID: 3278087715595904508, guid: 3a60bdc359cb9df44bbe41fcb42e8efa, type: 3}
 --- !u!1001 &5085877735804157522
 PrefabInstance:
   m_ObjectHideFlags: 0
