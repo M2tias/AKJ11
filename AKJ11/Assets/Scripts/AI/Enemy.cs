@@ -31,8 +31,6 @@ public class Enemy : MonoBehaviour
     private Animator anim;
     private SpriteRenderer rend;
 
-    public ParticleSystem DieEffect;
-
     public void Start()
     {
         if (config != null)

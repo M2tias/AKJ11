@@ -4,9 +4,12 @@ using UnityEngine;
 
 public class EnemyDeath : MonoBehaviour
 {
+
+    public ParticleSystem DieEffect;
+
     public void Death()
     {
-        Debug.Log("örp! kuolin :( t. vihuliini");
+        Instantiate(DieEffect).transform.position = transform.position;
         Destroy(gameObject);
     }
 }
