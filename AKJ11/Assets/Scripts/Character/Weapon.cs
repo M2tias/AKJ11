@@ -100,6 +100,8 @@ public class Weapon : MonoBehaviour
                 return "Slash";
             case WeaponType.SHOOT:
                 return "Shoot";
+            case WeaponType.GATLING:
+                return "Burst";
             default:
                 return "";
         }
@@ -121,5 +123,6 @@ public enum WeaponType
 {
     THRUST,
     SLASH,
-    SHOOT
+    SHOOT,
+    GATLING
 }

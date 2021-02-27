@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 63dc8c74aadad75469d23d178a70b1c1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  DieEffect: {fileID: 0}
 --- !u!1001 &6530936335608325983
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -63,6 +64,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Sword Skeleton
       objectReference: {fileID: 0}
+    - target: {fileID: 4771984357536060286, guid: 8f1d336f96a046940805be13945e8294, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 1195643016397121721, guid: f31d260d30bf9f744887522c7f92569c, type: 3}
     - target: {fileID: 4771984357536060287, guid: 8f1d336f96a046940805be13945e8294, type: 3}
       propertyPath: m_RootOrder
       value: 0

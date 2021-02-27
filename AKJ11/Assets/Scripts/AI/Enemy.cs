@@ -31,6 +31,10 @@ public class Enemy : MonoBehaviour
     private Animator anim;
     private SpriteRenderer rend;
 
+    private bool dashing = false;
+    private float dashSpeedDecay = 10.0f;
+    private float moveSpeed;
+
     public void Start()
     {
         if (config != null)
@@ -65,6 +69,8 @@ public class Enemy : MonoBehaviour
         weapon.Initialize(config.WeaponConfig);
 
         anim.runtimeAnimatorController = config.AnimatorController;
+
+        moveSpeed = config.MoveSpeed;
     }
 
     public void WakeUp() {
@@ -132,6 +138,10 @@ public class Enemy : MonoBehaviour
                 if (hit != null && hit.transform == target)
                 {
                     state = State.ATTACK;
+                    if (config.DashSpeed > 0.0f)
+                    {
+                        Invoke("Dash", Random.Range(config.DashMinDelay, config.DashMaxDelay));
+                    }
                 }
             }
         }
@@ -153,16 +163,58 @@ public class Enemy : MonoBehaviour
 
     private void attackRoutine()
     {
+        if (dashing)
+        {
+            if (rb.velocity.magnitude <= config.MoveSpeed / 2.0f)
+            {
+                dashing = false;
+                moveSpeed = config.MoveSpeed;
+                anim.SetBool("Dash", false);
+            }
+            else
+            {
+                moveSpeed -= dashSpeedDecay * Time.deltaTime;
+            }
+
+            if (Vector2.Distance(targetPos, transform.position) < 1.0f)
+            {
+                dashing = false;
+                moveSpeed = config.MoveSpeed;
+                anim.SetBool("Dash", false);
+                targetPos = target.position;
+                UpdatePathing();
+            }
+        }
+
         weapon.LookAt(target.position);
         if (Vector2.Distance(target.position, transform.position) < config.AttackRange)
         {
-            targetPos = transform.position;
+            if (!dashing)
+            {
+                targetPos = transform.position;
+            }
             weapon.Attack();
         }
         else
         {
-            targetPos = target.position;
+            if (!dashing)
+            {
+                targetPos = target.position;
+            }
         }
+
+    }
+
+    private void Dash()
+    {
+        dashing = true;
+        moveSpeed = config.DashSpeed;
+        var dashDir = target.position - transform.position;
+        targetPos = transform.position + Quaternion.AngleAxis(Random.Range(-60f, 60f), Vector3.forward) * dashDir * config.DashDistance;
+        anim.SetBool("Walk", false);
+        anim.SetBool("Dash", true);
+        UpdatePathing();
+        Invoke("Dash", Random.Range(config.DashMinDelay, config.DashMaxDelay));
     }
 
     void FixedUpdate()
@@ -177,7 +229,7 @@ public class Enemy : MonoBehaviour
         else
         {
             var moveDir = moveTargetPos - (Vector2)transform.position;
-            rb.velocity = moveDir.normalized * config.MoveSpeed;
+            rb.velocity = moveDir.normalized * moveSpeed;
         }
     }
 

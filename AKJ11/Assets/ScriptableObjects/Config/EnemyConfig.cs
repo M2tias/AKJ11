@@ -24,4 +24,16 @@ public class EnemyConfig : ScriptableObject {
 
     [field: SerializeField]
     public RuntimeAnimatorController AnimatorController { get; private set; }
+
+    [field: SerializeField]
+    public float DashSpeed { get; private set; }
+
+    [field: SerializeField]
+    public float DashDistance { get; private set; }
+
+    [field: SerializeField]
+    public float DashMinDelay { get; private set; }
+
+    [field: SerializeField]
+    public float DashMaxDelay { get; private set; }
 }
