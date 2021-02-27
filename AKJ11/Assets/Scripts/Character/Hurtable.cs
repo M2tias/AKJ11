@@ -32,7 +32,9 @@ public class Hurtable : MonoBehaviour
         if (currentHealth <= 0)
         {
             Debug.Log("CALL!");
-            deadAction.Invoke();
+            if (deadAction != null) {
+                deadAction.Invoke();
+            }
         }
         else
         {
