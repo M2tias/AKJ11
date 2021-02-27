@@ -65,5 +65,11 @@ public class Fireball : MonoBehaviour
                 // hurtable.Dot(dotTickDamage, dotDuration);
             }
         }
+
+        if (other.tag == "Wall")
+        {
+            Destroy(gameObject);
+            return;
+        }
     }
 }
