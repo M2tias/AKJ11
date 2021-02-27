@@ -77,6 +77,12 @@ public class MapGenerator : MonoBehaviour
     private void Populate() {
         GameObject player = Instantiate(playerPrefab);
         player.transform.position = (Vector2) nodeContainer.MidPoint;
+        FollowTarget cameraFollow = Camera.main.GetComponent<FollowTarget>();
+        if (cameraFollow != null) {
+            cameraFollow.Initialize(Configs.main.Camera, player.GetComponentInChildren<Movement>().transform, true);
+        } else {
+            Debug.Log("<color=red>Camera doesn't have FollowTarget component!</color>");
+        }
         List<MapNode> nonTowerNodes = nodeContainer.Nodes.Where(node => !node.IsWall && !towerNodes.Contains(node)).ToList();
         foreach(EnemySpawn enemySpawn in config.Spawns) {
             for (int spawnCount = 0; spawnCount < enemySpawn.SpawnThisManyTimes; spawnCount += 1) {
