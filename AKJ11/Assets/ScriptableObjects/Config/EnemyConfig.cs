@@ -21,4 +21,7 @@ public class EnemyConfig : ScriptableObject {
 
     [field: SerializeField]
     public WeaponConfig WeaponConfig { get; private set; }
+
+    [field: SerializeField]
+    public RuntimeAnimatorController AnimatorController { get; private set; }
 }

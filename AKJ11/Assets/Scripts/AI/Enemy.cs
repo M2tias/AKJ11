@@ -63,6 +63,8 @@ public class Enemy : MonoBehaviour
         rend = GetComponent<SpriteRenderer>();
 
         weapon.Initialize(config.WeaponConfig);
+
+        anim.runtimeAnimatorController = config.AnimatorController;
     }
 
     public void WakeUp() {

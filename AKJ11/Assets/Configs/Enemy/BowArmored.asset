@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d1c07e48319c3524d9890dc08d0369d4, type: 3}
-  m_Name: BowEnemy
+  m_Name: BowArmored
   m_EditorClassIdentifier: 
   <MoveSpeed>k__BackingField: 1
   <AttackRange>k__BackingField: 3
@@ -20,4 +20,4 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   <WeaponConfig>k__BackingField: {fileID: 11400000, guid: ecfc9b372822c344d98390545d7e29e2, type: 2}
-  <AnimatorController>k__BackingField: {fileID: 9100000, guid: 097664cf90900f04e8a78373e841274b, type: 2}
+  <AnimatorController>k__BackingField: {fileID: 9100000, guid: a2c7733aff6c088469e8260b18e8d636, type: 2}

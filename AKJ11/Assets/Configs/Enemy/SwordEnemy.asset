@@ -32,3 +32,4 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
   <WeaponConfig>k__BackingField: {fileID: 11400000, guid: d259077a744e44043a1c677c5882731e, type: 2}
+  <AnimatorController>k__BackingField: {fileID: 9100000, guid: 097664cf90900f04e8a78373e841274b, type: 2}
