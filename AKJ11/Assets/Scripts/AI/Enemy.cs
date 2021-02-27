@@ -24,18 +24,32 @@ public class Enemy : MonoBehaviour
 
     private int aggroLayerMask;
 
-    private EnemyConfig config;
+    public EnemyConfig config;
 
     private bool sleeping = true;
+
+    private Animator anim;
+    private SpriteRenderer rend;
+
+    public void Start()
+    {
+        if (config != null)
+        {
+            Initialize(config, null);
+            WakeUp();
+        }
+    }
 
     public void Initialize(EnemyConfig config, MapNode node)
     {
         target = GameObject.FindGameObjectWithTag("Player").transform;
         rb = GetComponent<Rigidbody2D>();
         weapon = GetComponentInChildren<Weapon>();
-        transform.position = (Vector2)node.Position;
+        if (node != null)
+        {
+            transform.position = (Vector2)node.Position;
+        }
         this.config = config;
-
 
         InvokeRepeating("UpdatePathing", pathingFrequency, pathingFrequency);
         RandomizeTargetPosition();
@@ -45,6 +59,10 @@ public class Enemy : MonoBehaviour
         if (hurtable != null) {
             hurtable.Initialize(config);
         }
+        anim = GetComponent<Animator>();
+        rend = GetComponent<SpriteRenderer>();
+
+        weapon.Initialize(config.WeaponConfig);
     }
 
     public void WakeUp() {
@@ -78,6 +96,24 @@ public class Enemy : MonoBehaviour
             {
                 moveTargetPos = getNextCorner();
             }
+        }
+
+        if (rb.velocity.magnitude > 0.1f)
+        {
+            anim.SetBool("Walk", true);
+        }
+        else
+        {
+            anim.SetBool("Walk", false);
+        }
+        
+        if (rb.velocity.x > 0.1f)
+        {
+            rend.flipX = true;
+        }
+        if (rb.velocity.x < -0.1f)
+        {
+            rend.flipX = false;
         }
     }
 

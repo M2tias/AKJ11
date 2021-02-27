@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d1c07e48319c3524d9890dc08d0369d4, type: 3}
   m_Name: SwordEnemy
   m_EditorClassIdentifier: 
-  <MoveSpeed>k__BackingField: 0
+  <MoveSpeed>k__BackingField: 1.3
   <AttackRange>k__BackingField: 1
-  <AggroRange>k__BackingField: 3
+  <AggroRange>k__BackingField: 5
   <HealthConfig>k__BackingField: {fileID: 11400000, guid: 9bd21c7a74992644798750fb5dd9d9a7, type: 2}
   <DeadAction>k__BackingField:
     m_PersistentCalls:
@@ -31,3 +31,4 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  <WeaponConfig>k__BackingField: {fileID: 11400000, guid: d259077a744e44043a1c677c5882731e, type: 2}

@@ -13,9 +13,10 @@ MonoBehaviour:
   m_Name: BowEnemy
   m_EditorClassIdentifier: 
   <MoveSpeed>k__BackingField: 1
-  <AttackRange>k__BackingField: 10
-  <AggroRange>k__BackingField: 15
-  <HealthConfig>k__BackingField: {fileID: 0}
+  <AttackRange>k__BackingField: 3
+  <AggroRange>k__BackingField: 5
+  <HealthConfig>k__BackingField: {fileID: 11400000, guid: 04f7a0acff1925445ac4c98e8a9f2a51, type: 2}
   <DeadAction>k__BackingField:
     m_PersistentCalls:
       m_Calls: []
+  <WeaponConfig>k__BackingField: {fileID: 11400000, guid: ecfc9b372822c344d98390545d7e29e2, type: 2}

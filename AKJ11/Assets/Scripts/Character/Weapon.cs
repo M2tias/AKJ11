@@ -7,23 +7,32 @@ public class Weapon : MonoBehaviour
 {
     public bool DebugAttack;
 
-    public float damage;
-    public Type type;
-    public Projectile projectile;
+    private float damage;
+    private WeaponType type;
+    private Projectile projectile;
     public Transform projectileRoot;
 
     private Transform root;
     private Animator animator;
+    private SpriteRenderer rend;
     private bool playingAttackAnimation = false;
     private bool attacking = false;
 
     private float maxRotateSpeed = 1000;
 
-    // Start is called before the first frame update
-    void Start()
+    private WeaponConfig config;
+
+    public void Initialize(WeaponConfig config)
     {
+        this.config = config;
         root = transform;
         animator = GetComponentInChildren<Animator>();
+        rend = GetComponentInChildren<SpriteRenderer>();
+
+        rend.sprite = config.WeaponSprite;
+        damage = config.Damage;
+        projectile = config.Projectile;
+        type = config.type;
     }
 
     // Update is called once per frame
@@ -64,9 +73,9 @@ public class Weapon : MonoBehaviour
 
     void AttackAnimationDone()
     {
-        foreach(var enumType in Enum.GetValues(typeof(Type)))
+        foreach(var enumType in Enum.GetValues(typeof(WeaponType)))
         {
-            animator.SetBool(getAnimationFor((Type)enumType), false);
+            animator.SetBool(getAnimationFor((WeaponType)enumType), false);
         }
         playingAttackAnimation = false;
     }
@@ -81,15 +90,15 @@ public class Weapon : MonoBehaviour
         }
     }
 
-    string getAnimationFor(Type type)
+    string getAnimationFor(WeaponType type)
     {
         switch(type)
         {
-            case Type.THRUST:
+            case WeaponType.THRUST:
                 return "Thrust";
-            case Type.SLASH:
+            case WeaponType.SLASH:
                 return "Slash";
-            case Type.SHOOT:
+            case WeaponType.SHOOT:
                 return "Shoot";
             default:
                 return "";
@@ -108,7 +117,7 @@ public class Weapon : MonoBehaviour
 
 }
 
-public enum Type
+public enum WeaponType
 {
     THRUST,
     SLASH,

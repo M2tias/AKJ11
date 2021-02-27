@@ -18,4 +18,7 @@ public class EnemyConfig : ScriptableObject {
 
     [field: SerializeField]
     public UnityEvent DeadAction {get; private set;}
+
+    [field: SerializeField]
+    public WeaponConfig WeaponConfig { get; private set; }
 }
