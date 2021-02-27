@@ -47,5 +47,7 @@ Readme.md.meta
 *.csproj
 *.sln
 
+EditorUserSettings.asset
+
 **/.vs/**
 Assets/Sounds/juho_data.meta
