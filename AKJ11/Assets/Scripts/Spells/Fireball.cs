@@ -9,11 +9,17 @@ public class Fireball : MonoBehaviour
     [SerializeField]
     private float damage;
 
+    [SerializeField]
     private float aoe;
+    [SerializeField]
     private float bounces;
+    [SerializeField]
     private float dotTickDamage;
+    [SerializeField]
     private float dotDuration;
+    [SerializeField]
     private float cooldown; // probably not needed here...
+    [SerializeField]
     private float lifetime = 5;
     private float started;
 
@@ -29,6 +35,17 @@ public class Fireball : MonoBehaviour
         float angleDiff = Vector2.SignedAngle(transform.right, direction);
         transform.transform.Rotate(Vector3.forward, angleDiff);
         moveDir = direction.normalized;
+        Debug.Log("Dot: " + dotTickDamage + " dmg, " + dotDuration + "s");
+    }
+
+    public void SetConfig(float damage, float aoe, float bounces, float dotTickDamage, float dotDuration)
+    {
+        this.aoe = aoe;
+        this.bounces = bounces;
+        this.damage = damage;
+        this.dotDuration = dotDuration;
+        this.dotTickDamage = dotTickDamage;
+        Debug.Log("Dot: " + dotTickDamage + " dmg, " + dotDuration + "s");
     }
 
     // Start is called before the first frame update
@@ -61,8 +78,7 @@ public class Fireball : MonoBehaviour
 
             if (dotTickDamage > 0)
             {
-                // something like
-                // hurtable.Dot(dotTickDamage, dotDuration);
+                hurtable.Dot(dotTickDamage, dotDuration);
             }
         }
 

@@ -11,7 +11,7 @@ public class Shooting : MonoBehaviour
     [SerializeField]
     private Transform entityContainer;
     [SerializeField]
-    private GameObject fireballPrefab;
+    private GameObject fireballPrefab; // default attack spell prefab
     [SerializeField]
     private GameObject wallPrefab;
 
@@ -26,11 +26,25 @@ public class Shooting : MonoBehaviour
 
     private Spell currentSpell = Spell.fireball;
 
+    // dynamic spell prefabs
+    private GameObject attackSpell1;
+    private GameObject attackSpell2;
+
 
     // Start is called before the first frame update
     void Start()
     {
         aiming = GetComponent<Aiming>();
+
+        attackSpell1 = Instantiate(fireballPrefab);
+        Fireball spell1 = attackSpell1.GetComponent<Fireball>();
+        spell1.SetConfig(10, 2, 0, 0, 0);
+        attackSpell1.SetActive(false);
+
+        attackSpell2 = Instantiate(fireballPrefab);
+        Fireball spell2 = attackSpell2.GetComponent<Fireball>();
+        spell2.SetConfig(5, 0, 0, 5, 5);
+        attackSpell2.SetActive(false);
     }
 
     // Update is called once per frame
@@ -42,10 +56,26 @@ public class Shooting : MonoBehaviour
             Debug.Log("Piu!");
             shootTime = Time.time;
 
-            GameObject fireballInstance = Instantiate(fireballPrefab);
+            GameObject fireballInstance = Instantiate(attackSpell1);
             fireballInstance.transform.parent = entityContainer;
-            Vector3 fp = fireballPrefab.transform.position;
-            fireballPrefab.transform.position = new Vector3(fp.x, fp.y, 0);
+            Vector3 fp = attackSpell1.transform.position;
+            attackSpell1.transform.position = new Vector3(fp.x, fp.y, 0);
+            fireballInstance.SetActive(true);
+
+            Vector3 targetDir = aiming.GetDirection();
+            Vector3 spawnPos = transform.position + targetDir.normalized * 0.6f;
+            fireballInstance.GetComponent<Fireball>().Initialize(spawnPos, targetDir);
+        }
+        else if (Input.GetKey(KeyCode.Mouse1) && canShootAgain && currentSpell == Spell.fireball)
+        {
+            Debug.Log("Pau!");
+            shootTime = Time.time;
+
+            GameObject fireballInstance = Instantiate(attackSpell2);
+            fireballInstance.transform.parent = entityContainer;
+            Vector3 fp = attackSpell2.transform.position;
+            attackSpell2.transform.position = new Vector3(fp.x, fp.y, 0);
+            fireballInstance.SetActive(true);
 
             Vector3 targetDir = aiming.GetDirection();
             Vector3 spawnPos = transform.position + targetDir.normalized * 0.6f;
