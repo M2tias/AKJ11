@@ -4,13 +4,14 @@ using System;
 
 public class GridUtility
 {
-    public static async UniTask DrawCircle(NodeContainer nodeContainer, int radius, int centerX, int centerY) {
+    public static async UniTask<List<MapNode>> DrawCircle(NodeContainer nodeContainer, int radius, int centerX, int centerY) {
 
         DelayCounter delayCounter = new DelayCounter(70);
         int width = nodeContainer.Width;
         int height = nodeContainer.Height;
         int size = radius * 2;
         int radiusSq = (size * size) / 4;
+        List<MapNode> nodes = new List<MapNode>();
         for (int y = 0; y < height; y += 1) {
             int yDiff = y - centerY;
             int treshold = radiusSq - (yDiff * yDiff);
@@ -23,9 +24,11 @@ public class GridUtility
                     if (Configs.main.Debug.DelayGeneration) {
                         node.Render();
                     }
+                    nodes.Add(node);
                 }
             }
         }
+        return nodes;
     }
 
     public static async UniTask DrawSquare(MapNode startNode, int radius, NodeContainer nodeContainer) {

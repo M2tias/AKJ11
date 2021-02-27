@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
+using System;
 using Cysharp.Threading.Tasks;
 
 public class MapGenerator : MonoBehaviour
@@ -8,7 +10,11 @@ public class MapGenerator : MonoBehaviour
     List<RectInt> cavernAreas;
     NodeContainer nodeContainer;
     MapConfig config;
-    
+    List<MapNode> towerNodes;
+
+    [SerializeField]
+    private GameObject playerPrefab;
+
     void Start()
     {
         config = Configs.main.Map;
@@ -28,7 +34,7 @@ public class MapGenerator : MonoBehaviour
         }
         nodeContainer.Render();
         TowerRoomGenerator towerRoomGenerator = new TowerRoomGenerator(config.Tower, nodeContainer);
-        await towerRoomGenerator.Generate();
+        towerNodes = await towerRoomGenerator.Generate();
 
         List<CaveEnclosure> enclosures = await EnclosureFinder.Find(nodeContainer);
         EnclosureConnector connector = new EnclosureConnector(nodeContainer);
@@ -37,6 +43,29 @@ public class MapGenerator : MonoBehaviour
             await EnclosureEdgeFinder.FindEdges(nodeContainer, enclosures);
             await connector.Connect(enclosures);
             enclosures = await EnclosureFinder.Find(nodeContainer);
+        }
+        Populate();
+    }
+
+    private void Populate() {
+        GameObject player = Instantiate(playerPrefab);
+        player.transform.position = (Vector2) nodeContainer.MidPoint;
+        List<MapNode> nonTowerNodes = nodeContainer.Nodes.Where(node => !node.IsWall && !towerNodes.Contains(node)).ToList();
+        foreach(EnemySpawn enemySpawn in config.Spawns) {
+            for (int spawnCount = 0; spawnCount < enemySpawn.SpawnThisManyTimes; spawnCount += 1) {
+                foreach(EnemyConfig enemyConfig in enemySpawn.Enemies) {
+                    try {
+                    MapNode randomNode = nonTowerNodes[UnityEngine.Random.Range(0, nonTowerNodes.Count)];
+                    nonTowerNodes.Remove(randomNode);
+                    Enemy enemy = Prefabs.Get<Enemy>();
+                    enemy.Initialize(enemyConfig, randomNode);
+                    enemy.name = enemyConfig.name;
+                    enemy.WakeUp();
+                    } catch (Exception e) {
+                        MonoBehaviour.print(e);
+                    }
+                }
+            }
         }
     }
 

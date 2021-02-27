@@ -56,6 +56,7 @@ public class MapGenerationData
     public bool Visited { get; set; }
     private MapNode node;
     public bool AllNeighborsAreWalls { get; set; } = false;
+
     public MapGenerationData(MapNode node)
     {
         this.node = node;

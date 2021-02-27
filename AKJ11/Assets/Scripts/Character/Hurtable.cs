@@ -5,17 +5,15 @@ using UnityEngine.Events;
 
 public class Hurtable : MonoBehaviour
 {
-    [SerializeField]
-    HealthScriptableObject healthScriptableObject;
     private float currentHealth;
-
-    [SerializeField]
     private UnityEvent deadAction;
 
-    // Start is called before the first frame update
-    void Start()
+    private EnemyConfig config;
+    public void Initialize(EnemyConfig config)
     {
-        currentHealth = healthScriptableObject.MaxHealth;
+        this.config = config;
+        currentHealth = config.HealthConfig.MaxHealth;
+        deadAction = config.DeadAction;
     }
 
     // Update is called once per frame

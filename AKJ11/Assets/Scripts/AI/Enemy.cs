@@ -10,15 +10,6 @@ public class Enemy : MonoBehaviour
     private float idlePatrolMaxDelay = 6.0f;
     private float idlePatrolDistance = 1.0f;
 
-    [SerializeField]
-    private float moveSpeed;
-
-    [SerializeField]
-    private float attackRange = 1.0f;
-
-    [SerializeField]
-    private float aggroRange = 3.0f;
-
     private Transform target;
     private Weapon weapon;
 
@@ -33,23 +24,39 @@ public class Enemy : MonoBehaviour
 
     private int aggroLayerMask;
 
+    private EnemyConfig config;
 
-    // Start is called before the first frame update
-    void Start()
+    private bool sleeping = true;
+
+    public void Initialize(EnemyConfig config, MapNode node)
     {
         target = GameObject.FindGameObjectWithTag("Player").transform;
         rb = GetComponent<Rigidbody2D>();
         weapon = GetComponentInChildren<Weapon>();
+        transform.position = (Vector2)node.Position;
+        this.config = config;
+
 
         InvokeRepeating("UpdatePathing", pathingFrequency, pathingFrequency);
         RandomizeTargetPosition();
 
         aggroLayerMask = LayerMask.GetMask("Player", "Wall");
+        Hurtable hurtable = GetComponent<Hurtable>();
+        if (hurtable != null) {
+            hurtable.Initialize(config);
+        }
+    }
+
+    public void WakeUp() {
+        sleeping = false;
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (sleeping) {
+            return;
+        }
         handleState();
         switch (state)
         {
@@ -80,7 +87,7 @@ public class Enemy : MonoBehaviour
 
         if (state == State.IDLE)
         {
-            if (Vector2.Distance(transform.position, target.position) < aggroRange)
+            if (Vector2.Distance(transform.position, target.position) < config.AggroRange)
             {
                 var hit = Physics2D.Raycast(transform.position, targetDir, 100, aggroLayerMask);
 
@@ -109,7 +116,7 @@ public class Enemy : MonoBehaviour
     private void attackRoutine()
     {
         weapon.LookAt(target.position);
-        if (Vector2.Distance(target.position, transform.position) < attackRange)
+        if (Vector2.Distance(target.position, transform.position) < config.AttackRange)
         {
             targetPos = transform.position;
             weapon.Attack();
@@ -122,6 +129,9 @@ public class Enemy : MonoBehaviour
 
     void FixedUpdate()
     {
+        if (sleeping) {
+            return;
+        }
         if (Vector2.Distance(transform.position, moveTargetPos) < 0.1f)
         {
             rb.velocity = Vector3.zero;
@@ -129,7 +139,7 @@ public class Enemy : MonoBehaviour
         else
         {
             var moveDir = moveTargetPos - (Vector2)transform.position;
-            rb.velocity = moveDir.normalized * moveSpeed;
+            rb.velocity = moveDir.normalized * config.MoveSpeed;
         }
     }
 
@@ -171,6 +181,9 @@ public class Enemy : MonoBehaviour
 
     private void UpdatePathing()
     {
+        if (sleeping) {
+            return;
+        }
         path = GetPathTo(targetPos);
         cornerIndex = 0;
     }
