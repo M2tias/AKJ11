@@ -30,11 +30,19 @@ public class Movement : MonoBehaviour
         horizontal = Input.GetAxisRaw("Horizontal");
         vertical = Input.GetAxisRaw("Vertical");
 
-        renderer.flipX = horizontal < 0;
+        if (horizontal < 0)
+        {
+            renderer.flipX = true;
+        }
+        if (horizontal > 0)
+        {
+            renderer.flipX = false;
+        }
     }
 
     void FixedUpdate()
     {
-        body.velocity = new Vector2(horizontal * speed * Time.deltaTime, vertical * speed * Time.deltaTime);
+        var dir = new Vector2(horizontal, vertical).normalized;
+        body.velocity = dir * speed;
     }
 }

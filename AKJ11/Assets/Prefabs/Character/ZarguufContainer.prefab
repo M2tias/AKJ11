@@ -216,7 +216,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hand: {fileID: 3692018723710643583}
-  speed: 75
+  speed: 6
 --- !u!50 &3692018722584110370
 Rigidbody2D:
   serializedVersion: 4
