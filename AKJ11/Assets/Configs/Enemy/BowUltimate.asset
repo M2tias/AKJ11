@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d1c07e48319c3524d9890dc08d0369d4, type: 3}
+  m_Name: BowUltimate
+  m_EditorClassIdentifier: 
+  <MoveSpeed>k__BackingField: 3
+  <AttackRange>k__BackingField: 4
+  <AggroRange>k__BackingField: 5
+  <HealthConfig>k__BackingField: {fileID: 11400000, guid: 04f7a0acff1925445ac4c98e8a9f2a51, type: 2}
+  <DeadAction>k__BackingField:
+    m_PersistentCalls:
+      m_Calls: []
+  <WeaponConfig>k__BackingField: {fileID: 11400000, guid: ecfc9b372822c344d98390545d7e29e2, type: 2}
+  <AnimatorController>k__BackingField: {fileID: 9100000, guid: 811da30b8dfb75d41a2bb93035d89ed2, type: 2}
