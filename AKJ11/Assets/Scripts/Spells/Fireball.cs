@@ -6,6 +6,8 @@ public class Fireball : MonoBehaviour
 {
     [SerializeField]
     private float speed;
+    [SerializeField]
+    private float damage;
 
     private Rigidbody2D body;
     private Vector3 moveDir;
@@ -30,5 +32,14 @@ public class Fireball : MonoBehaviour
     void Update()
     {
         body.velocity = moveDir * speed * Time.deltaTime;
+    }
+
+    void OnTriggerEnter2D(Collider2D other)
+    {
+        var hurtable = other.GetComponent<Hurtable>();
+        if (hurtable != null)
+        {
+            hurtable.Hurt(damage);
+        }
     }
 }
