@@ -6,16 +6,17 @@ using UnityEngine.Events;
 public class Hurtable : MonoBehaviour
 {
     private float currentHealth = 5;
+    [SerializeField]
     private UnityEvent deadAction;
 
     private EnemyConfig config;
+
     public void Initialize(EnemyConfig config)
     {
         this.config = config;
         if (config.HealthConfig != null) {
             currentHealth = config.HealthConfig.MaxHealth;
         }
-        deadAction = config.DeadAction;
     }
 
     // Update is called once per frame

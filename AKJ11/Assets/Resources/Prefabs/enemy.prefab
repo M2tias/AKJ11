@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 4818810995718539552}
   - component: {fileID: 1627361297925919872}
   - component: {fileID: 884308378704808928}
+  - component: {fileID: 3498388131048363626}
   m_Layer: 8
   m_Name: enemy
   m_TagString: Untagged
@@ -150,6 +151,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e281401d237288f4eb3127a937317a80, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  deadAction:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 3498388131048363626}
+        m_TargetAssemblyTypeName: EnemyDeath, Assembly-CSharp
+        m_MethodName: Death
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!95 &884308378704808928
 Animator:
   serializedVersion: 3
@@ -169,6 +185,18 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &3498388131048363626
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4771984357536060285}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 63dc8c74aadad75469d23d178a70b1c1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &5085877735804157522
 PrefabInstance:
   m_ObjectHideFlags: 0
