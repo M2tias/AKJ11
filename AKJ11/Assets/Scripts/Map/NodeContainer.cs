@@ -15,6 +15,18 @@ public class NodeContainer
 
     private Transform viewContainer;
 
+    public static List<Vector2Int> AllDirections = new List<Vector2Int>()
+    {
+        new Vector2Int(-1,  1), // northwest
+        new Vector2Int( 0,  1), // north
+        new Vector2Int( 1,  1), // northeast
+        new Vector2Int( 1,  0), // east
+        new Vector2Int( 1, -1), // southeast
+        new Vector2Int( 0, -1), // south
+        new Vector2Int(-1, -1), // southwest
+        new Vector2Int(-1,  0), // west
+    };
+
     public NodeContainer (int x, int y, int width, int height) {
         viewContainer = Prefabs.Get<Transform>();
         viewContainer.name = $"X: {x} Y: {y} (w: {width} h: {height})";
@@ -37,7 +49,7 @@ public class NodeContainer
     public MapNode GetNode(int globalX, int globalY) {
         if (IsWithinGlobalBounds(globalX, globalY)) {
             try {
-                MapNode node = nodes[globalX * Width + globalY];
+                MapNode node = nodes[globalY * Width + globalX];
                 if (node != null) {
                     return node;
                 }
@@ -46,6 +58,29 @@ public class NodeContainer
             }
         }
         return null;
+    }
+
+    public List<MapNode> FindAllNeighbors(MapNode node)
+    {
+        if (node.Neighbors == null)
+        {
+            node.Neighbors = FindNeighbors(node, AllDirections);
+        }
+        return node.Neighbors;
+    }
+
+    public List<MapNode> FindNeighbors(MapNode node, List<Vector2Int> directions)
+    {
+        List<MapNode> neighbors = new List<MapNode>();
+        foreach (Vector2Int pos in directions)
+        {
+            int x = node.WorldX + pos.x;
+            int y = node.WorldY + pos.y;
+            MapNode gotNode = GetNode(x, y);
+            UnityEngine.MonoBehaviour.print($"node: {gotNode} ({x}, {y})");
+            neighbors.Add(gotNode);
+        }
+        return neighbors;
     }
 
     public bool IsWithinGlobalBounds(int globalX, int globalY)

@@ -10,11 +10,11 @@ public class TowerRoomGenerator
 
     private NodeContainer nodeContainer;
     private TowerRoomConfig config;
-    private DelayCounter delayCounter = new DelayCounter(10);
-    public TowerRoomGenerator(TowerRoomConfig config) {
+    private DelayCounter delayCounter = new DelayCounter(70);
+    public TowerRoomGenerator(TowerRoomConfig config, NodeContainer nodeContainer) {
         this.config = config;
         int size = config.Radius * 2 + config.Buffer;
-        nodeContainer = new NodeContainer(0, 0, size, size);
+        this.nodeContainer = nodeContainer;
         if (Configs.main.Debug.DelayGeneration) {
             nodeContainer.Render();
         }
@@ -23,7 +23,6 @@ public class TowerRoomGenerator
     public async UniTask Generate() {
         MapNode midPoint = nodeContainer.GetNode(nodeContainer.MidPoint);
         await DrawCircle(midPoint.X, midPoint.Y);
-        nodeContainer.Render();
     }
 
     private async UniTask DrawCircle(int centerX, int centerY) {
