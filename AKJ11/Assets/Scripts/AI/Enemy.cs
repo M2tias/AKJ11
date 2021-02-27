@@ -6,13 +6,18 @@ using UnityEngine.AI;
 public class Enemy : MonoBehaviour
 {
     private float pathingFrequency = 0.1f;
-    
+    private float idlePatrolMinDelay = 3.0f;
+    private float idlePatrolMaxDelay = 6.0f;
+    private float idlePatrolDistance = 1.0f;
 
     [SerializeField]
     private float moveSpeed;
 
     [SerializeField]
     private float attackRange = 1.0f;
+
+    [SerializeField]
+    private float aggroRange = 3.0f;
 
     private Transform target;
     private Weapon weapon;
@@ -24,22 +29,38 @@ public class Enemy : MonoBehaviour
     private Vector2 targetPos;
     private Vector2 moveTargetPos;
 
+    private State state = State.IDLE;
+
+    private int aggroLayerMask;
 
 
     // Start is called before the first frame update
     void Start()
     {
         target = GameObject.FindGameObjectWithTag("Player").transform;
-        InvokeRepeating("UpdatePathing", pathingFrequency, pathingFrequency);
         rb = GetComponent<Rigidbody2D>();
         weapon = GetComponentInChildren<Weapon>();
+
+        InvokeRepeating("UpdatePathing", pathingFrequency, pathingFrequency);
+        Invoke("RandomizeTargetPosition", Random.Range(idlePatrolMinDelay, idlePatrolMaxDelay));
+
+        aggroLayerMask = LayerMask.GetMask("Player", "Wall");
     }
 
     // Update is called once per frame
     void Update()
     {
-        targetPos = target.position;
-        weapon.LookAt(targetPos);
+        handleState();
+        switch (state)
+        {
+            case State.IDLE:
+                idleRoutine();
+                break;
+            case State.ATTACK:
+                attackRoutine();
+                break;
+        }
+
         if (HasPath())
         {
             if (IsLastCorner() && distanceToNextCorner() < 0.1f)
@@ -51,7 +72,42 @@ public class Enemy : MonoBehaviour
                 moveTargetPos = getNextCorner();
             }
         }
+    }
 
+    private void handleState()
+    {
+        Vector2 targetDir = target.position - transform.position;
+        if (state == State.IDLE)
+        {
+            if (Vector2.Distance(transform.position, target.position) < aggroRange)
+            {
+                var hit = Physics2D.Raycast(transform.position, targetDir, 100, aggroLayerMask);
+                if (hit != null && hit.transform == target)
+                {
+                    state = State.ATTACK;
+                }
+            }
+        }
+    }
+
+    private void idleRoutine()
+    {
+        weapon.LookAt((Vector2)transform.position + Vector2.up);
+    }
+
+    private void RandomizeTargetPosition()
+    {
+        if (state == State.IDLE)
+        {
+            targetPos = (Vector2)transform.position + new Vector2(Random.Range(-idlePatrolDistance, idlePatrolDistance), Random.Range(-idlePatrolDistance, idlePatrolDistance));
+            Invoke("RandomizeTargetPosition", Random.Range(idlePatrolMinDelay, idlePatrolMaxDelay));
+        }
+    }
+
+    private void attackRoutine()
+    {
+        targetPos = target.position;
+        weapon.LookAt(targetPos);
         if (Vector2.Distance(target.position, transform.position) < attackRange)
         {
             weapon.Attack();
@@ -119,4 +175,10 @@ public class Enemy : MonoBehaviour
         NavMesh.CalculatePath((Vector2)transform.position, target, NavMesh.AllAreas, newPath);
         return newPath;
     }
+}
+
+enum State
+{
+    IDLE,
+    ATTACK
 }
