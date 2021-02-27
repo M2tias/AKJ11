@@ -6,15 +6,24 @@ public class Aiming : MonoBehaviour
 {
     [SerializeField]
     private GameObject aimingReticule;
+    private SpriteRenderer aimingRenderer;
 
     [SerializeField]
     private GameObject hand;
     private SpriteRenderer handRenderer;
 
+    [SerializeField]
+    private Sprite fireBallReticule;
+    [SerializeField]
+    private Sprite wallReticule;
+
+    private Spell currentSpell = Spell.fireball;
+
     // Start is called before the first frame update
     void Start()
     {
         handRenderer = hand.GetComponent<SpriteRenderer>();
+        aimingRenderer = aimingReticule.GetComponent<SpriteRenderer>();
     }
 
     // Update is called once per frame
@@ -46,4 +55,26 @@ public class Aiming : MonoBehaviour
     {
         return aimingReticule.transform.position - transform.position;
     }
+
+    public void SetReticule(Spell spell)
+    {
+        switch (spell)
+        {
+            case Spell.fireball:
+                aimingRenderer.sprite = fireBallReticule;
+                break;
+            case Spell.wall:
+                aimingRenderer.sprite = wallReticule;
+                break;
+            default:
+                aimingRenderer.sprite = fireBallReticule;
+                break;
+        }
+    }
+}
+
+public enum Spell //TODO: Move this elsewhere
+{
+    fireball,
+    wall
 }

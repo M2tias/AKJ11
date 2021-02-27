@@ -12,8 +12,20 @@ public class Shooting : MonoBehaviour
     private Transform entityContainer;
     [SerializeField]
     private GameObject fireballPrefab;
+    [SerializeField]
+    private GameObject wallPrefab;
+
+    // Wall spell placement visuals
+    [SerializeField]
+    private GameObject ghostWallPos;
+    [SerializeField]
+    private GameObject ghostWallRotation;
+    private Vector3 wallSpawnPos;
 
     private Aiming aiming;
+
+    private Spell currentSpell = Spell.fireball;
+
 
     // Start is called before the first frame update
     void Start()
@@ -25,7 +37,7 @@ public class Shooting : MonoBehaviour
     void Update()
     {
         bool canShootAgain = Time.time - shootTime > shootDelay;
-        if (Input.GetKey(KeyCode.Mouse0) && canShootAgain)
+        if (Input.GetKey(KeyCode.Mouse0) && canShootAgain && currentSpell == Spell.fireball)
         {
             Debug.Log("Piu!");
             shootTime = Time.time;
@@ -39,5 +51,60 @@ public class Shooting : MonoBehaviour
             Vector3 spawnPos = transform.position + targetDir.normalized * 0.6f;
             fireballInstance.GetComponent<Fireball>().Initialize(spawnPos, targetDir);
         }
+        else if (Input.GetKeyDown(KeyCode.Mouse0) && currentSpell == Spell.wall)
+        {
+            Debug.Log("Wall visible");
+            ghostWallRotation.SetActive(true);
+            ghostWallPos.SetActive(true);
+            Vector3 worldPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            wallSpawnPos = new Vector3(worldPosition.x, worldPosition.y, 0);
+            ghostWallPos.transform.position = wallSpawnPos;
+        }
+        else if (Input.GetKeyUp(KeyCode.Mouse0) && currentSpell == Spell.wall)
+        {
+            GameObject wallInstance = Instantiate(wallPrefab);
+            wallInstance.transform.parent = entityContainer;
+            Vector3 fp = fireballPrefab.transform.position;
+            fireballPrefab.transform.position = new Vector3(fp.x, fp.y, 0);
+
+            Vector3 targetDir = Camera.main.ScreenToWorldPoint(Input.mousePosition) - ghostWallPos.transform.position;
+            Vector3 spawnPos = wallSpawnPos;
+            wallInstance.GetComponent<Wall>().Initialize(spawnPos, targetDir);
+
+            // after casting
+            SetCurrentSpell(Spell.fireball);
+            ghostWallPos.SetActive(false);
+        }
+
+        if (currentSpell == Spell.wall)
+        {
+            Vector3 targetDir = Camera.main.ScreenToWorldPoint(Input.mousePosition) - ghostWallPos.transform.position;
+            float angleDiff = Vector2.SignedAngle(ghostWallRotation.transform.right, targetDir);
+            ghostWallRotation.transform.Rotate(Vector3.forward, angleDiff);
+        }
+
+        if (Input.GetKeyDown(KeyCode.Q))
+        {
+            SetCurrentSpell(Spell.wall);
+        }
+    }
+
+    public Spell GetCurrentSpell()
+    {
+        return currentSpell;
+    }
+
+    private void SetCurrentSpell(Spell spell)
+    {
+        if (currentSpell == spell)
+        {
+            currentSpell = Spell.fireball;
+        }
+        else
+        {
+            currentSpell = spell;
+        }
+
+        aiming.SetReticule(currentSpell);
     }
 }
