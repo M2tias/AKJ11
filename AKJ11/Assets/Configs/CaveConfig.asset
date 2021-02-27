@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: CaveConfig
   m_EditorClassIdentifier: 
   <Size>k__BackingField: 20
-  <PercentWalls>k__BackingField: 40
+  <PercentWalls>k__BackingField: 45
   <CavernRuns>k__BackingField: 6

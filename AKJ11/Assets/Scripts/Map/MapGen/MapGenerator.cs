@@ -21,13 +21,23 @@ public class MapGenerator : MonoBehaviour
     }
 
     async UniTask Generate() {
-        TowerRoomGenerator towerRoomGenerator = new TowerRoomGenerator(config.Tower, nodeContainer);
-        await towerRoomGenerator.Generate();
+
         foreach(RectInt area in cavernAreas) {
             CellularAutomataCarver carver = new CellularAutomataCarver(area, nodeContainer, config.Cave);
             await carver.Generate();
         }
         nodeContainer.Render();
+        TowerRoomGenerator towerRoomGenerator = new TowerRoomGenerator(config.Tower, nodeContainer);
+        await towerRoomGenerator.Generate();
+
+        List<CaveEnclosure> enclosures = await EnclosureFinder.Find(nodeContainer);
+        EnclosureConnector connector = new EnclosureConnector(nodeContainer);
+        MonoBehaviour.print($"Enclosures found: {enclosures.Count}");
+        while (enclosures.Count > 1) {
+            await EnclosureEdgeFinder.FindEdges(nodeContainer, enclosures);
+            await connector.Connect(enclosures);
+            enclosures = await EnclosureFinder.Find(nodeContainer);
+        }
     }
 
     // Update is called once per frame

@@ -10,6 +10,10 @@ public class MapConfig : ScriptableObject
     public int Size { get; private set; } = 20;
 
     [field: SerializeField]
+    [field: Range(1, 5)]
+    public int PassageRadius { get; private set; } = 1;
+
+    [field: SerializeField]
     [field: Range(0, 10)]
     public int Padding { get; private set; } = 1;
 
@@ -18,4 +22,10 @@ public class MapConfig : ScriptableObject
 
     [field: SerializeField]
     public TowerRoomConfig Tower { get; private set; }
+
+    [field: SerializeField]
+    public Sprite GroundSprite { get; private set; }
+
+    [field: SerializeField]
+    public Sprite WallSprite { get; private set; }
 }
