@@ -19,3 +19,13 @@ MonoBehaviour:
   <Tower>k__BackingField: {fileID: 11400000, guid: 909d0d1b7432f6d44a8b815625b77f8b, type: 2}
   <GroundSprite>k__BackingField: {fileID: 21300000, guid: 88fecbe92255f2f4ab1958410659be00, type: 3}
   <WallSprite>k__BackingField: {fileID: 21300000, guid: 0d1f438b2a2bf8c40bd9ab05003a4439, type: 3}
+  <Spawns>k__BackingField:
+  - <SpawnThisManyTimes>k__BackingField: 1
+    <Enemies>k__BackingField:
+    - {fileID: 11400000, guid: 0c95e92d80b2e46418b93e46e6977a6f, type: 2}
+  - <SpawnThisManyTimes>k__BackingField: 1
+    <Enemies>k__BackingField:
+    - {fileID: 11400000, guid: 9002b0916c41d0345953f2de2f11927f, type: 2}
+  - <SpawnThisManyTimes>k__BackingField: 1
+    <Enemies>k__BackingField:
+    - {fileID: 11400000, guid: 723ced00e9b45814c8c946010d7c8a48, type: 2}
