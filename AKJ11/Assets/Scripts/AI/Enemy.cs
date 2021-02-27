@@ -7,8 +7,6 @@ public class Enemy : MonoBehaviour
 {
     private float pathingFrequency = 0.1f;
     
-    [SerializeField]
-    private Transform target;
 
     [SerializeField]
     private float moveSpeed;
@@ -16,6 +14,7 @@ public class Enemy : MonoBehaviour
     [SerializeField]
     private float attackRange = 1.0f;
 
+    private Transform target;
     private Weapon weapon;
 
     private NavMeshPath path;
@@ -30,6 +29,7 @@ public class Enemy : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        target = GameObject.FindGameObjectWithTag("Player").transform;
         InvokeRepeating("UpdatePathing", pathingFrequency, pathingFrequency);
         rb = GetComponent<Rigidbody2D>();
         weapon = GetComponentInChildren<Weapon>();
