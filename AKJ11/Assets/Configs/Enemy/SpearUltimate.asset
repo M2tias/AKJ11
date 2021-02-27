@@ -16,20 +16,6 @@ MonoBehaviour:
   <AttackRange>k__BackingField: 1.5
   <AggroRange>k__BackingField: 5
   <HealthConfig>k__BackingField: {fileID: 11400000, guid: eb89752651562034886898ed47265b2b, type: 2}
-  <DeadAction>k__BackingField:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 11500000, guid: 63dc8c74aadad75469d23d178a70b1c1, type: 3}
-        m_TargetAssemblyTypeName: 
-        m_MethodName: 
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+  <ExpGainConfig>k__BackingField: {fileID: 11400000, guid: 1407ae01415c6664db713990d661ff1c, type: 2}
   <WeaponConfig>k__BackingField: {fileID: 11400000, guid: 0d648daa954a2a64f88a79880a70d5ce, type: 2}
   <AnimatorController>k__BackingField: {fileID: 9100000, guid: 811da30b8dfb75d41a2bb93035d89ed2, type: 2}

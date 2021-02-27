@@ -27,13 +27,14 @@ public class Experience : MonoBehaviour
     {
         currentExp += exp;
 
-        while (currentExp > expConfig.ExpPerLevel[level])
+        while (currentExp >= expConfig.ExpPerLevel[level])
         {
             int remainder = currentExp - expConfig.ExpPerLevel[level];
             currentExp = remainder;
             level++;
             statPointsToUse += expConfig.StatPointsPerLevel[level];
         }
+        Debug.Log("Gained " + exp + " points of experience. Current level: " + level + " and remaining exp: " + currentExp);
     }
 
     public int GetUnusedStatPoints()

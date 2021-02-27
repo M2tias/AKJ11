@@ -2,7 +2,7 @@
 Todo:
   ☐ Spells
     ☐ What spells?
-      ☐ Fireball
+      ☐ Tuikutin
       ☐ SOMETHING BIGGER
       ☐ Wall
       ☐ Movement spell?
@@ -17,3 +17,23 @@ Todo:
         ☐ Choose which spell to upgrade or unlock
         ☐ Upgrading could be preconfigured to do stuff depending on spell
   
+  ☐ Spell attributes
+    ☐ Tuikutin
+      ☐ Damage
+      ☐ Cooldown
+      ☐ Multiple instances in succession
+    ☐ Firebomb
+      ☐ Damage
+      ☐ AOE
+      ☐ Cooldown
+    ☐ Wall
+      ☐ Length?
+      ☐ Cooldown
+    ☐ Other spells?
+    ☐ Possible elemental attributes
+      ☐ Can be added to spells
+      ☐ Ice, slows
+      ☐ Electricity, aoe, chain lightning or stun?
+      ☐ Fire, dot / aoe?
+      ☐ Poison, dot?
+      ☐ Piercing

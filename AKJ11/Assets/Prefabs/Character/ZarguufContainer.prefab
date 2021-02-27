@@ -131,6 +131,7 @@ GameObject:
   - component: {fileID: 1759154878}
   - component: {fileID: 270924615}
   - component: {fileID: 6140242495821673574}
+  - component: {fileID: 2495043801015741491}
   m_Layer: 6
   m_Name: Zarguuf
   m_TagString: Player
@@ -273,6 +274,7 @@ MonoBehaviour:
   entityContainer: {fileID: 3692018723165896840}
   fireballPrefab: {fileID: 7249762181966462075, guid: 32a3ef136a7d88b49b0816c20eb147a3, type: 3}
   wallPrefab: {fileID: 8749617042569657731, guid: 2a892e0327291ec418553cdbceaa54ef, type: 3}
+  playerExperience: {fileID: 2495043801015741491}
   ghostWallPos: {fileID: 181066029844084725}
   ghostWallRotation: {fileID: 290674286}
 --- !u!58 &1759154879
@@ -350,6 +352,19 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &2495043801015741491
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3692018722584110383}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cbcf6cb6e2fc5de41ad8dfb7d685d1d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  expConfig: {fileID: 11400000, guid: 08cc899f02787334786c24b372ae220b, type: 2}
 --- !u!1 &3692018723165896843
 GameObject:
   m_ObjectHideFlags: 0

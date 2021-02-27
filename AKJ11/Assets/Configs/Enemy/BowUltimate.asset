@@ -16,8 +16,6 @@ MonoBehaviour:
   <AttackRange>k__BackingField: 4
   <AggroRange>k__BackingField: 5
   <HealthConfig>k__BackingField: {fileID: 11400000, guid: 04f7a0acff1925445ac4c98e8a9f2a51, type: 2}
-  <DeadAction>k__BackingField:
-    m_PersistentCalls:
-      m_Calls: []
+  <ExpGainConfig>k__BackingField: {fileID: 11400000, guid: 1407ae01415c6664db713990d661ff1c, type: 2}
   <WeaponConfig>k__BackingField: {fileID: 11400000, guid: ecfc9b372822c344d98390545d7e29e2, type: 2}
   <AnimatorController>k__BackingField: {fileID: 9100000, guid: 811da30b8dfb75d41a2bb93035d89ed2, type: 2}

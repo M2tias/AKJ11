@@ -15,6 +15,8 @@ public class Shooting : MonoBehaviour
     [SerializeField]
     private GameObject wallPrefab;
 
+    private Experience playerExperience;
+
     // Wall spell placement visuals
     [SerializeField]
     private GameObject ghostWallPos;
@@ -34,6 +36,7 @@ public class Shooting : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        playerExperience = GetComponent<Experience>();
         aiming = GetComponent<Aiming>();
 
         attackSpell1 = Instantiate(fireballPrefab);
@@ -64,7 +67,7 @@ public class Shooting : MonoBehaviour
 
             Vector3 targetDir = aiming.GetDirection();
             Vector3 spawnPos = transform.position + targetDir.normalized * 0.6f;
-            fireballInstance.GetComponent<Fireball>().Initialize(spawnPos, targetDir);
+            fireballInstance.GetComponent<Fireball>().Initialize(spawnPos, targetDir, playerExperience);
         }
         else if (Input.GetKey(KeyCode.Mouse1) && canShootAgain && currentSpell == Spell.fireball)
         {
@@ -79,7 +82,7 @@ public class Shooting : MonoBehaviour
 
             Vector3 targetDir = aiming.GetDirection();
             Vector3 spawnPos = transform.position + targetDir.normalized * 0.6f;
-            fireballInstance.GetComponent<Fireball>().Initialize(spawnPos, targetDir);
+            fireballInstance.GetComponent<Fireball>().Initialize(spawnPos, targetDir, playerExperience);
         }
         else if (Input.GetKeyDown(KeyCode.Mouse0) && currentSpell == Spell.wall)
         {

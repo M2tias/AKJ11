@@ -29,16 +29,19 @@ public class Fireball : MonoBehaviour
     private Rigidbody2D body;
     private Vector3 moveDir;
 
+    private Experience playerExperience;
 
-    public void Initialize(Vector2 position, Vector2 direction)
+
+    public void Initialize(Vector2 position, Vector2 direction, Experience playerExp)
     {
         transform.position = new Vector3(position.x, position.y, 0);
 
-        //Vector3 targetDir = aimingReticule.transform.position - transform.position;
         float angleDiff = Vector2.SignedAngle(transform.right, direction);
         transform.transform.Rotate(Vector3.forward, angleDiff);
         moveDir = direction.normalized;
-        Debug.Log("Dot: " + dotTickDamage + " dmg, " + dotDuration + "s");
+        // Debug.Log("Dot: " + dotTickDamage + " dmg, " + dotDuration + "s");
+
+        playerExperience = playerExp;
     }
 
     public void SetConfig(float damage, float aoe, float bounces, float dotTickDamage, float dotDuration)
@@ -155,7 +158,7 @@ public class Fireball : MonoBehaviour
         {
             if (damage > 0)
             {
-                h.Hurt(damage);
+                h.Hurt(damage, playerExperience);
             }
 
             if (dotTickDamage > 0)
