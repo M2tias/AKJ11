@@ -7,6 +7,8 @@ public class Projectile : MonoBehaviour
     public float speed = 100.0f;
     public float maxTimeToLive = 10.0f;
 
+    public ParticleSystem DestroyEffect;
+
     private Vector2 dir;
     private float damage;
     private Rigidbody2D rb;
@@ -60,6 +62,10 @@ public class Projectile : MonoBehaviour
 
     void Kill()
     {
+        if (DestroyEffect != null)
+        {
+            Instantiate(DestroyEffect).transform.position = transform.position;
+        }
         Destroy(gameObject);
     }
 }
