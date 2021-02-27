@@ -28,4 +28,18 @@ public class MapConfig : ScriptableObject
 
     [field: SerializeField]
     public Sprite WallSprite { get; private set; }
+
+    [field: SerializeField]
+    public List<EnemySpawn> Spawns { get; private set; }
+}
+
+
+[System.Serializable]
+public class EnemySpawn
+{
+    [field: SerializeField]
+    public int SpawnThisManyTimes { get; private set; } = 1;
+
+    [field: SerializeField]
+    public List<EnemyConfig> Enemies { get; private set; }
 }

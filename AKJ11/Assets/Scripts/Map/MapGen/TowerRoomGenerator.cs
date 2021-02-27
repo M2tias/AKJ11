@@ -20,9 +20,10 @@ public class TowerRoomGenerator
         }
     }
 
-    public async UniTask Generate() {
+    public async UniTask<List<MapNode>> Generate() {
         MapNode midPoint = nodeContainer.GetNode(nodeContainer.MidPoint);
-        await GridUtility.DrawCircle(nodeContainer, config.Radius, midPoint.X, midPoint.Y);
+        List<MapNode> nodes = await GridUtility.DrawCircle(nodeContainer, config.Radius, midPoint.X, midPoint.Y);
+        return nodes;
     }
 
 }
