@@ -42,7 +42,7 @@ public class Enemy : MonoBehaviour
         weapon = GetComponentInChildren<Weapon>();
 
         InvokeRepeating("UpdatePathing", pathingFrequency, pathingFrequency);
-        Invoke("RandomizeTargetPosition", Random.Range(idlePatrolMinDelay, idlePatrolMaxDelay));
+        RandomizeTargetPosition();
 
         aggroLayerMask = LayerMask.GetMask("Player", "Wall");
     }
@@ -106,11 +106,15 @@ public class Enemy : MonoBehaviour
 
     private void attackRoutine()
     {
-        targetPos = target.position;
-        weapon.LookAt(targetPos);
+        weapon.LookAt(target.position);
         if (Vector2.Distance(target.position, transform.position) < attackRange)
         {
+            targetPos = transform.position;
             weapon.Attack();
+        }
+        else
+        {
+            targetPos = target.position;
         }
     }
 
