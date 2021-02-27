@@ -12,7 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a078bd73227d20e4581b24e6a7e0e6fe, type: 3}
   m_Name: CaveConfig
   m_EditorClassIdentifier: 
-  Width: 20
-  Height: 20
-  PercentWalls: 40
-  CavernRuns: 3
+  <Size>k__BackingField: 20
+  <PercentWalls>k__BackingField: 40
+  <CavernRuns>k__BackingField: 6

@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class MapNode
@@ -20,6 +21,8 @@ public class MapNode
     public MapGenerationData MapGen { get; }
     private MapNodeView view;
 
+    public List<MapNode> Neighbors {get; set;}
+
     public MapNode(int x, int y, NodeContainer container, Transform viewContainer)
     {
         Rect = new RectInt(new Vector2Int(x, y), Vector2Int.one);
@@ -27,6 +30,10 @@ public class MapNode
         this.container = container;
         view = Prefabs.Get<MapNodeView>();
         view.Initialize(this, viewContainer);
+    }
+
+    public bool IsInside(RectInt biggerRect) {
+        return biggerRect.Overlaps(Rect);
     }
 
     public void Render()
@@ -40,19 +47,22 @@ public class MapGenerationData
 {
     public bool Visited { get; set; }
     private MapNode node;
+    public bool AllNeighborsAreWalls { get; set; } = false;
     public MapGenerationData(MapNode node)
     {
         this.node = node;
     }
 
-    public void Visit()
-    {
-        Visited = true;
-    }
-
     public void Carve()
     {
-        Visit();
+        Visited = true;
         node.IsWall = false;
     }
+
+    public void Uncarve()
+    {
+        Visited = false;
+        node.IsWall = true;
+    }
+
 }

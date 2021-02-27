@@ -14,6 +14,6 @@ public class Configs : MonoBehaviour
     public DebugConfig Debug { get; private set; }
 
     [field: SerializeField]
-    public TowerRoomConfig Tower { get; private set; }
+    public MapConfig Map { get; private set; }
 
 }
