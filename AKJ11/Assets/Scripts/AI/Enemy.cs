@@ -77,11 +77,13 @@ public class Enemy : MonoBehaviour
     private void handleState()
     {
         Vector2 targetDir = target.position - transform.position;
+
         if (state == State.IDLE)
         {
             if (Vector2.Distance(transform.position, target.position) < aggroRange)
             {
                 var hit = Physics2D.Raycast(transform.position, targetDir, 100, aggroLayerMask);
+
                 if (hit != null && hit.transform == target)
                 {
                     state = State.ATTACK;

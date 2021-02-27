@@ -23,7 +23,7 @@ public class Aiming : MonoBehaviour
         Vector3 worldPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         aimingReticule.transform.position = new Vector3(worldPosition.x, worldPosition.y, 0);
 
-        Vector3 targetDir = GetDirection(); //aimingReticule.transform.position - transform.position;
+        Vector3 targetDir = GetDirection();
         float angleDiff = Vector2.SignedAngle(hand.transform.right, targetDir);
         hand.transform.Rotate(Vector3.forward, angleDiff);
         
