@@ -22,9 +22,9 @@ public class Aiming : MonoBehaviour
     {
         Vector3 worldPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         aimingReticule.transform.position = new Vector3(worldPosition.x, worldPosition.y, 0);
-        
-        var targetDir = aimingReticule.transform.position - transform.position;
-        var angleDiff = Vector2.SignedAngle(hand.transform.right, targetDir);
+
+        Vector3 targetDir = GetDirection(); //aimingReticule.transform.position - transform.position;
+        float angleDiff = Vector2.SignedAngle(hand.transform.right, targetDir);
         hand.transform.Rotate(Vector3.forward, angleDiff);
         
         if (worldPosition.x < transform.position.x)
@@ -40,5 +40,10 @@ public class Aiming : MonoBehaviour
         {
             handRenderer.flipY = true;
         }
+    }
+
+    public Vector3 GetDirection()
+    {
+        return aimingReticule.transform.position - transform.position;
     }
 }
