@@ -16,12 +16,16 @@ public class Movement : MonoBehaviour
     private float horizontal;
     private float vertical;
 
+    private Animator anim;
+    public ParticleSystem walkEffect;
+
     // Start is called before the first frame update
     void Start()
     {
         body = GetComponent<Rigidbody2D>();
         renderer = GetComponent<SpriteRenderer>();
         handRenderer = GetComponent<SpriteRenderer>();
+        anim = GetComponent<Animator>();
     }
 
     // Update is called once per frame
@@ -37,6 +41,23 @@ public class Movement : MonoBehaviour
         if (horizontal > 0)
         {
             renderer.flipX = false;
+        }
+
+        if (body.velocity.magnitude > 0.01f)
+        {
+            anim.SetBool("Walk", true);
+            if (!walkEffect.isPlaying)
+            {
+                walkEffect.Play();
+            }
+        }
+        else
+        {
+            anim.SetBool("Walk", false);
+            if (walkEffect.isPlaying)
+            {
+                walkEffect.Stop();
+            }
         }
     }
 
