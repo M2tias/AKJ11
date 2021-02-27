@@ -14,6 +14,9 @@ public class Configs : MonoBehaviour
     public DebugConfig Debug { get; private set; }
 
     [field: SerializeField]
+    public FollowTargetConfig Camera { get; private set; }
+
+    [field: SerializeField]
     public MapConfig Map { get; private set; }
 
 }

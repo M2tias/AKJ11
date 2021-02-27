@@ -26,17 +26,12 @@ public class Hurtable : MonoBehaviour
 
     public void Hurt(float damage)
     {
-        Debug.Log(currentHealth);
-        Debug.Log(damage);
         currentHealth -= damage;
         if (currentHealth <= 0)
         {
-            Debug.Log("CALL!");
-            deadAction.Invoke();
-        }
-        else
-        {
-            Debug.Log("OUCH!");
+            if (deadAction != null) {
+                deadAction.Invoke();
+            }
         }
     }
 }
