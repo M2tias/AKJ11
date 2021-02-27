@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: DebugConfig
   m_EditorClassIdentifier: 
   <GenerationDelayMs>k__BackingField: 1
-  <DelayGeneration>k__BackingField: 1
+  <DelayGeneration>k__BackingField: 0

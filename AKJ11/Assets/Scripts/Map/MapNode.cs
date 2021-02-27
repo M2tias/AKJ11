@@ -14,7 +14,7 @@ public class MapNode
     public int WorldX { get { return Rect.x + container.X; } }
     public int WorldY { get { return Rect.y + container.Y; } }
 
-    public Vector2 Position { get { return Rect.position; } }
+    public Vector2Int Position { get { return Rect.position; } }
 
     public bool IsWall { get; set; } = true;
 
@@ -39,6 +39,14 @@ public class MapNode
     public void Render()
     {
         view.Render();
+    }
+
+    public void SetColor(Color color) {
+        view.SetColorAndRender(color);
+    }
+
+    public float Distance(MapNode other) {
+        return Vector2Int.Distance(Position, other.Position);
     }
 }
 

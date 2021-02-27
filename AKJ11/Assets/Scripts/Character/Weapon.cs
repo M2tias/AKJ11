@@ -9,6 +9,8 @@ public class Weapon : MonoBehaviour
 
     public float damage;
     public Type type;
+    public Projectile projectile;
+    public Transform projectileRoot;
 
     private Transform root;
     private Animator animator;
@@ -69,6 +71,16 @@ public class Weapon : MonoBehaviour
         playingAttackAnimation = false;
     }
 
+    void LaunchProjectile()
+    {
+        if (projectile != null)
+        {
+            var proj = Instantiate(projectile);
+            proj.transform.position = projectileRoot.position;
+            proj.Launch(transform.position + root.up, damage);
+        }
+    }
+
     string getAnimationFor(Type type)
     {
         switch(type)
@@ -77,6 +89,8 @@ public class Weapon : MonoBehaviour
                 return "Thrust";
             case Type.SLASH:
                 return "Slash";
+            case Type.SHOOT:
+                return "Shoot";
             default:
                 return "";
         }
@@ -97,5 +111,6 @@ public class Weapon : MonoBehaviour
 public enum Type
 {
     THRUST,
-    SLASH
+    SLASH,
+    SHOOT
 }
