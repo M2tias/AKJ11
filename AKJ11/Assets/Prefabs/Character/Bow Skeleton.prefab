@@ -7,34 +7,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 4163296968041153909, guid: 8f1d336f96a046940805be13945e8294, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -0.048
-      objectReference: {fileID: 0}
-    - target: {fileID: 4163296968041153909, guid: 8f1d336f96a046940805be13945e8294, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0.036
-      objectReference: {fileID: 0}
     - target: {fileID: 4771984355915792145, guid: 8f1d336f96a046940805be13945e8294, type: 3}
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 7616860344490151036, guid: f31d260d30bf9f744887522c7f92569c, type: 3}
-    - target: {fileID: 4771984357173942234, guid: 8f1d336f96a046940805be13945e8294, type: 3}
-      propertyPath: type
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 4771984357173942234, guid: 8f1d336f96a046940805be13945e8294, type: 3}
-      propertyPath: projectile
-      value: 
-      objectReference: {fileID: 3007696041719162947, guid: 3f6a6e091fc202745922f3769b3e4f6f, type: 3}
-    - target: {fileID: 4771984357536060280, guid: 8f1d336f96a046940805be13945e8294, type: 3}
-      propertyPath: aggroRange
-      value: 15
-      objectReference: {fileID: 0}
-    - target: {fileID: 4771984357536060280, guid: 8f1d336f96a046940805be13945e8294, type: 3}
-      propertyPath: attackRange
-      value: 10
-      objectReference: {fileID: 0}
     - target: {fileID: 4771984357536060285, guid: 8f1d336f96a046940805be13945e8294, type: 3}
       propertyPath: m_Name
       value: Bow Skeleton
