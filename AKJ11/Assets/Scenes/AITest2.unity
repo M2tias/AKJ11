@@ -260,23 +260,6 @@ MonoBehaviour:
   m_RequiresDepthTexture: 0
   m_RequiresColorTexture: 0
   m_Version: 2
---- !u!1 &270924606 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3692018722584110383, guid: 9e9eed98314e46f49b332cf9f89e3887, type: 3}
-  m_PrefabInstance: {fileID: 1024034679}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &270924615
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 270924606}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d76f8b6ea749a7241ab46547bd536be7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &335974172
 GameObject:
   m_ObjectHideFlags: 0
@@ -303,7 +286,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 335974172}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 10.4}
+  m_LocalPosition: {x: 0, y: -1, z: 10.4}
   m_LocalScale: {x: 2, y: 1, z: 0.5}
   m_Children: []
   m_Father: {fileID: 802236150}
@@ -384,7 +367,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 522739089}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 10.14, y: 0, z: 0}
+  m_LocalPosition: {x: 10.14, y: -1, z: 0}
   m_LocalScale: {x: 0.5, y: 0, z: 2}
   m_Children: []
   m_Father: {fileID: 802236150}
@@ -563,7 +546,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 993707509}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: -1, z: 0}
   m_LocalScale: {x: 0.5, y: 0, z: 2}
   m_Children: []
   m_Father: {fileID: 802236150}
@@ -576,50 +559,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1759154878, guid: 9e9eed98314e46f49b332cf9f89e3887, type: 3}
-      propertyPath: healthScriptableObject
-      value: 
-      objectReference: {fileID: 11400000, guid: 04aaa96de06450c4a83490a2cc035ab2, type: 2}
-    - target: {fileID: 1759154878, guid: 9e9eed98314e46f49b332cf9f89e3887, type: 3}
-      propertyPath: deadAction.m_PersistentCalls.m_Calls.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1759154878, guid: 9e9eed98314e46f49b332cf9f89e3887, type: 3}
-      propertyPath: deadAction.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1759154878, guid: 9e9eed98314e46f49b332cf9f89e3887, type: 3}
-      propertyPath: deadAction.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 270924615}
-    - target: {fileID: 1759154878, guid: 9e9eed98314e46f49b332cf9f89e3887, type: 3}
-      propertyPath: deadAction.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 1759154878, guid: 9e9eed98314e46f49b332cf9f89e3887, type: 3}
-      propertyPath: deadAction.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: Death
-      objectReference: {fileID: 0}
-    - target: {fileID: 1759154878, guid: 9e9eed98314e46f49b332cf9f89e3887, type: 3}
-      propertyPath: deadAction.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: ZarguufDeath, Assembly-CSharp
-      objectReference: {fileID: 0}
-    - target: {fileID: 1759154878, guid: 9e9eed98314e46f49b332cf9f89e3887, type: 3}
-      propertyPath: deadAction.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
-      value: UnityEngine.Object, UnityEngine
-      objectReference: {fileID: 0}
-    - target: {fileID: 3692018722584110381, guid: 9e9eed98314e46f49b332cf9f89e3887, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -6.36
-      objectReference: {fileID: 0}
-    - target: {fileID: 3692018722584110381, guid: 9e9eed98314e46f49b332cf9f89e3887, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0.18
-      objectReference: {fileID: 0}
-    - target: {fileID: 3692018722584110383, guid: 9e9eed98314e46f49b332cf9f89e3887, type: 3}
-      propertyPath: m_Layer
-      value: 6
-      objectReference: {fileID: 0}
     - target: {fileID: 3692018723306053273, guid: 9e9eed98314e46f49b332cf9f89e3887, type: 3}
       propertyPath: m_Name
       value: ZarguufContainer
@@ -696,7 +635,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1053700461}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -10.83}
+  m_LocalPosition: {x: 0, y: -1, z: -10.83}
   m_LocalScale: {x: 2, y: 1, z: 0.5}
   m_Children: []
   m_Father: {fileID: 802236150}
@@ -891,7 +830,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1406523254}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -11.68, y: 0, z: 0}
+  m_LocalPosition: {x: -11.68, y: -1, z: 0}
   m_LocalScale: {x: 0.5, y: 0, z: 2}
   m_Children: []
   m_Father: {fileID: 802236150}
@@ -1101,7 +1040,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1678240720}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: -1, z: 0}
   m_LocalScale: {x: 2, y: 1, z: 0.5}
   m_Children: []
   m_Father: {fileID: 802236150}

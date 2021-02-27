@@ -27,15 +27,30 @@ public class MapGenerator : MonoBehaviour
     }
 
     async UniTask Generate() {
+        await GenerateCaves();
+        if (Configs.main.Debug.DelayGeneration) {
+            nodeContainer.Render();
+        }
+        await GenerateTowerRoom();
+        await FindAndConnectEnclosures();
+        CreateNavMesh();
+        Populate();
+        nodeContainer.Render();
+    }
 
+    async UniTask GenerateCaves () {
         foreach(RectInt area in cavernAreas) {
             CellularAutomataCarver carver = new CellularAutomataCarver(area, nodeContainer, config.Cave);
             await carver.Generate();
         }
-        nodeContainer.Render();
+    }
+
+    async UniTask GenerateTowerRoom() {
         TowerRoomGenerator towerRoomGenerator = new TowerRoomGenerator(config.Tower, nodeContainer);
         towerNodes = await towerRoomGenerator.Generate();
+    }
 
+    async UniTask FindAndConnectEnclosures() {
         List<CaveEnclosure> enclosures = await EnclosureFinder.Find(nodeContainer);
         EnclosureConnector connector = new EnclosureConnector(nodeContainer);
         MonoBehaviour.print($"Enclosures found: {enclosures.Count}");
@@ -44,7 +59,19 @@ public class MapGenerator : MonoBehaviour
             await connector.Connect(enclosures);
             enclosures = await EnclosureFinder.Find(nodeContainer);
         }
-        Populate();
+    }
+
+    void CreateNavMesh() {
+        Transform meshContainer = Prefabs.Get<Transform>();
+        meshContainer.name = "NavMeshMesh";
+        meshContainer.eulerAngles = new Vector3(90, 0, 0);
+        Transform meshRotator = Prefabs.Get<Transform>();
+        meshRotator.name = "NavMeshMeshRotator";
+        meshRotator.parent = meshContainer;
+        meshRotator.localEulerAngles = new Vector3(-90, 0, 0);
+        nodeContainer.CreateMesh(meshRotator);
+        //nodeContainer.CreateMesh(meshContainer);
+        NavMeshUtil.GenerateNavMesh(meshContainer.gameObject);
     }
 
     private void Populate() {
@@ -69,9 +96,4 @@ public class MapGenerator : MonoBehaviour
         }
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }

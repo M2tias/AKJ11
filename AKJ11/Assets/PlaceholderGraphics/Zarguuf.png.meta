@@ -20,6 +20,9 @@ TextureImporter:
   - first:
       213: -724823095469007254
     second: Zarguuf_5
+  - first:
+      213: -6789895009892039418
+    second: Zarguuf_6
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -270,7 +273,7 @@ TextureImporter:
         width: 32
         height: 32
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -278,6 +281,27 @@ TextureImporter:
       bones: []
       spriteID: a6e12952c39e0f5f0800000000000000
       internalID: -724823095469007254
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Zarguuf_6
+      rect:
+        serializedVersion: 2
+        x: 192
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6050031867275c1a0800000000000000
+      internalID: -6789895009892039418
       vertices: []
       indices: 
       edges: []

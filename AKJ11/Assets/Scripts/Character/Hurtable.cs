@@ -5,14 +5,16 @@ using UnityEngine.Events;
 
 public class Hurtable : MonoBehaviour
 {
-    private float currentHealth;
+    private float currentHealth = 5;
     private UnityEvent deadAction;
 
     private EnemyConfig config;
     public void Initialize(EnemyConfig config)
     {
         this.config = config;
-        currentHealth = config.HealthConfig.MaxHealth;
+        if (config.HealthConfig != null) {
+            currentHealth = config.HealthConfig.MaxHealth;
+        }
         deadAction = config.DeadAction;
     }
 

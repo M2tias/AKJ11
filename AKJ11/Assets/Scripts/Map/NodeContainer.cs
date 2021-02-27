@@ -138,4 +138,16 @@ public class NodeContainer
         }
     }
 
+    public void CreateMesh(Transform meshContainer) {
+        foreach(MapNode node in nodes) {
+            if (node.IsWall) {
+                continue;
+            }
+            MeshFilter mesh = Prefabs.Get<MeshFilter>();
+            mesh.transform.SetParent(meshContainer, false);
+            mesh.transform.localEulerAngles = new Vector3(90f, 0, 0);
+            mesh.transform.localPosition = new Vector3(node.Position.x, node.Position.y, 0f);
+        }
+    }
+
 }
