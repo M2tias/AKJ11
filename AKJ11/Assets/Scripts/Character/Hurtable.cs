@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using System.Linq;
 
 public class Hurtable : MonoBehaviour
 {
@@ -15,15 +16,34 @@ public class Hurtable : MonoBehaviour
     [SerializeField]
     private UnityEvent deadAction;
 
-    private EnemyConfig config;
+    public HealthScriptableObject healthConfig;
 
-    public void Initialize(EnemyConfig config)
+    private HealthScriptableObject config;
+
+    private bool invulnerable = false;
+    private List<SpriteRenderer> spriteRenderers;
+    private List<Color> origColors;
+
+    private float damaged = -100f;
+
+    public void Start()
+    {
+        if (healthConfig != null)
+        {
+            Initialize(healthConfig);
+        }
+    }
+
+    public void Initialize(HealthScriptableObject config)
     {
         this.config = config;
-        if (config.HealthConfig != null)
+        if (config != null)
         {
-            currentHealth = config.HealthConfig.MaxHealth;
+            currentHealth = config.MaxHealth;
         }
+        spriteRenderers = new List<SpriteRenderer>(GetComponentsInChildren<SpriteRenderer>());
+        spriteRenderers.AddRange(GetComponents<SpriteRenderer>());
+        origColors = spriteRenderers.Select(rend => rend.color).ToList();
     }
 
     // Update is called once per frame
@@ -40,18 +60,57 @@ public class Hurtable : MonoBehaviour
             Hurt(dotDamage);
             dotLastDamage = Time.time;
         }
+
+        tint();
     }
 
     public void Hurt(float damage)
     {
-        currentHealth -= damage;
-        if (currentHealth <= 0)
+        if (!invulnerable)
         {
-            if (deadAction != null)
+            currentHealth -= damage;
+            if (currentHealth <= 0)
             {
-                deadAction.Invoke();
+                if (deadAction != null)
+                {
+                    deadAction.Invoke();
+                }
+            }
+            else
+            {
+                if (config.InvulnerabilityDuration > 0.001f)
+                {
+                    invulnerable = true;
+                    Invoke("DisableInvulnerability", config.InvulnerabilityDuration);
+                }
+                damaged = Time.time;
             }
         }
+    }
+
+    public void DisableInvulnerability()
+    {
+        invulnerable = false;
+    }
+
+    private void tint()
+    {
+        var t = (Time.time - damaged) / config.DamageTintDuration;
+        if (t > 0.0f && t <= 1.0f)
+        {
+            var index = 0;
+            foreach (var rend in spriteRenderers)
+            {
+                var color = Color.Lerp(config.DamageTint, origColors[index++], t);
+                rend.color = color;
+            }
+        }
+        else
+        {
+            var index = 0;
+            spriteRenderers.ForEach(rend => rend.color = origColors[index++]);
+        }
+
     }
 
     public void Dot(float damage, float duration)

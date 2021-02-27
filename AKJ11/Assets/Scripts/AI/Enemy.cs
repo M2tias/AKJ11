@@ -57,7 +57,7 @@ public class Enemy : MonoBehaviour
         aggroLayerMask = LayerMask.GetMask("Player", "Wall");
         Hurtable hurtable = GetComponent<Hurtable>();
         if (hurtable != null) {
-            hurtable.Initialize(config);
+            hurtable.Initialize(config.HealthConfig);
         }
         anim = GetComponent<Animator>();
         rend = GetComponent<SpriteRenderer>();

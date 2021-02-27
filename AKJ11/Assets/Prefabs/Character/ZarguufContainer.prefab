@@ -300,7 +300,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e281401d237288f4eb3127a937317a80, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  healthScriptableObject: {fileID: 11400000, guid: 04aaa96de06450c4a83490a2cc035ab2, type: 2}
   deadAction:
     m_PersistentCalls:
       m_Calls:
@@ -316,6 +315,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  healthConfig: {fileID: 11400000, guid: 04aaa96de06450c4a83490a2cc035ab2, type: 2}
 --- !u!114 &270924615
 MonoBehaviour:
   m_ObjectHideFlags: 0

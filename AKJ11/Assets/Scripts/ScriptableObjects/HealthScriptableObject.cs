@@ -10,4 +10,13 @@ public class HealthScriptableObject : ScriptableObject
     private float health;
     public float MaxHealth { get => health; }
 
+    [field: SerializeField]
+    public float InvulnerabilityDuration { get; private set; }
+
+    [field: SerializeField]
+    public Color DamageTint { get; private set; }
+
+    [field: SerializeField]
+    public float DamageTintDuration { get; private set; }
+
 }
