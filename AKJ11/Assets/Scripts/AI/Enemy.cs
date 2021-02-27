@@ -52,8 +52,6 @@ public class Enemy : MonoBehaviour
             }
         }
 
-        Debug.Log(Vector2.Distance(target.position, transform.position));
-
         if (Vector2.Distance(target.position, transform.position) < attackRange)
         {
             weapon.Attack();

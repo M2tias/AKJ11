@@ -7,6 +7,7 @@ public class Weapon : MonoBehaviour
 {
     public bool DebugAttack;
 
+    public float damage;
     public Type type;
 
     private Transform root;
@@ -63,7 +64,6 @@ public class Weapon : MonoBehaviour
     {
         foreach(var enumType in Enum.GetValues(typeof(Type)))
         {
-            Debug.Log(getAnimationFor((Type)enumType));
             animator.SetBool(getAnimationFor((Type)enumType), false);
         }
         playingAttackAnimation = false;
@@ -81,6 +81,17 @@ public class Weapon : MonoBehaviour
                 return "";
         }
     }
+
+    void OnTriggerEnter2D(Collider2D other)
+    {
+        var hurtable = other.GetComponent<Hurtable>();
+        if (hurtable != null)
+        {
+            hurtable.Hurt(damage);
+        }
+    }
+
+
 }
 
 public enum Type
