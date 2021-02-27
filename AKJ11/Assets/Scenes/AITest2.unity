@@ -265,7 +265,7 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 3692018722584110383, guid: 9e9eed98314e46f49b332cf9f89e3887, type: 3}
   m_PrefabInstance: {fileID: 1024034679}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &270924607
+--- !u!114 &270924615
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -591,7 +591,7 @@ PrefabInstance:
     - target: {fileID: 1759154878, guid: 9e9eed98314e46f49b332cf9f89e3887, type: 3}
       propertyPath: deadAction.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 270924607}
+      objectReference: {fileID: 270924615}
     - target: {fileID: 1759154878, guid: 9e9eed98314e46f49b332cf9f89e3887, type: 3}
       propertyPath: deadAction.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
       value: 2
