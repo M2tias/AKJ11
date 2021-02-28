@@ -71,8 +71,6 @@ public class Fireball : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Debug.Log(renderer.sprite);
-        Debug.Log(projectileSprite);
         body.velocity = moveDir * speed;
 
         if (Time.time - started > lifetime)
