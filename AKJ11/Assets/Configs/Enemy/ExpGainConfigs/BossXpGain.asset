@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 248da9e118225434283784742d8406b0, type: 3}
   m_Name: BossXpGain
   m_EditorClassIdentifier: 
-  experience: 35
+  experience: 100
