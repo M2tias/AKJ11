@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
+using Cysharp.Threading.Tasks;
 public class NodeContainer
 {
     public RectInt Rect;
@@ -53,8 +54,9 @@ public class NodeContainer
         }
     }
 
-    public void Kill() {
+    public async UniTask Kill() {
         GameObject.Destroy(viewContainer.gameObject);
+        await UniTask.NextFrame();
     }
 
     public NodeContainer(Vector2Int position, Vector2Int size)
