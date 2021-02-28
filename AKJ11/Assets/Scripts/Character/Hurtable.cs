@@ -86,6 +86,10 @@ public class Hurtable : MonoBehaviour
             playerExperience = playerExp;
         }
 
+        if (SoundManager.main != null) {
+            SoundManager.main.PlaySound(config.HitSound);
+        }
+
         if (!invulnerable)
         {
             currentHealth -= damage;
@@ -94,6 +98,10 @@ public class Hurtable : MonoBehaviour
                 if (deadAction != null)
                 {
                     deadAction.Invoke();
+                }
+
+                if (SoundManager.main != null) {
+                    SoundManager.main.PlaySound(config.DeathSound);
                 }
 
                 if (playerExp != null && expGainConfig != null)

@@ -19,4 +19,10 @@ public class HealthScriptableObject : ScriptableObject
     [field: SerializeField]
     public float DamageTintDuration { get; private set; }
 
+    [field: SerializeField]
+    public GameSoundType HitSound { get; private set; }
+
+    [field: SerializeField]
+    public GameSoundType DeathSound { get; private set; }
+
 }

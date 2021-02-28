@@ -16,3 +16,5 @@ MonoBehaviour:
   <Damage>k__BackingField: 0
   <WeaponSprite>k__BackingField: {fileID: -3578122164199621647, guid: f31d260d30bf9f744887522c7f92569c, type: 3}
   <Projectile>k__BackingField: {fileID: 0}
+  <AnimationSound>k__BackingField: 8
+  <ProjectileSound>k__BackingField: 0

@@ -15,4 +15,9 @@ public class WeaponConfig : ScriptableObject {
 
     [field: SerializeField]
     public Projectile Projectile { get; private set; }
+    
+    [field: SerializeField]
+    public GameSoundType AnimationSound { get; private set; }
+    [field: SerializeField]
+    public GameSoundType ProjectileSound { get; private set; }
 }
