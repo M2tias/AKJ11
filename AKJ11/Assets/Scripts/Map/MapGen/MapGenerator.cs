@@ -124,7 +124,7 @@ public class MapGenerator : MonoBehaviour
         }
         await GenerateTowerRoom();
         await FindAndConnectEnclosures();
-        //await BlobGrid.Run(nodeContainer);
+        await BlobGrid.Run(nodeContainer);
         CreateNavMesh();
         Populate();
         nodeContainer.Render();
