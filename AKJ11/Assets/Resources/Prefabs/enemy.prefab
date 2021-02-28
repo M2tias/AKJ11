@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 884308378704808928}
   - component: {fileID: 3498388131048363626}
   - component: {fileID: 5486746635750412193}
+  - component: {fileID: 2074456167953531331}
   m_Layer: 8
   m_Name: enemy
   m_TagString: Enemy
@@ -193,13 +194,29 @@ CapsuleCollider2D:
   m_GameObject: {fileID: 4771984357536060285}
   m_Enabled: 1
   m_Density: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: b7ca2ae367d5e45479692be66e0d21f3, type: 2}
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: -0.015462756, y: 0}
   m_Size: {x: 0.4071424, y: 1}
   m_Direction: 0
+--- !u!208 &2074456167953531331
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4771984357536060285}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 0
+  m_Extents: {x: 0.3, y: 0.5, z: 0.3}
+  m_MoveThreshold: 0.1
+  m_Carve: 0
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0, z: 0}
+  m_TimeToStationary: 0.5
 --- !u!1001 &5085877735804157522
 PrefabInstance:
   m_ObjectHideFlags: 0
