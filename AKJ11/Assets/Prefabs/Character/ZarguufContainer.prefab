@@ -270,11 +270,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7abb9ab1f3df991489ceddfc3ea11c1a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  shootDelay: 1
   entityContainer: {fileID: 3692018723165896840}
   fireballPrefab: {fileID: 7249762181966462075, guid: 32a3ef136a7d88b49b0816c20eb147a3, type: 3}
   wallPrefab: {fileID: 8749617042569657731, guid: 2a892e0327291ec418553cdbceaa54ef, type: 3}
-  playerExperience: {fileID: 2495043801015741491}
+  attackSpell1Config: {fileID: 11400000, guid: d7f095bca0d1113458b7b399da294c1b, type: 2}
+  attackSpell2Config: {fileID: 11400000, guid: d294caca2e2f4fc44ac554e77b55c068, type: 2}
+  spellWallConfig: {fileID: 11400000, guid: 8ddb7a17a51378b42bc143d693af7460, type: 2}
   ghostWallPos: {fileID: 181066029844084725}
   ghostWallRotation: {fileID: 290674286}
 --- !u!58 &1759154879

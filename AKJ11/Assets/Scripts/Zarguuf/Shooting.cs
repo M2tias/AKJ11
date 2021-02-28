@@ -4,9 +4,6 @@ using UnityEngine;
 
 public class Shooting : MonoBehaviour
 {
-    [SerializeField]
-    private float shootDelay;
-    private float shootTime = 0f;
 
     [SerializeField]
     private Transform entityContainer;
@@ -14,6 +11,12 @@ public class Shooting : MonoBehaviour
     private GameObject fireballPrefab; // default attack spell prefab
     [SerializeField]
     private GameObject wallPrefab;
+    [SerializeField]
+    private SpellBaseConfig attackSpell1Config;
+    [SerializeField]
+    private SpellBaseConfig attackSpell2Config;
+    [SerializeField]
+    private SpellBaseConfig spellWallConfig;
 
     private Experience playerExperience;
 
@@ -31,6 +34,12 @@ public class Shooting : MonoBehaviour
     // dynamic spell prefabs
     private GameObject attackSpell1;
     private GameObject attackSpell2;
+    private float attack1CD;
+    private float attack1Used;
+    private float attack2CD;
+    private float attack2Used;
+    private float spellWallCD;
+    private float spellWallUsed;
 
 
     // Start is called before the first frame update
@@ -38,88 +47,139 @@ public class Shooting : MonoBehaviour
     {
         playerExperience = GetComponent<Experience>();
         aiming = GetComponent<Aiming>();
+        SetupSpells();
+    }
 
+    private void SetupSpells()
+    {
         attackSpell1 = Instantiate(fireballPrefab);
         Fireball spell1 = attackSpell1.GetComponent<Fireball>();
-        spell1.SetConfig(10, 2, 0, 0, 0);
+        spell1.SetConfig(
+            attackSpell1Config.Damage,
+            attackSpell1Config.Aoe,
+            attackSpell1Config.Bounces,
+            attackSpell1Config.Dot,
+            attackSpell1Config.DotTickRate,
+            attackSpell1Config.Speed,
+            attackSpell1Config.ProjectileSprite
+        );
+        attack1CD = attackSpell1Config.Cooldown;
+
         attackSpell1.SetActive(false);
 
         attackSpell2 = Instantiate(fireballPrefab);
         Fireball spell2 = attackSpell2.GetComponent<Fireball>();
-        spell2.SetConfig(5, 0, 0, 5, 5);
+        spell2.SetConfig(
+            attackSpell2Config.Damage,
+            attackSpell2Config.Aoe,
+            attackSpell2Config.Bounces,
+            attackSpell2Config.Dot,
+            attackSpell2Config.DotTickRate,
+            attackSpell2Config.Speed,
+            attackSpell2Config.ProjectileSprite
+        );
+        attack2CD = attackSpell2Config.Cooldown;
         attackSpell2.SetActive(false);
+
+        spellWallCD = spellWallConfig.Cooldown;
     }
 
     // Update is called once per frame
     void Update()
     {
-        bool canShootAgain = Time.time - shootTime > shootDelay;
-        if (Input.GetKey(KeyCode.Mouse0) && canShootAgain && currentSpell == Spell.fireball)
+        bool canShoot1Again = Time.time - attack1Used > attack1CD;
+        bool canShoot2Again = Time.time - attack2Used > attack2CD;
+        bool canSpellWallAgain = Time.time - spellWallUsed > spellWallCD;
+        if (Input.GetKey(KeyCode.Mouse0) && canShoot1Again && currentSpell == Spell.fireball)
         {
-            Debug.Log("Piu!");
-            shootTime = Time.time;
-
-            GameObject fireballInstance = Instantiate(attackSpell1);
-            fireballInstance.transform.parent = entityContainer;
-            Vector3 fp = attackSpell1.transform.position;
-            attackSpell1.transform.position = new Vector3(fp.x, fp.y, 0);
-            fireballInstance.SetActive(true);
-
-            Vector3 targetDir = aiming.GetDirection();
-            Vector3 spawnPos = transform.position + targetDir.normalized * 0.6f;
-            fireballInstance.GetComponent<Fireball>().Initialize(spawnPos, targetDir, playerExperience);
+            ShootSpell1();
         }
-        else if (Input.GetKey(KeyCode.Mouse1) && canShootAgain && currentSpell == Spell.fireball)
+        else if (Input.GetKey(KeyCode.Mouse1) && canShoot2Again && currentSpell == Spell.fireball)
         {
-            Debug.Log("Pau!");
-            shootTime = Time.time;
-
-            GameObject fireballInstance = Instantiate(attackSpell2);
-            fireballInstance.transform.parent = entityContainer;
-            Vector3 fp = attackSpell2.transform.position;
-            attackSpell2.transform.position = new Vector3(fp.x, fp.y, 0);
-            fireballInstance.SetActive(true);
-
-            Vector3 targetDir = aiming.GetDirection();
-            Vector3 spawnPos = transform.position + targetDir.normalized * 0.6f;
-            fireballInstance.GetComponent<Fireball>().Initialize(spawnPos, targetDir, playerExperience);
+            ShootSpell2();
         }
         else if (Input.GetKeyDown(KeyCode.Mouse0) && currentSpell == Spell.wall)
         {
-            Debug.Log("Wall visible");
-            ghostWallRotation.SetActive(true);
-            ghostWallPos.SetActive(true);
-            Vector3 worldPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            wallSpawnPos = new Vector3(worldPosition.x, worldPosition.y, 0);
-            ghostWallPos.transform.position = wallSpawnPos;
+            ShowGhostWall();
         }
         else if (Input.GetKeyUp(KeyCode.Mouse0) && currentSpell == Spell.wall)
         {
-            GameObject wallInstance = Instantiate(wallPrefab);
-            wallInstance.transform.parent = entityContainer;
-            Vector3 fp = fireballPrefab.transform.position;
-            fireballPrefab.transform.position = new Vector3(fp.x, fp.y, 0);
-
-            Vector3 targetDir = Camera.main.ScreenToWorldPoint(Input.mousePosition) - ghostWallPos.transform.position;
-            Vector3 spawnPos = wallSpawnPos;
-            wallInstance.GetComponent<Wall>().Initialize(spawnPos, targetDir);
-
-            // after casting
-            SetCurrentSpell(Spell.fireball);
-            ghostWallPos.SetActive(false);
+            PlaceSpellWall();
         }
 
         if (currentSpell == Spell.wall)
         {
-            Vector3 targetDir = Camera.main.ScreenToWorldPoint(Input.mousePosition) - ghostWallPos.transform.position;
-            float angleDiff = Vector2.SignedAngle(ghostWallRotation.transform.right, targetDir);
-            ghostWallRotation.transform.Rotate(Vector3.forward, angleDiff);
+            RotateGhostWall();
         }
 
-        if (Input.GetKeyDown(KeyCode.Q))
+        if (Input.GetKeyDown(KeyCode.Q) && canSpellWallAgain)
         {
             SetCurrentSpell(Spell.wall);
         }
+    }
+
+    // Show visualisation for wall placement
+    private void ShowGhostWall()
+    {
+        ghostWallRotation.SetActive(true);
+        ghostWallPos.SetActive(true);
+        Vector3 worldPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        wallSpawnPos = new Vector3(worldPosition.x, worldPosition.y, 0);
+        ghostWallPos.transform.position = wallSpawnPos;
+    }
+
+    private void PlaceSpellWall()
+    {
+        GameObject wallInstance = Instantiate(wallPrefab);
+        wallInstance.transform.parent = entityContainer;
+        Vector3 fp = fireballPrefab.transform.position;
+        fireballPrefab.transform.position = new Vector3(fp.x, fp.y, 0);
+
+        Vector3 targetDir = Camera.main.ScreenToWorldPoint(Input.mousePosition) - ghostWallPos.transform.position;
+        Vector3 spawnPos = wallSpawnPos;
+        wallInstance.GetComponent<Wall>().Initialize(spawnPos, targetDir);
+
+        // after casting
+        SetCurrentSpell(Spell.fireball);
+        ghostWallPos.SetActive(false);
+        spellWallUsed = Time.time;
+    }
+
+    private void RotateGhostWall()
+    {
+        Vector3 targetDir = Camera.main.ScreenToWorldPoint(Input.mousePosition) - ghostWallPos.transform.position;
+        float angleDiff = Vector2.SignedAngle(ghostWallRotation.transform.right, targetDir);
+        ghostWallRotation.transform.Rotate(Vector3.forward, angleDiff);
+    }
+
+    private void ShootSpell1()
+    {
+        attack1Used = Time.time;
+
+        GameObject fireballInstance = Instantiate(attackSpell1);
+        fireballInstance.transform.parent = entityContainer;
+        Vector3 fp = attackSpell1.transform.position;
+        attackSpell1.transform.position = new Vector3(fp.x, fp.y, 0);
+        fireballInstance.SetActive(true);
+
+        Vector3 targetDir = aiming.GetDirection();
+        Vector3 spawnPos = transform.position + targetDir.normalized * 0.6f;
+        fireballInstance.GetComponent<Fireball>().Initialize(spawnPos, targetDir, playerExperience);
+    }
+
+    private void ShootSpell2()
+    {
+        attack2Used = Time.time;
+
+        GameObject fireballInstance = Instantiate(attackSpell2);
+        fireballInstance.transform.parent = entityContainer;
+        Vector3 fp = attackSpell2.transform.position;
+        attackSpell2.transform.position = new Vector3(fp.x, fp.y, 0);
+        fireballInstance.SetActive(true);
+
+        Vector3 targetDir = aiming.GetDirection();
+        Vector3 spawnPos = transform.position + targetDir.normalized * 0.6f;
+        fireballInstance.GetComponent<Fireball>().Initialize(spawnPos, targetDir, playerExperience);
     }
 
     public Spell GetCurrentSpell()
