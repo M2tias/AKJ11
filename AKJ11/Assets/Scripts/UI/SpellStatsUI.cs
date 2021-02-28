@@ -356,7 +356,7 @@ public class SpellStatsUI : MonoBehaviour
     {
         int pointsUsed =
             DamagePoints + AoePoints + BouncesPoints
-            + DotPoints + DotTickDamagePoints + PiercingPoints
+            + DotPoints + PiercingPoints
             + CooldownPoints + SpeedPoints;
         return pointsUsed;
     }
