@@ -34,7 +34,7 @@ public class Experience : MonoBehaviour
     void Start()
     {
         level = 0;
-        currentExp = 1000;
+        currentExp = 0;
         statPointsToUse = 0;
         totalPointsUsed = 0;
         statPointsToUse += expConfig.StatPointsPerLevel[level]; // initial stat points

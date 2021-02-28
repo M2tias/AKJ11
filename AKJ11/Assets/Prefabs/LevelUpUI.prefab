@@ -1909,7 +1909,7 @@ MonoBehaviour:
   AoeText: {fileID: 0}
   BouncesText: {fileID: 5689803946877434184}
   DotText: {fileID: 5689803946986622835}
-  DotTickDamageText: {fileID: 5689803946986622835}
+  DotTickDamageText: {fileID: 0}
   PiercingText: {fileID: 5689803946067118608}
   CooldownText: {fileID: 5689803946648060230}
   SpeedText: {fileID: 0}
@@ -5119,7 +5119,7 @@ MonoBehaviour:
   AoeText: {fileID: 5689803947205470122}
   BouncesText: {fileID: 5689803947816716264}
   DotText: {fileID: 5689803946175785311}
-  DotTickDamageText: {fileID: 5689803946175785311}
+  DotTickDamageText: {fileID: 0}
   PiercingText: {fileID: 0}
   CooldownText: {fileID: 5689803946841895613}
   SpeedText: {fileID: 0}
