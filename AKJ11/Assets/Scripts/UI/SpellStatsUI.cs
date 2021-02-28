@@ -92,7 +92,7 @@ public class SpellStatsUI : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //DisableStatButtons();
+        DisableStatButtons();
     }
 
     public void DamageButtonAction()
@@ -213,14 +213,14 @@ public class SpellStatsUI : MonoBehaviour
         ResetTexts();
     }
 
-
     private void DisableStatButtons()
     {
         int unusedPoints = Experience.main.GetUnusedStatPoints();
         int usedPoints = Experience.main.GetPendingStatPoints();
+
         if (DamageButton != null)
         {
-            if (spellConfig.Damage.Count == spellRuntime.DamageLevel + 1)
+            if (spellConfig.Damage.Count == spellRuntime.DamageLevel + 1 || spellConfig.Damage.Count == spellRuntime.DamageLevel + DamagePoints + 1)
             {
                 DamageButton.SetActive(false);
             }
@@ -235,7 +235,7 @@ public class SpellStatsUI : MonoBehaviour
         }
         if (AoeButton != null)
         {
-            if (spellConfig.Aoe.Count == spellRuntime.AoeLevel + 1)
+            if (spellConfig.Aoe.Count == spellRuntime.AoeLevel + 1 || spellConfig.Damage.Count == spellRuntime.AoeLevel + AoePoints + 1)
             {
                 AoeButton.SetActive(false);
             }
@@ -250,7 +250,7 @@ public class SpellStatsUI : MonoBehaviour
         }
         if (BouncesButton != null)
         {
-            if (spellConfig.Bounces.Count == spellRuntime.BouncesLevel + 1)
+            if (spellConfig.Bounces.Count == spellRuntime.BouncesLevel + 1 || spellConfig.Damage.Count == spellRuntime.BouncesLevel + BouncesPoints + 1)
             {
                 BouncesButton.SetActive(false);
             }
@@ -265,7 +265,7 @@ public class SpellStatsUI : MonoBehaviour
         }
         if (DotButton != null)
         {
-            if (spellConfig.Dot.Count == spellRuntime.DotLevel + 1)
+            if (spellConfig.Dot.Count == spellRuntime.DotLevel + 1 || spellConfig.Damage.Count == spellRuntime.DotLevel + DotPoints + 1)
             {
                 DotButton.SetActive(false);
             }
@@ -280,7 +280,7 @@ public class SpellStatsUI : MonoBehaviour
         }
         if (DotTickDamageButton != null)
         {
-            if (spellConfig.DotTickDamage.Count == spellRuntime.DotTickDamageLevel + 1)
+            if (spellConfig.DotTickDamage.Count == spellRuntime.DotTickDamageLevel + 1 || spellConfig.Damage.Count == spellRuntime.DotTickDamageLevel + DotTickDamagePoints + 1)
             {
                 DotTickDamageButton.SetActive(false);
             }
@@ -295,7 +295,7 @@ public class SpellStatsUI : MonoBehaviour
         }
         if (PiercingButton != null)
         {
-            if (spellConfig.Piercing.Count == spellRuntime.PiercingLevel + 1)
+            if (spellConfig.Piercing.Count == spellRuntime.PiercingLevel + 1 || spellConfig.Damage.Count == spellRuntime.PiercingLevel + PiercingPoints + 1)
             {
                 PiercingButton.SetActive(false);
             }
@@ -310,7 +310,7 @@ public class SpellStatsUI : MonoBehaviour
         }
         if (CooldownButton != null)
         {
-            if (spellConfig.Cooldown.Count == spellRuntime.CooldownLevel + 1)
+            if (spellConfig.Cooldown.Count == spellRuntime.CooldownLevel + 1 || spellConfig.Damage.Count == spellRuntime.CooldownLevel + CooldownPoints + 1)
             {
                 CooldownButton.SetActive(false);
             }
@@ -325,7 +325,7 @@ public class SpellStatsUI : MonoBehaviour
         }
         if (SpeedButton != null)
         {
-            if (spellConfig.Speed.Count == spellRuntime.SpeedLevel + 1)
+            if (spellConfig.Speed.Count == spellRuntime.SpeedLevel + 1 || spellConfig.Damage.Count == spellRuntime.SpeedLevel + SpeedPoints + 1)
             {
                 SpeedButton.SetActive(false);
             }
