@@ -10,6 +10,7 @@ public class Experience : MonoBehaviour
     private int currentExp;
     private int statPointsToUse;
     private int pendingStatsPoints;
+    private int totalPointsUsed;
     [SerializeField]
     private ExperienceConfig expConfig;
     [SerializeField]
@@ -35,6 +36,7 @@ public class Experience : MonoBehaviour
         level = 0;
         currentExp = 0;
         statPointsToUse = 0;
+        totalPointsUsed = 0;
         statPointsToUse += expConfig.StatPointsPerLevel[level]; // initial stat points
         spell1Runtime.Initialize();
         spell2Runtime.Initialize();
@@ -92,6 +94,7 @@ public class Experience : MonoBehaviour
     public void UseStatPoints(int amount)
     {
         statPointsToUse -= amount;
+        totalPointsUsed += amount;
     }
 
     public void AddPendingStatPoint(int amount)
@@ -107,12 +110,18 @@ public class Experience : MonoBehaviour
     public void CommitPendingStatPoints()
     {
         statPointsToUse -= pendingStatsPoints;
+        totalPointsUsed += pendingStatsPoints;
         pendingStatsPoints = 0;
     }
 
     public int GetPendingStatPoints()
     {
         return pendingStatsPoints;
+    }
+
+    public int GetTotalPointsUsed()
+    {
+        return totalPointsUsed;
     }
 
     public int GetLevel()

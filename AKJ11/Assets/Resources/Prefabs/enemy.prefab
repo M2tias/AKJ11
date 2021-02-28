@@ -151,6 +151,7 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
   healthConfig: {fileID: 0}
+  DotTint: {r: 0.24965864, g: 0.764151, b: 0.16220188, a: 1}
 --- !u!95 &884308378704808928
 Animator:
   serializedVersion: 3
