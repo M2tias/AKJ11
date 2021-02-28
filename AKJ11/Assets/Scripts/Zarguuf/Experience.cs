@@ -17,9 +17,13 @@ public class Experience : MonoBehaviour
     [SerializeField]
     private SpellLevelRuntime spell2Runtime;
     [SerializeField]
+    private SpellLevelRuntime spellWallRuntime;
+    [SerializeField]
     private SpellBaseConfig spell1Config;
     [SerializeField]
     private SpellBaseConfig spell2Config;
+    [SerializeField]
+    private SpellBaseConfig spellWallConfig;
 
     private void Awake()
     {
@@ -34,8 +38,10 @@ public class Experience : MonoBehaviour
         statPointsToUse += expConfig.StatPointsPerLevel[level]; // initial stat points
         spell1Runtime.Initialize();
         spell2Runtime.Initialize();
+        spellWallRuntime.Initialize();
         spell1Runtime.IsUnlocked = spell1Config.IsUnlocked;
         spell2Runtime.IsUnlocked = spell2Config.IsUnlocked;
+        spellWallRuntime.IsUnlocked = spellWallConfig.IsUnlocked;
     }
 
     void Update()
@@ -101,5 +107,10 @@ public class Experience : MonoBehaviour
     public SpellLevelRuntime GetSpell2Runtime()
     {
         return spell2Runtime;
+    }
+
+    public SpellLevelRuntime GetSpellWallRuntime()
+    {
+        return spellWallRuntime;
     }
 }

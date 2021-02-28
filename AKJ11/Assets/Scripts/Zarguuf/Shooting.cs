@@ -54,22 +54,26 @@ public class Shooting : MonoBehaviour
         attackSpell1 = Instantiate(fireballPrefab);
         Fireball spell1 = attackSpell1.GetComponent<Fireball>();
         spell1.SetConfig(attackSpell1Config);
-        attack1CD = attackSpell1Config.Cooldown[PlayerLevel];
+        attack1CD = attackSpell1Config.Cooldown[0];
 
         attackSpell1.SetActive(false);
 
         attackSpell2 = Instantiate(fireballPrefab);
         Fireball spell2 = attackSpell2.GetComponent<Fireball>();
         spell2.SetConfig(attackSpell2Config);
-        attack2CD = attackSpell2Config.Cooldown[PlayerLevel];
+        attack2CD = attackSpell2Config.Cooldown[0];
         attackSpell2.SetActive(false);
 
-        spellWallCD = spellWallConfig.Cooldown[PlayerLevel];
+        spellWallCD = spellWallConfig.Cooldown[0];
     }
 
     // Update is called once per frame
     void Update()
     {
+        attack1CD = attackSpell1Config.Cooldown[Experience.main.GetSpell1Runtime().CooldownLevel];
+        attack2CD = attackSpell2Config.Cooldown[Experience.main.GetSpell2Runtime().CooldownLevel];
+        spellWallCD = spellWallConfig.Cooldown[Experience.main.GetSpellWallRuntime().CooldownLevel];
+        Debug.Log(Experience.main.GetSpellWallRuntime().CooldownLevel);
         bool canShoot1Again = Time.time - attack1Used > attack1CD;
         bool canShoot2Again = Time.time - attack2Used > attack2CD;
         bool canSpellWallAgain = Time.time - spellWallUsed > spellWallCD;
