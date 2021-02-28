@@ -130,6 +130,10 @@ public class Shooting : MonoBehaviour
         SetCurrentSpell(Spell.fireball);
         ghostWallPos.SetActive(false);
         spellWallUsed = Time.time;
+        if (SpellBar.main != null)
+        {
+            SpellBar.main.SpellWasCast(spellWallConfig);
+        }
     }
 
     private void RotateGhostWall()

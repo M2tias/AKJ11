@@ -66,8 +66,14 @@ public class Experience : MonoBehaviour
     public float GetCooldown(SpellBaseConfig spell) {
         if (spell == spell1Config) {
             return spell.Cooldown[spell1Runtime.CooldownLevel];
-        } else if (spell == spell2Config) {
+        }
+        else if (spell == spell2Config)
+        {
             return spell.Cooldown[spell2Runtime.CooldownLevel];
+        }
+        else if (spell == spellWallConfig)
+        {
+            return spell.Cooldown[spellWallRuntime.CooldownLevel];
         }
         return -1;
     }
