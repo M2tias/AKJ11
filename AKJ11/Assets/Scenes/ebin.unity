@@ -306,7 +306,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerPrefab: {fileID: 3692018723306053273, guid: 9e9eed98314e46f49b332cf9f89e3887, type: 3}
-  DebugCurrentLevel: 11
+  DebugCurrentLevel: 0
   EnemyCount: 0
 --- !u!114 &207710858
 MonoBehaviour:
