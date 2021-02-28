@@ -34,8 +34,6 @@ public class Fireball : MonoBehaviour
     private Collider2D collider;
     private Vector3 moveDir;
 
-    private Experience playerExperience;
-
     [SerializeField]
     private SpellBaseConfig config;
 
@@ -50,40 +48,39 @@ public class Fireball : MonoBehaviour
     bool killed = false;
 
     private List<ParticleSystem> trailEffects;
+    private SpellLevelRuntime spellRuntime;
 
-    public void Initialize(Vector2 position, Vector2 direction, Experience playerExp)
+    public void Initialize(Vector2 position, Vector2 direction, SpellLevelRuntime runtime)
     {
         transform.position = new Vector3(position.x, position.y, 0);
 
         float angleDiff = Vector2.SignedAngle(transform.right, direction);
         transform.transform.Rotate(Vector3.forward, angleDiff);
         moveDir = direction.normalized;
-
-        playerExperience = playerExp;
-
+        spellRuntime = runtime;
     }
 
     public void SetConfig(SpellBaseConfig config)
     {
         this.config = config;
         renderer = GetComponent<SpriteRenderer>();
-        aoe = config.Aoe;
-        bounces = config.Bounces;
-        damage = config.Damage;
-        dotDuration = config.Dot;
-        dotTickDamage = config.DotTickDamage;
-        speed = config.Speed;
+        aoe = config.Aoe[0];
+        bounces = config.Bounces[0];
+        damage = config.Damage[0];
+        dotDuration = config.Dot[0];
+        dotTickDamage = config.DotTickDamage[0];
+        speed = config.Speed[0];
         projectileSprite = config.ProjectileSprite;
 
-        for (var i = 0; i < config.Aoe; i++)
+        for (var i = 0; i < config.Aoe[0]; i++)
         {
             Instantiate(FireEffect, transform);
         }
-        for (var i = 0; i < config.Bounces; i++)
+        for (var i = 0; i < config.Bounces[0]; i++)
         {
             Instantiate(LightningEffect, transform);
         }
-        for (var i = 0; i < config.Dot; i++)
+        for (var i = 0; i < config.Dot[0]; i++)
         {
             Instantiate(PoisonEffect, transform);
         }
@@ -98,6 +95,27 @@ public class Fireball : MonoBehaviour
         renderer.sprite = projectileSprite;
         started = Time.time;
         trailEffects = new List<ParticleSystem>(GetComponentsInChildren<ParticleSystem>());
+
+        aoe = config.Aoe[spellRuntime.AoeLevel];
+        bounces = config.Bounces[spellRuntime.BouncesLevel];
+        damage = config.Damage[spellRuntime.DamageLevel];
+        dotDuration = config.Dot[spellRuntime.DotLevel];
+        dotTickDamage = config.DotTickDamage[spellRuntime.DotTickDamageLevel];
+        speed = config.Speed[spellRuntime.SpeedLevel];
+        projectileSprite = config.ProjectileSprite;
+
+        for (var i = 0; i < config.Aoe[spellRuntime.AoeLevel]; i++)
+        {
+            Instantiate(FireEffect, transform);
+        }
+        for (var i = 0; i < config.Bounces[spellRuntime.BouncesLevel]; i++)
+        {
+            Instantiate(LightningEffect, transform);
+        }
+        for (var i = 0; i < config.Dot[spellRuntime.DotLevel]; i++)
+        {
+            Instantiate(PoisonEffect, transform);
+        }
     }
 
     // Update is called once per frame
@@ -202,7 +220,7 @@ public class Fireball : MonoBehaviour
         {
             if (damage > 0)
             {
-                h.Hurt(damage, playerExperience);
+                h.Hurt(damage, Experience.main);
             }
 
             if (dotTickDamage > 0)
@@ -233,13 +251,18 @@ public class Fireball : MonoBehaviour
 
     private void CreateExplosion()
     {
-        if (config.Aoe > 0)
+        if (config.Aoe[PlayerLevel] > 0)
         {
-            var t = (float)config.Aoe / config.MaxAoeLevel;
+            var t = (float)config.Aoe[PlayerLevel] / config.Aoe.Count;
             var scale = Mathf.Lerp(1.0f, 5.0f, t);
             var expl = Instantiate(FireExplosion);
             expl.transform.position = transform.position;
             expl.transform.localScale = new Vector3(scale, scale, scale);
         }
+    }
+
+    public int PlayerLevel
+    {
+        get => Experience.main.GetLevel();
     }
 }

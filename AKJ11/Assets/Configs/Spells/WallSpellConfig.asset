@@ -13,12 +13,41 @@ MonoBehaviour:
   m_Name: WallSpellConfig
   m_EditorClassIdentifier: 
   <VisibleStats>k__BackingField: 06000000
-  <Damage>k__BackingField: 0
-  <Aoe>k__BackingField: 0
-  <Bounces>k__BackingField: 0
-  <Dot>k__BackingField: 0
-  <DotTickRate>k__BackingField: 0
-  <Piercing>k__BackingField: 0
-  <Cooldown>k__BackingField: 10
+  <Damage>k__BackingField: 0f0000001900000028000000370000000000000000000000000000000000000000000000
+  <Aoe>k__BackingField:
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  <Bounces>k__BackingField: 000000000000000000000000000000000000000000000000000000000000000000000000
+  <Dot>k__BackingField: 000000000000000000000000000000000000000000000000000000000000000000000000
+  <DotTickDamage>k__BackingField: 000000000000000000000000000000000000000000000000000000000000000000000000
+  <Piercing>k__BackingField: 000000000000000000000000000000000000000000000000000000000000000000000000
+  <Cooldown>k__BackingField:
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
   <IsSpellWall>k__BackingField: 1
   <IsUnlocked>k__BackingField: 0
+  <Speed>k__BackingField:
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  <ProjectileSprite>k__BackingField: {fileID: 0}

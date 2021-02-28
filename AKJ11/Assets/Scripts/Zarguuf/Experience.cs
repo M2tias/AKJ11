@@ -4,18 +4,38 @@ using UnityEngine;
 
 public class Experience : MonoBehaviour
 {
+    public static Experience main;
+
     private int level;
     private int currentExp;
     private int statPointsToUse;
+    private int pendingStatsPoints;
     [SerializeField]
     private ExperienceConfig expConfig;
+    [SerializeField]
+    private SpellLevelRuntime spell1Runtime;
+    [SerializeField]
+    private SpellLevelRuntime spell2Runtime;
+    [SerializeField]
+    private SpellBaseConfig spell1Config;
+    [SerializeField]
+    private SpellBaseConfig spell2Config;
+
+    private void Awake()
+    {
+        main = this;
+    }
 
     void Start()
     {
         level = 0;
-        currentExp = 0;
+        currentExp = 100;
         statPointsToUse = 0;
         statPointsToUse += expConfig.StatPointsPerLevel[level]; // initial stat points
+        spell1Runtime.Initialize();
+        spell2Runtime.Initialize();
+        spell1Runtime.IsUnlocked = spell1Config.IsUnlocked;
+        spell2Runtime.IsUnlocked = spell2Config.IsUnlocked;
     }
 
     void Update()
@@ -40,5 +60,46 @@ public class Experience : MonoBehaviour
     public int GetUnusedStatPoints()
     {
         return statPointsToUse;
+    }
+
+    public void UseStatPoints(int amount)
+    {
+        statPointsToUse -= amount;
+    }
+
+    public void AddPendingStatPoint(int amount)
+    {
+        pendingStatsPoints += amount;
+    }
+
+    public void ResetPendingStatPoints()
+    {
+        pendingStatsPoints = 0;
+    }
+
+    public void CommitPendingStatPoints()
+    {
+        statPointsToUse -= pendingStatsPoints;
+        pendingStatsPoints = 0;
+    }
+
+    public int GetPendingStatPoints()
+    {
+        return pendingStatsPoints;
+    }
+
+    public int GetLevel()
+    {
+        return level;
+    }
+
+    public SpellLevelRuntime GetSpell1Runtime()
+    {
+        return spell1Runtime;
+    }
+
+    public SpellLevelRuntime GetSpell2Runtime()
+    {
+        return spell2Runtime;
     }
 }

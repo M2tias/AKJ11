@@ -18,7 +18,7 @@ public class Shooting : MonoBehaviour
     [SerializeField]
     private SpellBaseConfig spellWallConfig;
 
-    private Experience playerExperience;
+    //private Experience playerExperience;
 
     // Wall spell placement visuals
     [SerializeField]
@@ -44,7 +44,7 @@ public class Shooting : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        playerExperience = GetComponent<Experience>();
+        //playerExperience = GetComponent<Experience>();
         aiming = GetComponent<Aiming>();
         SetupSpells();
     }
@@ -54,17 +54,17 @@ public class Shooting : MonoBehaviour
         attackSpell1 = Instantiate(fireballPrefab);
         Fireball spell1 = attackSpell1.GetComponent<Fireball>();
         spell1.SetConfig(attackSpell1Config);
-        attack1CD = attackSpell1Config.Cooldown;
+        attack1CD = attackSpell1Config.Cooldown[PlayerLevel];
 
         attackSpell1.SetActive(false);
 
         attackSpell2 = Instantiate(fireballPrefab);
         Fireball spell2 = attackSpell2.GetComponent<Fireball>();
         spell2.SetConfig(attackSpell2Config);
-        attack2CD = attackSpell2Config.Cooldown;
+        attack2CD = attackSpell2Config.Cooldown[PlayerLevel];
         attackSpell2.SetActive(false);
 
-        spellWallCD = spellWallConfig.Cooldown;
+        spellWallCD = spellWallConfig.Cooldown[PlayerLevel];
     }
 
     // Update is called once per frame
@@ -147,7 +147,7 @@ public class Shooting : MonoBehaviour
 
         Vector3 targetDir = aiming.GetDirection();
         Vector3 spawnPos = transform.position + targetDir.normalized * 0.6f;
-        fireballInstance.GetComponent<Fireball>().Initialize(spawnPos, targetDir, playerExperience);
+        fireballInstance.GetComponent<Fireball>().Initialize(spawnPos, targetDir, Experience.main.GetSpell1Runtime());
     }
 
     private void ShootSpell2()
@@ -162,7 +162,7 @@ public class Shooting : MonoBehaviour
 
         Vector3 targetDir = aiming.GetDirection();
         Vector3 spawnPos = transform.position + targetDir.normalized * 0.6f;
-        fireballInstance.GetComponent<Fireball>().Initialize(spawnPos, targetDir, playerExperience);
+        fireballInstance.GetComponent<Fireball>().Initialize(spawnPos, targetDir, Experience.main.GetSpell2Runtime());
     }
 
     public Spell GetCurrentSpell()
@@ -182,5 +182,9 @@ public class Shooting : MonoBehaviour
         }
 
         aiming.SetReticule(currentSpell);
+    }
+    public int PlayerLevel
+    {
+        get => Experience.main.GetLevel();
     }
 }

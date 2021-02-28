@@ -17,8 +17,6 @@ public class Aiming : MonoBehaviour
     [SerializeField]
     private Sprite wallReticule;
 
-    private Spell currentSpell = Spell.fireball;
-
     // Start is called before the first frame update
     void Start()
     {

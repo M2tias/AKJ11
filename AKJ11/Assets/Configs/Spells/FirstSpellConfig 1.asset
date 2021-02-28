@@ -13,17 +13,41 @@ MonoBehaviour:
   m_Name: FirstSpellConfig 1
   m_EditorClassIdentifier: 
   <VisibleStats>k__BackingField: 000000000200000003000000040000000500000006000000
-  <Damage>k__BackingField: 5
-  <Aoe>k__BackingField: 1
-  <Bounces>k__BackingField: 1
-  <Dot>k__BackingField: 1
-  <DotTickDamage>k__BackingField: 0
-  <Piercing>k__BackingField: 0
-  <Cooldown>k__BackingField: 0.5
+  <Damage>k__BackingField: 05000000080000000c000000110000001900000023000000300000003c00000050000000
+  <Aoe>k__BackingField:
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  <Bounces>k__BackingField: 000000000000000000000000000000000000000000000000000000000000000000000000
+  <Dot>k__BackingField: 000000000000000000000000000000000000000000000000000000000000000000000000
+  <DotTickDamage>k__BackingField: 000000000000000000000000000000000000000000000000000000000000000000000000
+  <Piercing>k__BackingField: 000000000000000000000000000000000000000000000000000000000000000000000000
+  <Cooldown>k__BackingField:
+  - 1
+  - 0.95
+  - 0.87
+  - 0.78
+  - 0.68
+  - 0.55
+  - 0.4
+  - 0.25
+  - 0.1
   <IsSpellWall>k__BackingField: 0
   <IsUnlocked>k__BackingField: 1
-  <Speed>k__BackingField: 20
+  <Speed>k__BackingField:
+  - 5
+  - 5
+  - 5
+  - 5
+  - 5
+  - 5
+  - 5
+  - 5
+  - 5
   <ProjectileSprite>k__BackingField: {fileID: 7886773035574174511, guid: f78af5cbae9ac784c8dc3cefea6d0aec, type: 3}
-  <MaxAoeLevel>k__BackingField: 10
-  <MaxBouncesLevel>k__BackingField: 10
-  <MaxDotLevel>k__BackingField: 10

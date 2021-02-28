@@ -98,7 +98,7 @@ public class Hurtable : MonoBehaviour
 
                 if (playerExp != null && expGainConfig != null)
                 {
-                    playerExperience.AddExperience(expGainConfig.GainedExperience);
+                    Experience.main.AddExperience(expGainConfig.GainedExperience);
                 }
             }
             else

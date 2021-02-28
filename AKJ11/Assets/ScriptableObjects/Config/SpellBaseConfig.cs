@@ -10,25 +10,25 @@ public class SpellBaseConfig : ScriptableObject
     public List<SpellStats> VisibleStats { get; private set; }
 
     [field: SerializeField]
-    public int Damage { get; private set; }
+    public List<int> Damage { get; private set; }
 
     [field: SerializeField]
-    public int Aoe { get; private set; }
+    public List<float> Aoe { get; private set; }
 
     [field: SerializeField]
-    public int Bounces { get; private set; }
+    public List<int> Bounces { get; private set; }
 
     [field: SerializeField]
-    public int Dot { get; private set; }
+    public List<int> Dot { get; private set; }
 
     [field: SerializeField]
-    public int DotTickDamage { get; private set; }
+    public List<int> DotTickDamage { get; private set; }
 
     [field: SerializeField]
-    public int Piercing { get; private set; }
+    public List<int> Piercing { get; private set; }
 
     [field: SerializeField]
-    public float Cooldown { get; private set; }
+    public List<float> Cooldown { get; private set; }
 
     [field: SerializeField]
     public bool IsSpellWall { get; private set; }
@@ -37,19 +37,10 @@ public class SpellBaseConfig : ScriptableObject
     public bool IsUnlocked { get; private set; }
 
     [field: SerializeField]
-    public float Speed { get; private set; }
+    public List<float> Speed { get; private set; }
 
     [field: SerializeField]
     public Sprite ProjectileSprite { get; private set; }
-
-    [field: SerializeField]
-    public int MaxAoeLevel { get; private set; }
-
-    [field: SerializeField]
-    public int MaxBouncesLevel { get; private set; }
-
-    [field: SerializeField]
-    public int MaxDotLevel { get; private set; }
 }
 
 public enum SpellStats
