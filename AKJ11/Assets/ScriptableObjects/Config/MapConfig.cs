@@ -8,7 +8,7 @@ public class MapConfig : ScriptableObject
 {
 
     [field:SerializeField]
-    [field: Range(1, 4)]
+    [field: Range(0, 4)]
     public int NumberOfAreas {get; private set;} = 4;
 
     [field: SerializeField]
@@ -19,7 +19,7 @@ public class MapConfig : ScriptableObject
     public int PassageRadius { get; private set; } = 1;
 
     [field: SerializeField]
-    [field: Range(0, 10)]
+    [field: Range(1, 10)]
     public int Padding { get; private set; } = 1;
 
     [field: SerializeField]
