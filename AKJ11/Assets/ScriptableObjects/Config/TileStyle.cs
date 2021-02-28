@@ -19,10 +19,12 @@ public class TileStyle : ScriptableObject {
 
     [SerializeField]
     private Texture2D texture;
+    [SerializeField]
+    [HideInInspector]
     private Texture2D previousTexture;
 
     [SerializeField]
-    private List<Sprite> cases = new List<Sprite>();
+    private List<Sprite> cases;
     public List<Sprite> Cases { get { return cases; } }
 
 
@@ -33,7 +35,7 @@ public class TileStyle : ScriptableObject {
 
     public void LoadNewTexturesIfNeeded()
     {
-        if (previousTexture != texture)
+        if (previousTexture != texture || previousTexture == null)
         {
             LoadTextureCases();
             previousTexture = texture;
