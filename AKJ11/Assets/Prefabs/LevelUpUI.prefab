@@ -1771,7 +1771,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -67}
+  m_AnchoredPosition: {x: 0, y: -46.9}
   m_SizeDelta: {x: 48, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5689803946352071485
@@ -1909,7 +1909,7 @@ MonoBehaviour:
   AoeText: {fileID: 0}
   BouncesText: {fileID: 5689803946877434184}
   DotText: {fileID: 5689803946986622835}
-  DotTickDamageText: {fileID: 0}
+  DotTickDamageText: {fileID: 5689803946986622835}
   PiercingText: {fileID: 5689803946067118608}
   CooldownText: {fileID: 5689803946648060230}
   SpeedText: {fileID: 0}
@@ -3166,7 +3166,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &5689803946789102630
 RectTransform:
   m_ObjectHideFlags: 0
@@ -5119,7 +5119,7 @@ MonoBehaviour:
   AoeText: {fileID: 5689803947205470122}
   BouncesText: {fileID: 5689803947816716264}
   DotText: {fileID: 5689803946175785311}
-  DotTickDamageText: {fileID: 0}
+  DotTickDamageText: {fileID: 5689803946175785311}
   PiercingText: {fileID: 0}
   CooldownText: {fileID: 5689803946841895613}
   SpeedText: {fileID: 0}
@@ -5634,7 +5634,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &5689803947310890453
 RectTransform:
   m_ObjectHideFlags: 0
@@ -6197,6 +6197,7 @@ GameObject:
   - component: {fileID: 5689803947458898485}
   - component: {fileID: 5689803947458898483}
   - component: {fileID: 5689803947458898482}
+  - component: {fileID: 3857146655271826917}
   m_Layer: 5
   m_Name: Book
   m_TagString: Untagged
@@ -6265,6 +6266,21 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &3857146655271826917
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5689803947458898484}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6b46a567ecee10d4aa8277df80af77c9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  totalPointsUsed: {fileID: 4110548645492230052}
+  pointsUsedNow: {fileID: 4115557038775629317}
+  unassignedPoints: {fileID: 4007492058775091125}
 --- !u!1 &5689803947472656921
 GameObject:
   m_ObjectHideFlags: 0

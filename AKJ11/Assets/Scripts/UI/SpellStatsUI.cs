@@ -111,27 +111,35 @@ public class SpellStatsUI : MonoBehaviour
     }
     public void BouncesButtonAction()
     {
+
+        Debug.Log(BouncesText.text);
+        Debug.Log(BouncesPoints);
         BouncesPoints++;
         Experience.main.AddPendingStatPoint(1);
+        Debug.Log(BouncesPoints);
         SetTextValue(BouncesText, spellConfig.Bounces[spellRuntime.BouncesLevel + BouncesPoints].ToString());
+        Debug.Log(BouncesText.text);
         DisableStatButtons();
+        Debug.Log(BouncesPoints);
     }
     public void DotButtonAction()
     {
         DotPoints++;
+        DotTickDamagePoints++;
         Experience.main.AddPendingStatPoint(1);
         SetTextValue(DotText, spellConfig.Dot[spellRuntime.DotLevel + DotPoints].ToString());
         DisableStatButtons();
     }
-    public void DotTickDamaButtonAction()
-    {
-        DotTickDamagePoints++;
-        Experience.main.AddPendingStatPoint(1);
-        SetTextValue(DotTickDamageText, spellConfig.DotTickDamage[spellRuntime.DotTickDamageLevel + DotTickDamagePoints].ToString());
-        DisableStatButtons();
-    }
+    //public void DotTickDamaButtonAction()
+    //{
+    //    DotTickDamagePoints++;
+    //    Experience.main.AddPendingStatPoint(1);
+    //    SetTextValue(DotTickDamageText, spellConfig.DotTickDamage[spellRuntime.DotTickDamageLevel + DotTickDamagePoints].ToString());
+    //    DisableStatButtons();
+    //}
     public void PiercingButtonAction()
     {
+        // NOT USED!
         PiercingPoints++;
         Experience.main.AddPendingStatPoint(1);
         SetTextValue(PiercingText, spellConfig.Piercing[spellRuntime.PiercingLevel + PiercingPoints].ToString());
