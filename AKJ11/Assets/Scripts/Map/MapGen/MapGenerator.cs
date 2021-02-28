@@ -243,7 +243,8 @@ public class MapGenerator : MonoBehaviour
     private void SpawnEnemies(MapNode playerNode, List<MapNode> nonTowerNodes) {
         float minDistanceFromPlayer = 2f;
 
-        List<MapNode> enemyTowerNodes = towerNodes.Where(node => node.Distance(playerNode) > minDistanceFromPlayer).ToList();
+        List<MapNode> nonEdgeNodes = nonTowerNodes.Where(node => !node.IsEdge).ToList();
+        List<MapNode> enemyTowerNodes = towerNodes.Where(node => !node.IsEdge && node.Distance(playerNode) > minDistanceFromPlayer).ToList();
         
         foreach (EnemySpawn enemySpawn in config.Spawns)
         {
@@ -256,8 +257,8 @@ public class MapGenerator : MonoBehaviour
                         MapNode randomNode;
                         if (enemySpawn.SpawnPosition == SpawnPosition.Cave)
                         {
-                            randomNode = nonTowerNodes[UnityEngine.Random.Range(0, nonTowerNodes.Count)];
-                            nonTowerNodes.Remove(randomNode);
+                            randomNode = nonEdgeNodes[UnityEngine.Random.Range(0, nonEdgeNodes.Count)];
+                            nonEdgeNodes.Remove(randomNode);
                         }
                         else
                         {
@@ -265,6 +266,7 @@ public class MapGenerator : MonoBehaviour
                             enemyTowerNodes.Remove(randomNode);
                         }
                         Enemy enemy = Prefabs.Get<Enemy>();
+
                         enemy.transform.SetParent(nodeContainer.viewContainer);
                         enemy.Initialize(enemyConfig, randomNode);
                         enemy.name = enemyConfig.name;

@@ -56,6 +56,7 @@ public class Enemy : MonoBehaviour
             transform.position = (Vector2)node.Position;
         }
         this.config = config;
+        
 
         InvokeRepeating("UpdatePathing", pathingFrequency, pathingFrequency);
         RandomizeTargetPosition();
@@ -67,6 +68,7 @@ public class Enemy : MonoBehaviour
         }
         anim = GetComponent<Animator>();
         rend = GetComponent<SpriteRenderer>();
+        rend.color = config.ColorTint;
 
         weapon.Initialize(config.WeaponConfig);
 

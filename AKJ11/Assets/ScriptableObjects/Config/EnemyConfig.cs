@@ -36,4 +36,7 @@ public class EnemyConfig : ScriptableObject {
 
     [field: SerializeField]
     public float DashMaxDelay { get; private set; }
+
+    [field: SerializeField]
+    public Color ColorTint { get; private set; } = Color.white;
 }

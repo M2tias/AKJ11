@@ -20,6 +20,7 @@ public class EnclosureEdgeFinder
                 if (hasNeighborsNotInRoom)
                 {
                     enclosure.AddEdge(node);
+                    node.IsEdge = true;
                     if (config != null) {
                         foreach(MapNode nNode in neighborsNotInRoom) {
                             //nNode.ShowFloorSprite();
