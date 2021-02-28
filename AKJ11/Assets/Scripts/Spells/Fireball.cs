@@ -317,7 +317,7 @@ public class Fireball : MonoBehaviour
     {
         if (aoe > 0.01f)
         {
-            var scale = aoe * 1.0f;
+            var scale = aoe * 3.0f;
             CreateExplosion(FireExplosion).transform.localScale = new Vector3(scale, scale, scale);
         }
         else

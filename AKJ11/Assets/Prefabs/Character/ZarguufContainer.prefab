@@ -68,9 +68,9 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingLayerID: -988476057
+  m_SortingLayer: 1
+  m_SortingOrder: 15
   m_Sprite: {fileID: 21300000, guid: 57deb3f5d0ecc7d43bf8a470ff7f71c4, type: 3}
   m_Color: {r: 0.08597367, g: 0.7924528, b: 0.51445943, a: 0.6039216}
   m_FlipX: 0
@@ -290,7 +290,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hand: {fileID: 3692018723710643583}
-  speed: 6
+  speed: 4
   walkEffect: {fileID: 7837616383463995678}
 --- !u!50 &3692018722584110370
 Rigidbody2D:
