@@ -16,6 +16,7 @@ MonoBehaviour:
   <AttackRange>k__BackingField: 1
   <AggroRange>k__BackingField: 5
   <HealthConfig>k__BackingField: {fileID: 11400000, guid: 9bd21c7a74992644798750fb5dd9d9a7, type: 2}
+  <ExpGainConfig>k__BackingField: {fileID: 11400000, guid: 1407ae01415c6664db713990d661ff1c, type: 2}
   <WeaponConfig>k__BackingField: {fileID: 11400000, guid: d259077a744e44043a1c677c5882731e, type: 2}
   <AnimatorController>k__BackingField: {fileID: 9100000, guid: 811da30b8dfb75d41a2bb93035d89ed2, type: 2}
   <DashSpeed>k__BackingField: 10

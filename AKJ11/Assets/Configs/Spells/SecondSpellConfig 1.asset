@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f25089337b41214a84f337d57797ef5, type: 3}
+  m_Name: SecondSpellConfig 1
+  m_EditorClassIdentifier: 
+  <VisibleStats>k__BackingField: 000000000100000002000000030000000400000006000000
+  <Damage>k__BackingField: 15
+  <Aoe>k__BackingField: 1
+  <Bounces>k__BackingField: 0
+  <Dot>k__BackingField: 0
+  <DotTickRate>k__BackingField: 0
+  <Piercing>k__BackingField: 0
+  <Cooldown>k__BackingField: 1.5
+  <IsSpellWall>k__BackingField: 0
+  <IsUnlocked>k__BackingField: 0
+  <Speed>k__BackingField: 12
+  <ProjectileSprite>k__BackingField: {fileID: -724823095469007254, guid: f78af5cbae9ac784c8dc3cefea6d0aec, type: 3}

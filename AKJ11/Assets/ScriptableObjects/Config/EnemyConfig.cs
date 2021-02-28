@@ -14,7 +14,10 @@ public class EnemyConfig : ScriptableObject {
     public float AggroRange {get; private set;} = 3.0f;
 
     [field: SerializeField]
-    public HealthScriptableObject HealthConfig {get; private set;}
+    public HealthScriptableObject HealthConfig { get; private set; }
+
+    [field: SerializeField]
+    public EnemyExperienceGainConfig ExpGainConfig { get; private set; }
 
     [field: SerializeField]
     public WeaponConfig WeaponConfig { get; private set; }

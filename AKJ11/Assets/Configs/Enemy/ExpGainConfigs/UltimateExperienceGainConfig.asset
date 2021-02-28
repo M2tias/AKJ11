@@ -9,12 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 43cd35ca9fc16c5429cfec287631718e, type: 3}
-  m_Name: Camera
+  m_Script: {fileID: 11500000, guid: 248da9e118225434283784742d8406b0, type: 3}
+  m_Name: UltimateExperienceGainConfig
   m_EditorClassIdentifier: 
-  FollowX: 1
-  FollowY: 1
-  FollowZ: 0
-  Speed: 2
-  UseLateUpdate: 0
-  UseSmoothDamp: 0
+  experience: 20

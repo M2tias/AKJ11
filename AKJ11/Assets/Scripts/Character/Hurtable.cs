@@ -20,11 +20,15 @@ public class Hurtable : MonoBehaviour
 
     private HealthScriptableObject config;
 
+    private EnemyExperienceGainConfig expGainConfig;
+
     private bool invulnerable = false;
     private List<SpriteRenderer> spriteRenderers;
     private List<Color> origColors;
 
     private float damaged = -100f;
+
+    private Experience playerExperience;
 
     public void Start()
     {
@@ -36,7 +40,13 @@ public class Hurtable : MonoBehaviour
 
     public void Initialize(HealthScriptableObject config)
     {
+        Initialize(config, null);
+    }
+
+    public void Initialize(HealthScriptableObject config, EnemyExperienceGainConfig expGainConfig)
+    {
         this.config = config;
+        this.expGainConfig = expGainConfig;
         if (config != null)
         {
             currentHealth = config.MaxHealth;
@@ -66,6 +76,16 @@ public class Hurtable : MonoBehaviour
 
     public void Hurt(float damage)
     {
+        Hurt(damage, null);
+    }
+
+    public void Hurt(float damage, Experience playerExp)
+    {
+        if(playerExp != null)
+        {
+            playerExperience = playerExp;
+        }
+
         if (!invulnerable)
         {
             currentHealth -= damage;
@@ -74,6 +94,11 @@ public class Hurtable : MonoBehaviour
                 if (deadAction != null)
                 {
                     deadAction.Invoke();
+                }
+
+                if (playerExp != null && expGainConfig != null)
+                {
+                    playerExperience.AddExperience(expGainConfig.GainedExperience);
                 }
             }
             else
