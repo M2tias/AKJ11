@@ -54,6 +54,11 @@ public class Hurtable : MonoBehaviour
         spriteRenderers = new List<SpriteRenderer>(GetComponentsInChildren<SpriteRenderer>());
         spriteRenderers.AddRange(GetComponents<SpriteRenderer>());
         origColors = spriteRenderers.Select(rend => rend.color).ToList();
+        if (gameObject.tag == "Player") {
+            if (UIHealth.main != null) {
+                UIHealth.main.SetHp(config.MaxHealth, healthConfig.MaxHealth);
+            }
+        }
     }
 
     // Update is called once per frame
@@ -117,6 +122,11 @@ public class Hurtable : MonoBehaviour
                     Invoke("DisableInvulnerability", config.InvulnerabilityDuration);
                 }
                 damaged = Time.time;
+            }
+        }
+        if (gameObject.tag == "Player") {
+            if (UIHealth.main != null) {
+                UIHealth.main.SetHp(currentHealth, healthConfig.MaxHealth);
             }
         }
     }

@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: SwordConfig
   m_EditorClassIdentifier: 
   <type>k__BackingField: 1
-  <Damage>k__BackingField: 0
+  <Damage>k__BackingField: 1
   <WeaponSprite>k__BackingField: {fileID: -3578122164199621647, guid: f31d260d30bf9f744887522c7f92569c, type: 3}
   <Projectile>k__BackingField: {fileID: 0}
   <AnimationSound>k__BackingField: 8
