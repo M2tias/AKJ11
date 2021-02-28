@@ -10,15 +10,14 @@ public class CellularAutomataCarver
     private NodeContainer nodeContainer;
     private List<MapNode> nodes = new List<MapNode>();
     private DelayCounter counter = new DelayCounter(25);
-    private CaveConfig config;
     private RectInt area;
     
-
+    private int percentWalls = 45;
+    private int cavernRuns = 3;
     private Dictionary<MapNode, List<MapNode>> memoizedNeighbors = new Dictionary<MapNode, List<MapNode>>();
-    public CellularAutomataCarver(RectInt area, NodeContainer nodeContainer, CaveConfig config)
+    public CellularAutomataCarver(RectInt area, NodeContainer nodeContainer)
     {
         this.nodeContainer = nodeContainer;
-        this.config = config;
         this.area = area;
     }
 
@@ -26,7 +25,7 @@ public class CellularAutomataCarver
     {
         await RandomFillMap();
         int cavernRunCounter = 0;
-        while (cavernRunCounter < config.CavernRuns) {
+        while (cavernRunCounter < cavernRuns) {
             await MakeCaverns();
             cavernRunCounter += 1;
         }
@@ -47,7 +46,7 @@ public class CellularAutomataCarver
             {
                 continue;
             }
-            if (!RandomPercent(config.PercentWalls))
+            if (!RandomPercent(percentWalls))
             {
                 node.MapGen.Carve();
             }

@@ -10,22 +10,26 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2aa5175f86b830144a4a26a232736986, type: 3}
-  m_Name: MapConfig
+  m_Name: LevelTwo
   m_EditorClassIdentifier: 
+  <NumberOfAreas>k__BackingField: 2
   <Size>k__BackingField: 40
-  <PassageRadius>k__BackingField: 2
-  <Padding>k__BackingField: 1
-  <Cave>k__BackingField: {fileID: 11400000, guid: 46857d716fa7d62448ea948dad78cd2a, type: 2}
-  <Tower>k__BackingField: {fileID: 11400000, guid: 909d0d1b7432f6d44a8b815625b77f8b, type: 2}
-  <GroundSprite>k__BackingField: {fileID: 21300000, guid: 88fecbe92255f2f4ab1958410659be00, type: 3}
-  <WallSprite>k__BackingField: {fileID: 21300000, guid: 0d1f438b2a2bf8c40bd9ab05003a4439, type: 3}
+  <PassageRadius>k__BackingField: 1
+  <Padding>k__BackingField: 4
+  <TowerRadius>k__BackingField: 6
   <Spawns>k__BackingField:
   - <SpawnThisManyTimes>k__BackingField: 1
+    <SpawnPosition>k__BackingField: 0
     <Enemies>k__BackingField:
     - {fileID: 11400000, guid: 0c95e92d80b2e46418b93e46e6977a6f, type: 2}
   - <SpawnThisManyTimes>k__BackingField: 1
+    <SpawnPosition>k__BackingField: 0
     <Enemies>k__BackingField:
     - {fileID: 11400000, guid: 9002b0916c41d0345953f2de2f11927f, type: 2}
   - <SpawnThisManyTimes>k__BackingField: 1
+    <SpawnPosition>k__BackingField: 0
     <Enemies>k__BackingField:
     - {fileID: 11400000, guid: 723ced00e9b45814c8c946010d7c8a48, type: 2}
+  <DefaultTileStyle>k__BackingField: {fileID: 11400000, guid: cf4baa86ac433b0439a9d19f1b0c6c57, type: 2}
+  <CaveTileStyle>k__BackingField: {fileID: 11400000, guid: 2ce329bd6d6e9314fbb85e29c232f7b9, type: 2}
+  <TowerTileStyle>k__BackingField: {fileID: 11400000, guid: 0a347b2b938858a40905748d081bee46, type: 2}

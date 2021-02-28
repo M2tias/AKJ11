@@ -66,4 +66,5 @@ public class Movement : MonoBehaviour
         var dir = new Vector2(horizontal, vertical).normalized;
         body.velocity = dir * speed;
     }
+
 }

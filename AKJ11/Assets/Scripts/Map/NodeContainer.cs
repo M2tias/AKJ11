@@ -14,7 +14,7 @@ public class NodeContainer
     private List<MapNode> nodes = new List<MapNode>();
     public List<MapNode> Nodes { get { return nodes; } }
 
-    private Transform viewContainer;
+    public Transform viewContainer;
 
     public static List<Vector2Int> AllDirections = new List<Vector2Int>()
     {
@@ -28,7 +28,15 @@ public class NodeContainer
         new Vector2Int(-1,  0), // west
     };
 
-    public NodeContainer(int x, int y, int width, int height)
+    public static List<Vector2Int> OrthogonalDirections = new List<Vector2Int>()
+    {
+        new Vector2Int( 0,  1), // north
+        new Vector2Int( 1,  0), // east
+        new Vector2Int( 0, -1), // south
+        new Vector2Int(-1,  0)  // west
+    };
+
+    public NodeContainer(int x, int y, int width, int height, MapConfig config, TileStyle style)
     {
         viewContainer = Prefabs.Get<Transform>();
         viewContainer.name = $"X: {x} Y: {y} (w: {width} h: {height})";
@@ -38,9 +46,15 @@ public class NodeContainer
         {
             for (int columns = 0; columns < height; columns += 1)
             {
-                nodes.Add(new MapNode(columns, rows, this, viewContainer));
+                MapNode node = new MapNode(columns, rows, this, viewContainer, config);
+                node.SetStyle(style);
+                nodes.Add(node);
             }
         }
+    }
+
+    public void Kill() {
+        GameObject.Destroy(viewContainer.gameObject);
     }
 
     public NodeContainer(Vector2Int position, Vector2Int size)
@@ -72,6 +86,15 @@ public class NodeContainer
         return null;
     }
 
+    public List<MapNode> FindOrthogonalNeighbors(MapNode node)
+    {
+        if (node.OrthogonalNeighbors == null)
+        {
+            node.OrthogonalNeighbors = FindNeighbors(node, OrthogonalDirections);
+        }
+        return node.OrthogonalNeighbors;
+    }
+
     public List<MapNode> FindAllNeighbors(MapNode node)
     {
         if (node.Neighbors == null)
@@ -99,6 +122,17 @@ public class NodeContainer
     {
         return (globalX >= X && globalX < (X + Width)) && (globalY >= Y && globalY < (Y + Height));
     }
+
+    public static List<bool> emptyNeighbors = new List<bool>(){
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false
+    };
 
     public MapNode GetLocalNode(int x, int y)
     {
@@ -136,6 +170,19 @@ public class NodeContainer
         {
             node.Render();
         }
+    }
+
+    public List<bool> GetNeighborVisibility(int x, int y) {
+        List<bool> neighbors = new List<bool>();
+        MapNode node = GetNode(x, y);
+        if (node != null) {
+            foreach(MapNode bNode in FindAllNeighbors(node)) {
+                neighbors.Add(bNode != null ? bNode.IsWall : bNode == null);
+            }
+        } else {
+            return emptyNeighbors;
+        }
+        return neighbors;
     }
 
     public void CreateMesh(Transform meshContainer) {

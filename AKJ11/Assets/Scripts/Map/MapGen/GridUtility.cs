@@ -31,22 +31,28 @@ public class GridUtility
         return nodes;
     }
 
-    public static async UniTask DrawSquare(MapNode startNode, int radius, NodeContainer nodeContainer) {
+    public static async UniTask<List<MapNode>> DrawSquare(MapNode startNode, int radius, NodeContainer nodeContainer) {
         DelayCounter delayCounter = new DelayCounter(5);
         if (startNode == null) {
-            return;
+            return null;
         }
+        List<MapNode> nodes = new List<MapNode>();
+        nodes.Add(startNode);
         for (int x = -radius; x <= radius; x += 1) {
             for (int y = -radius; y <= radius; y+= 1) {
                 await Configs.main.Debug.DelayIfCounterFinished(delayCounter);
                 int xPos = startNode.WorldX + x;
                 int yPos = startNode.WorldY + y;
                 MapNode node = nodeContainer.GetNode(xPos, yPos);
-                if (node != null && node.IsWall) {
-                    node.MapGen.Carve();
+                if (node != null) {
+                    nodes.Add(node);
+                    if (node.IsWall) {
+                        node.MapGen.Carve();
+                    }
                 }
             }
         }
+        return nodes;
     }
 
     public static List<MapNode> GetLine(MapNode start, MapNode target, NodeContainer nodeContainer)

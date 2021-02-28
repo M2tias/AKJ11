@@ -21,7 +21,6 @@ public class EnclosureFinder
         while (nodes.Count > 0) {
             MapNode node = nodes.First();
             nodes.RemoveAt(0);
-            node.SetColor(Color.magenta);
 
             CaveEnclosure enclosure = new CaveEnclosure(node);
             enclosures.Add(enclosure);
@@ -79,7 +78,6 @@ public class EnclosureFinder
         {
             enclosure.AddNode(node);
 
-            node.SetColor(Color.green);
             if (nodes.Contains(node))
             {
                 nodes.Remove(node);

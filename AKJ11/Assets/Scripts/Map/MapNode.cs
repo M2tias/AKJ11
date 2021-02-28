@@ -21,18 +21,31 @@ public class MapNode
     public MapGenerationData MapGen { get; }
     private MapNodeView view;
 
-    public List<MapNode> Neighbors {get; set;}
+    public List<MapNode> Neighbors { get; set; }
+    public List<MapNode> OrthogonalNeighbors { get; set; }
 
-    public MapNode(int x, int y, NodeContainer container, Transform viewContainer)
+    public bool IsCave { get; set; } = false;
+    public bool IsTower { get; set; } = false;
+
+    public MapNode(int x, int y, NodeContainer container, Transform viewContainer, MapConfig config)
     {
         Rect = new RectInt(new Vector2Int(x, y), Vector2Int.one);
         MapGen = new MapGenerationData(this);
         this.container = container;
         view = Prefabs.Get<MapNodeView>();
-        view.Initialize(this, viewContainer);
+        view.Initialize(this, viewContainer, config);
     }
 
-    public bool IsInside(RectInt biggerRect) {
+    public void ShowFloorSprite() {
+        view.ShowFloorSprite();
+    }
+
+    public void SetStyle(TileStyle style) {
+        view.SetStyle(style);
+    }
+
+    public bool IsInside(RectInt biggerRect)
+    {
         return biggerRect.Overlaps(Rect);
     }
 
@@ -41,18 +54,21 @@ public class MapNode
         view.Render();
     }
 
-    public void SetColor(Color color) {
-        view.SetColorAndRender(color);
+
+    public void SetSpriteConfig(int spriteConfig)
+    {
+        view.SetSpriteConfig(spriteConfig);
     }
 
-    public float Distance(MapNode other) {
+    public float Distance(MapNode other)
+    {
         return Vector2Int.Distance(Position, other.Position);
     }
 }
 
-
 public class MapGenerationData
 {
+
     public bool Visited { get; set; }
     private MapNode node;
     public bool AllNeighborsAreWalls { get; set; } = false;

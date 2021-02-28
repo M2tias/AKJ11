@@ -12,9 +12,11 @@ public class EnclosureConnector
     private Color connectionColor = new Color(0.7f, 0, 0, 0.2f);
     private Color lineColor = new Color(0, 0.25f, 0.5f, 0.2f);
     private DelayCounter counter;
+    private MapConfig config;
 
-    public EnclosureConnector(NodeContainer nodeContainer) {
+    public EnclosureConnector(NodeContainer nodeContainer, MapConfig config) {
         this.nodeContainer = nodeContainer; 
+        this.config = config;
     }
 
     public async UniTask Connect(List<CaveEnclosure> enclosures)
@@ -60,10 +62,9 @@ public class EnclosureConnector
 
     private async UniTask CarvePassage(MapNodeConnection connection) {
         if (connection != null) {
-            List<MapNode> line = GridUtility.GetLine(connection.NodeA, connection.NodeB, nodeContainer);       
+            List<MapNode> line = GridUtility.GetLine(connection.NodeA, connection.NodeB, nodeContainer);
             foreach(MapNode node in line) {
-                node.SetColor(Color.green);
-                await GridUtility.DrawSquare(node, Configs.main.Map.PassageRadius, nodeContainer);
+                List<MapNode> nodes = await GridUtility.DrawSquare(node, config.PassageRadius, nodeContainer);
                 await Configs.main.Debug.DelayIfCounterFinished(counter);
             }
         }
