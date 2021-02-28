@@ -58,7 +58,6 @@ public class MapGenerator : MonoBehaviour
             nextLevelTrigger.Enable();
         }
     }
-
     public async UniTask NextLevel()
     {
         await NewMap();
@@ -82,7 +81,7 @@ public class MapGenerator : MonoBehaviour
             nodeContainer.Kill();
         }
         nodeContainer = new NodeContainer(0, 0, config.Size, config.Size, config, config.CaveTileStyle);
-        baseLayer = new NodeContainer(0, 0, config.Size, config.Size, config, config.DefaultTileStyle);
+        baseLayer = new NodeContainer(0, 0, config.Size, config.Size, config, config.DefaultTileStyle, false);
         baseLayer.Render();
         baseLayer.viewContainer.SetParent(nodeContainer.viewContainer);
         if (Configs.main.Debug.DelayGeneration)
@@ -99,18 +98,22 @@ public class MapGenerator : MonoBehaviour
         await GenerateCaves();
         caves = await EnclosureFinder.Find(nodeContainer);
 
-        int attempts = 5;
-        if (caves.Count < config.NumberOfAreas && attempts > 0)
+        int attempts = 20;
+        while (caves.Count < config.NumberOfAreas && attempts > 0)
         {
             nodeContainer.Kill();
             nodeContainer = new NodeContainer(0, 0, config.Size, config.Size, config, config.CaveTileStyle);
             baseLayer.viewContainer.SetParent(nodeContainer.viewContainer);
             await GenerateCaves();
+            caves = await EnclosureFinder.Find(nodeContainer);
             attempts -= 1;
+            if (caves.Count < config.NumberOfAreas) {
+                Debug.Log($"{caves.Count} < {config.NumberOfAreas}, trying {attempts} more times...");
+            }
         }
-        if (attempts == -1)
+        if (attempts < 1)
         {
-            Debug.Log("Config sucks!");
+            Debug.Log("Config sucks! Just couldn't create enough caves.");
         }
         if (Configs.main.Debug.DelayGeneration)
         {
@@ -208,9 +211,8 @@ public class MapGenerator : MonoBehaviour
     }
 
     private void SpawnEnemies(MapNode playerNode, List<MapNode> nonTowerNodes) {
-        float minDistanceFromPlayer = 3f;
-        
-        
+        float minDistanceFromPlayer = 2f;
+
         List<MapNode> enemyTowerNodes = towerNodes.Where(node => node.Distance(playerNode) > minDistanceFromPlayer).ToList();
         
         foreach (EnemySpawn enemySpawn in config.Spawns)

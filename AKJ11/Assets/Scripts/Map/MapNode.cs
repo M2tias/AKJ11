@@ -27,18 +27,15 @@ public class MapNode
     public bool IsCave { get; set; } = false;
     public bool IsTower { get; set; } = false;
 
-    public MapNode(int x, int y, NodeContainer container, Transform viewContainer, MapConfig config)
+    public MapNode(int x, int y, NodeContainer container, Transform viewContainer, MapConfig config, bool enableCollision)
     {
         Rect = new RectInt(new Vector2Int(x, y), Vector2Int.one);
         MapGen = new MapGenerationData(this);
         this.container = container;
         view = Prefabs.Get<MapNodeView>();
-        view.Initialize(this, viewContainer, config);
+        view.Initialize(this, viewContainer, config, enableCollision);
     }
 
-    public void ShowFloorSprite() {
-        view.ShowFloorSprite();
-    }
 
     public void SetStyle(TileStyle style) {
         view.SetStyle(style);

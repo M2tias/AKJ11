@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(SpriteRenderer))]
@@ -9,8 +10,7 @@ public class MapNodeView : MonoBehaviour
     private SpriteRenderer spriteRenderer;
 
     private int spriteConfig = -1;
-    [SerializeField]
-    private SpriteRenderer groundSprite;
+
     private Color originalColor;
     private Sprite originalSprite;
 
@@ -18,8 +18,27 @@ public class MapNodeView : MonoBehaviour
 
     private TileStyle style;
 
-    public void Initialize(MapNode mapNode, Transform container, MapConfig config)
+    private bool enableCollision = false;
+
+    [SerializeField]
+    PolygonCollider2D polygonCollider2D;
+
+    private void UpdateCollider() {
+        List<Vector2> points = new List<Vector2>();
+        List<Vector2> simplifiedPoints = new List<Vector2>();
+        float tolerance = 0.05f;
+        polygonCollider2D.pathCount = spriteRenderer.sprite.GetPhysicsShapeCount();
+        for(int i = 0; i < polygonCollider2D.pathCount; i++)
+        {
+            spriteRenderer.sprite.GetPhysicsShape(i, points);
+            LineUtility.Simplify(points, tolerance, simplifiedPoints);
+            polygonCollider2D.SetPath(i, simplifiedPoints);
+        }
+    }
+
+    public void Initialize(MapNode mapNode, Transform container, MapConfig config, bool enableCollision)
     {
+        this.enableCollision = enableCollision;
         this.mapNode = mapNode;
         transform.SetParent(container);
         transform.position = (Vector2)mapNode.Position;
@@ -27,55 +46,63 @@ public class MapNodeView : MonoBehaviour
         spriteRenderer = GetComponent<SpriteRenderer>();
         originalColor = spriteRenderer.color;
         originalSprite = spriteRenderer.sprite;
-        //wallSprite = config.WallSprite;
-        groundSprite.enabled = false;
         this.config = config;
     }
     public void Render()
     {
-        spriteRenderer.sprite = GetSprite();
+        Sprite sprite = GetSprite();
+        Sprite oldSprite = spriteRenderer.sprite;
+        spriteRenderer.sprite = sprite;
+        if (sprite != oldSprite && enableCollision)
+        {
+            UpdateCollider();
+        }
+
+        if (enableCollision) {
+            polygonCollider2D.enabled = mapNode.IsWall;
+        }
+
         spriteRenderer.color = GetColor();
         spriteRenderer.sortingOrder = GetOrder();
     }
 
-    private int GetOrder() {
+    private int GetOrder()
+    {
         return GetStyle().LayerOrder;
     }
 
-    private TileStyle GetStyle () {
-        //return mapNode.IsCave ? config.CaveTileStyle : (mapNode.IsTower ? config.TowerTileStyle : config.DefaultTileStyle);
+    private TileStyle GetStyle()
+    {
         return style;
     }
 
-    private Color GetColor() {
+    private Color GetColor()
+    {
         TileStyle style = GetStyle();
         return mapNode.IsWall ? style.ColorTint : style.GroundTint;
     }
 
-    private Sprite GetSprite() {
-        
+    private Sprite GetSprite()
+    {
+
         TileStyle style = GetStyle();
-        if (!mapNode.IsWall) {
+        if (!mapNode.IsWall)
+        {
             return style.GroundSprite;
         }
-        if (spriteConfig >= 0) {
+        if (spriteConfig >= 0)
+        {
             return config.GetSprite(spriteConfig, style);
         }
         return style.GroundSprite;
     }
-
-    public void ShowFloorSprite() {
-        groundSprite.enabled = true;
-        TileStyle style = GetStyle();
-        groundSprite.sprite = style.GroundSprite;
-        groundSprite.color = style.GroundTint;
-
-    }
-    public void SetStyle(TileStyle style) {
+    public void SetStyle(TileStyle style)
+    {
         this.style = style;
     }
 
-    public void SetSpriteConfig(int spriteConfig){
+    public void SetSpriteConfig(int spriteConfig)
+    {
         this.spriteConfig = spriteConfig;
     }
 

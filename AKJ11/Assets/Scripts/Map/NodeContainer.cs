@@ -36,7 +36,7 @@ public class NodeContainer
         new Vector2Int(-1,  0)  // west
     };
 
-    public NodeContainer(int x, int y, int width, int height, MapConfig config, TileStyle style)
+    public NodeContainer(int x, int y, int width, int height, MapConfig config, TileStyle style, bool enableColliders = true)
     {
         viewContainer = Prefabs.Get<Transform>();
         viewContainer.name = $"X: {x} Y: {y} (w: {width} h: {height})";
@@ -46,7 +46,7 @@ public class NodeContainer
         {
             for (int columns = 0; columns < height; columns += 1)
             {
-                MapNode node = new MapNode(columns, rows, this, viewContainer, config);
+                MapNode node = new MapNode(columns, rows, this, viewContainer, config, enableColliders);
                 node.SetStyle(style);
                 nodes.Add(node);
             }
