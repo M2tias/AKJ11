@@ -135,6 +135,15 @@ public class Enemy : MonoBehaviour
 
         if (state == State.IDLE)
         {
+            if (damaged)
+            {
+                state = State.ATTACK;
+                if (config.DashSpeed > 0.0f)
+                {
+                    Invoke("Dash", Random.Range(config.DashMinDelay, config.DashMaxDelay));
+                }
+            }
+
             if (Vector2.Distance(transform.position, target.position) < config.AggroRange)
             {
                 var hit = Physics2D.Raycast(transform.position, targetDir, 100, aggroLayerMask);
@@ -149,6 +158,13 @@ public class Enemy : MonoBehaviour
                 }
             }
         }
+    }
+
+    private bool damaged = false;
+
+    public void Damaged()
+    {
+        damaged = true;
     }
 
     private void idleRoutine()
