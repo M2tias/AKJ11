@@ -35,6 +35,7 @@ public class Projectile : MonoBehaviour
 
     public void Launch(Vector2 target, float damage)
     {
+        this.damage = damage;
         dir = target - (Vector2)transform.position;
         Invoke("Kill", maxTimeToLive);
     }
