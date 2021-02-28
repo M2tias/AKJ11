@@ -229,7 +229,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 10
   maxTimeToLive: 10
-  DestroyEffect: {fileID: 4288391230518767954, guid: c532948e60fe6f74ea5021ceca847b96, type: 3}
+  DestroyEffect: {fileID: 4288391230518767954, guid: 4a36941a544199b4fa622be04dd788e1, type: 3}
 --- !u!50 &-120900399042627185
 Rigidbody2D:
   serializedVersion: 4
