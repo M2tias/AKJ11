@@ -12,42 +12,43 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3f25089337b41214a84f337d57797ef5, type: 3}
   m_Name: SecondSpellConfig 1
   m_EditorClassIdentifier: 
+  <Name>k__BackingField: Fireball
   <VisibleStats>k__BackingField: 000000000100000002000000030000000400000006000000
   <Damage>k__BackingField: 0a0000000f000000160000001e0000002800000034000000430000005100000064000000
   <Aoe>k__BackingField:
-  - 0
-  - 0
-  - 0
-  - 0
-  - 0
-  - 0
-  - 0
-  - 0
-  - 0
+  - 1
+  - 2
+  - 3
+  - 4
+  - 5
+  - 6
+  - 7
+  - 8
+  - 9
   <Bounces>k__BackingField: 000000000000000000000000000000000000000000000000000000000000000000000000
   <Dot>k__BackingField: 000000000000000000000000000000000000000000000000000000000000000000000000
   <DotTickDamage>k__BackingField: 000000000000000000000000000000000000000000000000000000000000000000000000
   <Piercing>k__BackingField: 000000000000000000000000000000000000000000000000000000000000000000000000
   <Cooldown>k__BackingField:
-  - 0
-  - 0
-  - 0
-  - 0
-  - 0
-  - 0
-  - 0
-  - 0
-  - 0
+  - 10
+  - 9.5
+  - 9
+  - 8.5
+  - 8
+  - 7.5
+  - 7
+  - 6.5
+  - 6
   <IsSpellWall>k__BackingField: 0
   <IsUnlocked>k__BackingField: 0
   <Speed>k__BackingField:
-  - 0
-  - 0
-  - 0
-  - 0
-  - 0
-  - 0
-  - 0
-  - 0
-  - 0
+  - 5
+  - 5
+  - 5
+  - 5
+  - 5
+  - 5
+  - 5
+  - 5
+  - 5
   <ProjectileSprite>k__BackingField: {fileID: -724823095469007254, guid: f78af5cbae9ac784c8dc3cefea6d0aec, type: 3}

@@ -234,7 +234,7 @@ public class MapGenerator : MonoBehaviour
                         }
                         else
                         {
-                            randomNode = enemyTowerNodes[UnityEngine.Random.Range(0, nonTowerNodes.Count)];
+                            randomNode = enemyTowerNodes[UnityEngine.Random.Range(0, enemyTowerNodes.Count)];
                             enemyTowerNodes.Remove(randomNode);
                         }
                         Enemy enemy = Prefabs.Get<Enemy>();

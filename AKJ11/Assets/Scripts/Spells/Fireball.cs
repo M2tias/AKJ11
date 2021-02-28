@@ -37,6 +37,7 @@ public class Fireball : MonoBehaviour
     [SerializeField]
     private SpellBaseConfig config;
 
+    public ParticleSystem ArcaneEffect;
     public ParticleSystem FireEffect;
     public ParticleSystem PoisonEffect;
     public ParticleSystem LightningEffect;
@@ -44,6 +45,7 @@ public class Fireball : MonoBehaviour
     public ParticleSystem FireExplosion;
     public ParticleSystem PoisonExplosion;
     public ParticleSystem LightningExplosion;
+    public ParticleSystem ArcaneExplosion;
 
     bool killed = false;
 
@@ -71,19 +73,6 @@ public class Fireball : MonoBehaviour
         dotTickDamage = config.DotTickDamage[0];
         speed = config.Speed[0];
         projectileSprite = config.ProjectileSprite;
-
-        for (var i = 0; i < config.Aoe[0]; i++)
-        {
-            Instantiate(FireEffect, transform);
-        }
-        for (var i = 0; i < config.Bounces[0]; i++)
-        {
-            Instantiate(LightningEffect, transform);
-        }
-        for (var i = 0; i < config.Dot[0]; i++)
-        {
-            Instantiate(PoisonEffect, transform);
-        }
     }
 
     // Start is called before the first frame update
@@ -94,7 +83,6 @@ public class Fireball : MonoBehaviour
         collider = GetComponent<Collider2D>();
         renderer.sprite = projectileSprite;
         started = Time.time;
-        trailEffects = new List<ParticleSystem>(GetComponentsInChildren<ParticleSystem>());
 
         aoe = config.Aoe[spellRuntime.AoeLevel];
         bounces = config.Bounces[spellRuntime.BouncesLevel];
@@ -104,18 +92,29 @@ public class Fireball : MonoBehaviour
         speed = config.Speed[spellRuntime.SpeedLevel];
         projectileSprite = config.ProjectileSprite;
 
-        for (var i = 0; i < config.Aoe[spellRuntime.AoeLevel]; i++)
+        if (aoe > 0.01f)
         {
-            Instantiate(FireEffect, transform);
+            for (var i = 0; i < aoe; i++)
+            {
+                Instantiate(FireEffect, transform);
+            }
         }
-        for (var i = 0; i < config.Bounces[spellRuntime.BouncesLevel]; i++)
+        else
+        {
+            for (var i = 0; i < damage; i = i + 3)
+            {
+                Instantiate(ArcaneEffect, transform);
+            }
+        }
+        for (var i = 0; i < bounces; i++)
         {
             Instantiate(LightningEffect, transform);
         }
-        for (var i = 0; i < config.Dot[spellRuntime.DotLevel]; i++)
+        for (var i = 0; i < dotDuration; i++)
         {
             Instantiate(PoisonEffect, transform);
         }
+        trailEffects = new List<ParticleSystem>(GetComponentsInChildren<ParticleSystem>());
     }
 
     // Update is called once per frame
@@ -251,14 +250,22 @@ public class Fireball : MonoBehaviour
 
     private void CreateExplosion()
     {
-        if (config.Aoe[PlayerLevel] > 0)
+        if (aoe > 0.01f)
         {
-            var t = (float)config.Aoe[PlayerLevel] / config.Aoe.Count;
-            var scale = Mathf.Lerp(1.0f, 5.0f, t);
-            var expl = Instantiate(FireExplosion);
-            expl.transform.position = transform.position;
-            expl.transform.localScale = new Vector3(scale, scale, scale);
+            var scale = aoe * 1.0f;
+            CreateExplosion(FireExplosion).transform.localScale = new Vector3(scale, scale, scale);
         }
+        else
+        {
+            CreateExplosion(ArcaneExplosion);
+        }
+    }
+
+    private ParticleSystem CreateExplosion(ParticleSystem prefab)
+    {
+        var expl = Instantiate(prefab);
+        expl.transform.position = transform.position;
+        return expl;
     }
 
     public int PlayerLevel

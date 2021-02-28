@@ -12,10 +12,10 @@ GameObject:
   - component: {fileID: 4771984357536060286}
   - component: {fileID: 4771984357536060280}
   - component: {fileID: 4771984357536060281}
-  - component: {fileID: 4818810995718539552}
   - component: {fileID: 1627361297925919872}
   - component: {fileID: 884308378704808928}
   - component: {fileID: 3498388131048363626}
+  - component: {fileID: 5486746635750412193}
   m_Layer: 8
   m_Name: enemy
   m_TagString: Enemy
@@ -75,8 +75,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: 1847927925
+  m_SortingLayer: 2
   m_SortingOrder: 1
   m_Sprite: {fileID: -1698060050072784869, guid: f31d260d30bf9f744887522c7f92569c, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -123,22 +123,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
---- !u!58 &4818810995718539552
-CircleCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4771984357536060285}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: -0.20855951}
-  serializedVersion: 2
-  m_Radius: 0.2914405
 --- !u!114 &1627361297925919872
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -166,6 +150,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  healthConfig: {fileID: 0}
 --- !u!95 &884308378704808928
 Animator:
   serializedVersion: 3
@@ -198,6 +183,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DieEffect: {fileID: 3278087715595904508, guid: 3a60bdc359cb9df44bbe41fcb42e8efa, type: 3}
+--- !u!70 &5486746635750412193
+CapsuleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4771984357536060285}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: -0.015462756, y: 0}
+  m_Size: {x: 0.4071424, y: 1}
+  m_Direction: 0
 --- !u!1001 &5085877735804157522
 PrefabInstance:
   m_ObjectHideFlags: 0
