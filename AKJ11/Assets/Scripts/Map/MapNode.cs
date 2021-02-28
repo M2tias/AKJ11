@@ -27,6 +27,8 @@ public class MapNode
     public bool IsCave { get; set; } = false;
     public bool IsTower { get; set; } = false;
 
+    public bool IsEdge {get; set;} = false;
+
     public MapNode(int x, int y, NodeContainer container, Transform viewContainer, MapConfig config, bool enableCollision)
     {
         Rect = new RectInt(new Vector2Int(x, y), Vector2Int.one);

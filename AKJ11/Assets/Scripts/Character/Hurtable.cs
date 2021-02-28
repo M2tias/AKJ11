@@ -35,6 +35,7 @@ public class Hurtable : MonoBehaviour
     public Color DotTint;
 
     private bool dotting = false;
+    private bool initialized = false;
 
     public void Start()
     {
@@ -67,11 +68,15 @@ public class Hurtable : MonoBehaviour
         }
 
         enemy = GetComponent<Enemy>();
+        initialized = true;
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (!initialized) {
+            return;
+        }
         if (dotDamage > 0 && Time.time - dotStarted > dotDuration)
         {
             dotDamage = 0;
