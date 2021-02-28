@@ -4,6 +4,13 @@ using UnityEngine;
 
 public class UIOpenSpellbook : MonoBehaviour
 {
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.I) || Input.GetKeyDown(KeyCode.Tab))
+        {
+            Toggle();
+        }
+    }
 
     [SerializeField]
     private GameObject spellBook;
