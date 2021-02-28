@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <Name>k__BackingField: Wall
   <VisibleStats>k__BackingField: 06000000
-  <Damage>k__BackingField: 0f0000001900000028000000370000000000000000000000000000000000000000000000
+  <Damage>k__BackingField: 000000000000000000000000000000000000000000000000000000000000000000000000
   <Aoe>k__BackingField:
   - 0
   - 0
@@ -30,15 +30,15 @@ MonoBehaviour:
   <DotTickDamage>k__BackingField: 000000000000000000000000000000000000000000000000000000000000000000000000
   <Piercing>k__BackingField: 000000000000000000000000000000000000000000000000000000000000000000000000
   <Cooldown>k__BackingField:
-  - 0
-  - 0
-  - 0
-  - 0
-  - 0
-  - 0
-  - 0
-  - 0
-  - 0
+  - 10
+  - 5
+  - 8
+  - 8
+  - 7
+  - 7
+  - 6
+  - 5
+  - 4
   <IsSpellWall>k__BackingField: 1
   <IsUnlocked>k__BackingField: 0
   <Speed>k__BackingField:

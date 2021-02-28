@@ -46,5 +46,7 @@ MonoBehaviour:
   expConfig: {fileID: 11400000, guid: 08cc899f02787334786c24b372ae220b, type: 2}
   spell1Runtime: {fileID: 11400000, guid: f5491ca3a225d3b469f98d789f9aa473, type: 2}
   spell2Runtime: {fileID: 11400000, guid: bd5d5e3a6ca53de42bd51bd740965a77, type: 2}
+  spellWallRuntime: {fileID: 11400000, guid: 251ae9733dd62b646a82eb9702f14924, type: 2}
   spell1Config: {fileID: 11400000, guid: d7f095bca0d1113458b7b399da294c1b, type: 2}
   spell2Config: {fileID: 11400000, guid: d294caca2e2f4fc44ac554e77b55c068, type: 2}
+  spellWallConfig: {fileID: 11400000, guid: 8ddb7a17a51378b42bc143d693af7460, type: 2}
