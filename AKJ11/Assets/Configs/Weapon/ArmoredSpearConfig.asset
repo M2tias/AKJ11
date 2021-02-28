@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7d2352e7ab66a774497b43b2af16183b, type: 3}
-  m_Name: BowConfig
+  m_Name: ArmoredSpearConfig
   m_EditorClassIdentifier: 
-  <type>k__BackingField: 2
-  <Damage>k__BackingField: 3
-  <WeaponSprite>k__BackingField: {fileID: 7616860344490151036, guid: f31d260d30bf9f744887522c7f92569c, type: 3}
-  <Projectile>k__BackingField: {fileID: 3007696041719162947, guid: 3f6a6e091fc202745922f3769b3e4f6f, type: 3}
-  <AnimationSound>k__BackingField: 0
-  <ProjectileSound>k__BackingField: 7
+  <type>k__BackingField: 0
+  <Damage>k__BackingField: 10
+  <WeaponSprite>k__BackingField: {fileID: -4233617517018668117, guid: f31d260d30bf9f744887522c7f92569c, type: 3}
+  <Projectile>k__BackingField: {fileID: 0}
+  <AnimationSound>k__BackingField: 8
+  <ProjectileSound>k__BackingField: 0

@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2aa5175f86b830144a4a26a232736986, type: 3}
-  m_Name: Level2b
+  m_Name: A_Level2
   m_EditorClassIdentifier: 
   <NumberOfAreas>k__BackingField: 1
   <Size>k__BackingField: 30
@@ -26,10 +26,6 @@ MonoBehaviour:
     <SpawnPosition>k__BackingField: 0
     <Enemies>k__BackingField:
     - {fileID: 11400000, guid: 0c95e92d80b2e46418b93e46e6977a6f, type: 2}
-  - <SpawnThisManyTimes>k__BackingField: 2
-    <SpawnPosition>k__BackingField: 0
-    <Enemies>k__BackingField:
-    - {fileID: 11400000, guid: 723ced00e9b45814c8c946010d7c8a48, type: 2}
   - <SpawnThisManyTimes>k__BackingField: 2
     <SpawnPosition>k__BackingField: 0
     <Enemies>k__BackingField:

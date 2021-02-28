@@ -10,17 +10,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d1c07e48319c3524d9890dc08d0369d4, type: 3}
-  m_Name: BowUltimate
+  m_Name: EndBossRanger
   m_EditorClassIdentifier: 
-  <MoveSpeed>k__BackingField: 3
-  <AttackRange>k__BackingField: 4
-  <AggroRange>k__BackingField: 5
-  <HealthConfig>k__BackingField: {fileID: 11400000, guid: 029c95359256df742a7b44b24695e046, type: 2}
-  <ExpGainConfig>k__BackingField: {fileID: 11400000, guid: 18c12fe586e426044be99d186dc29f0e, type: 2}
-  <WeaponConfig>k__BackingField: {fileID: 11400000, guid: 3f27fdc3a25cbd44aa1b49e6e299a9b4, type: 2}
+  <MoveSpeed>k__BackingField: 5
+  <AttackRange>k__BackingField: 6
+  <AggroRange>k__BackingField: 7
+  <HealthConfig>k__BackingField: {fileID: 11400000, guid: ad0ae262ff6c5684c8c61f08f77f5223, type: 2}
+  <ExpGainConfig>k__BackingField: {fileID: 11400000, guid: 31382ce43271c4241bf1c50171ddf1b0, type: 2}
+  <WeaponConfig>k__BackingField: {fileID: 11400000, guid: a5cd78c36de323f409fcb756e4c69692, type: 2}
   <AnimatorController>k__BackingField: {fileID: 9100000, guid: 811da30b8dfb75d41a2bb93035d89ed2, type: 2}
   <DashSpeed>k__BackingField: 0
   <DashDistance>k__BackingField: 0
   <DashMinDelay>k__BackingField: 0
   <DashMaxDelay>k__BackingField: 0
-  <ColorTint>k__BackingField: {r: 1, g: 1, b: 1, a: 1}
+  <ColorTint>k__BackingField: {r: 0.9671655, g: 0.18396229, b: 1, a: 1}
