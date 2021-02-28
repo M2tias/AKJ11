@@ -40,6 +40,24 @@ TagManager:
   - 
   - 
   m_SortingLayers:
+  - name: Background
+    uniqueID: 3011997635
+    locked: 0
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Ground
+    uniqueID: 3306491239
+    locked: 0
+  - name: Characters
+    uniqueID: 1847927925
+    locked: 0
+  - name: Projectiles
+    uniqueID: 3213551017
+    locked: 0
+  - name: Effects
+    uniqueID: 1684795045
+    locked: 0
+  - name: Foreground
+    uniqueID: 115568073
     locked: 0

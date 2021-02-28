@@ -47,9 +47,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DebugAttack: 0
-  damage: 0
-  type: 1
-  projectile: {fileID: 0}
   projectileRoot: {fileID: 9174864135301724967}
 --- !u!95 &337159363644778889
 Animator:
@@ -192,9 +189,9 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 3
+  m_SortingLayerID: 1847927925
+  m_SortingLayer: 2
+  m_SortingOrder: 2
   m_Sprite: {fileID: -3578122164199621647, guid: f31d260d30bf9f744887522c7f92569c, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
