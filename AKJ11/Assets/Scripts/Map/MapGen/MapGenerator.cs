@@ -46,6 +46,7 @@ public class MapGenerator : MonoBehaviour
         #if UNITY_EDITOR 
             currentLevel = DebugCurrentLevel;
         #endif
+        Time.timeScale = 1f;
         NextLevel();
 
     }
