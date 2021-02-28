@@ -15,7 +15,12 @@ MonoBehaviour:
   <MoveSpeed>k__BackingField: 1.3
   <AttackRange>k__BackingField: 1
   <AggroRange>k__BackingField: 5
-  <HealthConfig>k__BackingField: {fileID: 11400000, guid: 9bd21c7a74992644798750fb5dd9d9a7, type: 2}
+  <HealthConfig>k__BackingField: {fileID: 11400000, guid: 39b84e8ea7687d34b9cd2b730cfa4ee1, type: 2}
   <ExpGainConfig>k__BackingField: {fileID: 11400000, guid: 58a255521efbf8048ad69b120fe28961, type: 2}
   <WeaponConfig>k__BackingField: {fileID: 11400000, guid: d259077a744e44043a1c677c5882731e, type: 2}
   <AnimatorController>k__BackingField: {fileID: 9100000, guid: a2c7733aff6c088469e8260b18e8d636, type: 2}
+  <DashSpeed>k__BackingField: 0
+  <DashDistance>k__BackingField: 0
+  <DashMinDelay>k__BackingField: 0
+  <DashMaxDelay>k__BackingField: 0
+  <ColorTint>k__BackingField: {r: 1, g: 1, b: 1, a: 1}

@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 32a7ce4e8effb8a4387bd7a2d9985902, type: 3}
-  m_Name: BowHealthConfig
+  m_Name: UltimateSwordHealthConfig
   m_EditorClassIdentifier: 
-  health: 15
+  health: 250
   <InvulnerabilityDuration>k__BackingField: 0
   <DamageTint>k__BackingField: {r: 1, g: 0, b: 0, a: 1}
   <DamageTintDuration>k__BackingField: 0.5
