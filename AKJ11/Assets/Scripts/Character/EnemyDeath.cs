@@ -9,7 +9,7 @@ public class EnemyDeath : MonoBehaviour
 
     public void Death()
     {
-        Instantiate(DieEffect).transform.position = transform.position;
+        Instantiate(DieEffect, MapGenerator.main.GetContainer()).transform.position = transform.position;
         Destroy(gameObject);
     }
 }
