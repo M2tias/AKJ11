@@ -171,6 +171,9 @@ public class MapGenerator : MonoBehaviour
     }
 
 
+    public Transform GetContainer() {
+        return nodeContainer.viewContainer;
+    }
 
     private void Populate()
     {
