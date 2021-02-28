@@ -13,7 +13,7 @@ public class Fireball : MonoBehaviour
     [SerializeField]
     private float aoe;
     [SerializeField]
-    private float bounces;
+    private int bounces;
     // [SerializeField]
     private float bounceDistance = 5;
     [SerializeField]
@@ -46,6 +46,8 @@ public class Fireball : MonoBehaviour
     public ParticleSystem PoisonExplosion;
     public ParticleSystem LightningExplosion;
     public ParticleSystem ArcaneExplosion;
+
+    public ParticleSystem BounceEffect;
 
     bool killed = false;
 
@@ -120,6 +122,25 @@ public class Fireball : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (nextTarget != null)
+        {
+            var newPos = Vector3.MoveTowards(transform.position, nextTarget.transform.position, bounceSpeed * Time.deltaTime);
+            transform.position = newPos;
+
+            if (Vector2.Distance(transform.position, nextTarget.transform.position) < 0.1f)
+            {
+                hitTarget(nextTarget.GetComponent<Hurtable>());
+                CreateExplosion();
+                DoAoeDamage(nextTarget);
+                DoBounces();
+            }
+        }
+
+        if (bouncing && nextTarget == null)
+        {
+            Kill();
+        }
+
         if (Time.time - started > lifetime)
         {
             Kill();
@@ -128,77 +149,91 @@ public class Fireball : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (!killed)
+        if (!bouncing && !killed)
         {
             body.velocity = moveDir * speed;
         }
+        else
+        {
+            body.velocity = Vector2.zero;
+        }
     }
+
+    private bool bouncing = false;
+    private int remainingBounces;
+    private List<GameObject> bouncedTargets = new List<GameObject>();
+    private GameObject nextTarget;
+    private float bounceSpeed = 100f;
 
     void OnTriggerEnter2D(Collider2D other)
     {
-        List<Hurtable> hurtables = new List<Hurtable>();
         Hurtable hurtable = other.GetComponent<Hurtable>();
+        hitTarget(hurtable);
+        DoAoeDamage(other.gameObject);
+
+        bouncedTargets.Add(other.gameObject);
+        remainingBounces = bounces;
+        DoBounces();
+    }
+
+    private void DoAoeDamage(GameObject exclude)
+    {
+        List<GameObject> enemies = GameObject.FindGameObjectsWithTag("Enemy").ToList();
+        var hurtables = GetAoeTargets(enemies, exclude);
+        hitTargets(hurtables);
+    }
+
+    private void DoBounces()
+    {
+        if (remainingBounces > 0)
+        {
+            if (!BounceEffect.isPlaying)
+            {
+                BounceEffect.Play();
+            }
+            bouncing = true;
+            nextTarget = GetNextBounceTarget();
+            collider.enabled = false;
+            if (nextTarget == null)
+            {
+                Kill();
+            }
+            remainingBounces--;
+        }
+        else
+        {
+            Kill();
+        }
+    }
+
+    private GameObject GetNextBounceTarget()
+    {
         List<GameObject> enemies = GameObject.FindGameObjectsWithTag("Enemy").ToList();
 
-        // TODO: aoe against player?
-        if (aoe > 0 && other.tag == "Enemy")
+        var nearestDist = 10000f;
+        GameObject nearest = null;
+        foreach (var candidate in enemies)
         {
-            // this includes the hit target
-            hurtables = GetAoeTargets(enemies);
-        }
-        // no aoe, damage only the target hit
-        else if(hurtable != null)
-        {
-            hurtables.Add(hurtable);
-        }
-
-        if(bounces > 0)
-        {
-            List<GameObject> eligibleForHits = new List<GameObject>(enemies);
-
-            // bounce doesn't hit already hit enemies
-            foreach (Hurtable h in hurtables)
-            {
-                eligibleForHits.Remove(h.gameObject);
-            }
-
-
-            GetBounceHits(bounces, hurtables, eligibleForHits, new List<GameObject>());
-        }
-
-        hitTargets(hurtables);
-
-        Kill();
-    }
-
-    private void GetBounceHits(float bounces, List<Hurtable> hurtables, List<GameObject> eligibleForHits, List<GameObject> alreadyHit)
-    {
-        if (bounces <= 0) return;
-
-        foreach (GameObject candidate in eligibleForHits)
-        {
-            if (alreadyHit.Contains(candidate)) continue;
+            if (bouncedTargets.Contains(candidate)) continue;
 
             float distance = Vector2.Distance(candidate.transform.position, transform.position);
-            if (bounceDistance > distance)
+            if (bounceDistance > distance && distance < nearestDist)
             {
-                Hurtable enemy = candidate.GetComponent<Hurtable>();
-                if (enemy != null)
-                {
-                    hurtables.Add(enemy);
-                }
-
-                alreadyHit.Add(candidate);
-                GetBounceHits(bounces - 1, hurtables, eligibleForHits.Where(x => x != candidate).ToList(), alreadyHit);
+                nearestDist = distance;
+                nearest = candidate;
+                bouncedTargets.Add(candidate);
             }
         }
+        return nearest;
     }
 
-    private List<Hurtable> GetAoeTargets(List<GameObject> enemies)
+    private List<Hurtable> GetAoeTargets(List<GameObject> enemies, GameObject exclude)
     {
         List<Hurtable> hurtables = new List<Hurtable>();
         foreach (GameObject candidate in enemies)
         {
+            if (candidate == exclude) continue;
+
             float distance = Vector2.Distance(candidate.transform.position, transform.position);
             if (aoe > distance)
             {
@@ -229,6 +264,20 @@ public class Fireball : MonoBehaviour
         }
     }
 
+    private void hitTarget(Hurtable hurtable)
+    {
+        if (hurtable == null) return;
+        if (damage > 0)
+        {
+            hurtable.Hurt(damage, Experience.main);
+        }
+
+        if (dotTickDamage > 0)
+        {
+            hurtable.Dot(dotTickDamage, dotDuration);
+        }
+    }
+
     private void Kill()
     {
         if (!killed)
@@ -238,6 +287,7 @@ public class Fireball : MonoBehaviour
             collider.enabled = false;
             renderer.enabled = false;
             trailEffects.ForEach(effect => effect.Stop());
+            BounceEffect.Stop();
             CreateExplosion();
             Invoke("Destroy", 0.5f);
         }
