@@ -17,10 +17,13 @@ MonoBehaviour:
   <Aoe>k__BackingField: 1
   <Bounces>k__BackingField: 0
   <Dot>k__BackingField: 0
-  <DotTickRate>k__BackingField: 0
+  <DotTickDamage>k__BackingField: 0
   <Piercing>k__BackingField: 0
   <Cooldown>k__BackingField: 1.5
   <IsSpellWall>k__BackingField: 0
   <IsUnlocked>k__BackingField: 0
   <Speed>k__BackingField: 12
   <ProjectileSprite>k__BackingField: {fileID: -724823095469007254, guid: f78af5cbae9ac784c8dc3cefea6d0aec, type: 3}
+  <MaxAoeLevel>k__BackingField: 10
+  <MaxBouncesLevel>k__BackingField: 10
+  <MaxDotLevel>k__BackingField: 10

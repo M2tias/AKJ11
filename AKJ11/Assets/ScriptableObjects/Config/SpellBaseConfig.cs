@@ -22,7 +22,7 @@ public class SpellBaseConfig : ScriptableObject
     public int Dot { get; private set; }
 
     [field: SerializeField]
-    public int DotTickRate { get; private set; }
+    public int DotTickDamage { get; private set; }
 
     [field: SerializeField]
     public int Piercing { get; private set; }
@@ -41,6 +41,15 @@ public class SpellBaseConfig : ScriptableObject
 
     [field: SerializeField]
     public Sprite ProjectileSprite { get; private set; }
+
+    [field: SerializeField]
+    public int MaxAoeLevel { get; private set; }
+
+    [field: SerializeField]
+    public int MaxBouncesLevel { get; private set; }
+
+    [field: SerializeField]
+    public int MaxDotLevel { get; private set; }
 }
 
 public enum SpellStats
@@ -49,7 +58,7 @@ public enum SpellStats
     Aoe,
     Bounces,
     Dot,
-    DotTickRate,
+    DotTickDamage,
     Piercing,
     Cooldown
 }

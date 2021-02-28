@@ -35,12 +35,11 @@ public class Shooting : MonoBehaviour
     private GameObject attackSpell1;
     private GameObject attackSpell2;
     private float attack1CD;
-    private float attack1Used;
+    private float attack1Used = -100f;
     private float attack2CD;
-    private float attack2Used;
+    private float attack2Used = -100f;
     private float spellWallCD;
-    private float spellWallUsed;
-
+    private float spellWallUsed = -100f;
 
     // Start is called before the first frame update
     void Start()
@@ -54,30 +53,14 @@ public class Shooting : MonoBehaviour
     {
         attackSpell1 = Instantiate(fireballPrefab);
         Fireball spell1 = attackSpell1.GetComponent<Fireball>();
-        spell1.SetConfig(
-            attackSpell1Config.Damage,
-            attackSpell1Config.Aoe,
-            attackSpell1Config.Bounces,
-            attackSpell1Config.Dot,
-            attackSpell1Config.DotTickRate,
-            attackSpell1Config.Speed,
-            attackSpell1Config.ProjectileSprite
-        );
+        spell1.SetConfig(attackSpell1Config);
         attack1CD = attackSpell1Config.Cooldown;
 
         attackSpell1.SetActive(false);
 
         attackSpell2 = Instantiate(fireballPrefab);
         Fireball spell2 = attackSpell2.GetComponent<Fireball>();
-        spell2.SetConfig(
-            attackSpell2Config.Damage,
-            attackSpell2Config.Aoe,
-            attackSpell2Config.Bounces,
-            attackSpell2Config.Dot,
-            attackSpell2Config.DotTickRate,
-            attackSpell2Config.Speed,
-            attackSpell2Config.ProjectileSprite
-        );
+        spell2.SetConfig(attackSpell2Config);
         attack2CD = attackSpell2Config.Cooldown;
         attackSpell2.SetActive(false);
 

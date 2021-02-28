@@ -31,10 +31,25 @@ public class Fireball : MonoBehaviour
 
     private Rigidbody2D body;
     private SpriteRenderer renderer;
+    private Collider2D collider;
     private Vector3 moveDir;
 
     private Experience playerExperience;
 
+    [SerializeField]
+    private SpellBaseConfig config;
+
+    public ParticleSystem FireEffect;
+    public ParticleSystem PoisonEffect;
+    public ParticleSystem LightningEffect;
+
+    public ParticleSystem FireExplosion;
+    public ParticleSystem PoisonExplosion;
+    public ParticleSystem LightningExplosion;
+
+    bool killed = false;
+
+    private List<ParticleSystem> trailEffects;
 
     public void Initialize(Vector2 position, Vector2 direction, Experience playerExp)
     {
@@ -45,18 +60,33 @@ public class Fireball : MonoBehaviour
         moveDir = direction.normalized;
 
         playerExperience = playerExp;
+
     }
 
-    public void SetConfig(float damage, float aoe, float bounces, float dotTickDamage, float dotDuration, float speed, Sprite sprite)
+    public void SetConfig(SpellBaseConfig config)
     {
+        this.config = config;
         renderer = GetComponent<SpriteRenderer>();
-        this.aoe = aoe;
-        this.bounces = bounces;
-        this.damage = damage;
-        this.dotDuration = dotDuration;
-        this.dotTickDamage = dotTickDamage;
-        this.speed = speed;
-        projectileSprite = sprite;
+        aoe = config.Aoe;
+        bounces = config.Bounces;
+        damage = config.Damage;
+        dotDuration = config.Dot;
+        dotTickDamage = config.DotTickDamage;
+        speed = config.Speed;
+        projectileSprite = config.ProjectileSprite;
+
+        for (var i = 0; i < config.Aoe; i++)
+        {
+            Instantiate(FireEffect, transform);
+        }
+        for (var i = 0; i < config.Bounces; i++)
+        {
+            Instantiate(LightningEffect, transform);
+        }
+        for (var i = 0; i < config.Dot; i++)
+        {
+            Instantiate(PoisonEffect, transform);
+        }
     }
 
     // Start is called before the first frame update
@@ -64,18 +94,26 @@ public class Fireball : MonoBehaviour
     {
         body = GetComponent<Rigidbody2D>();
         renderer = GetComponent<SpriteRenderer>();
+        collider = GetComponent<Collider2D>();
         renderer.sprite = projectileSprite;
         started = Time.time;
+        trailEffects = new List<ParticleSystem>(GetComponentsInChildren<ParticleSystem>());
     }
 
     // Update is called once per frame
     void Update()
     {
-        body.velocity = moveDir * speed;
-
         if (Time.time - started > lifetime)
         {
-            Destroy(gameObject);
+            Kill();
+        }
+    }
+
+    void FixedUpdate()
+    {
+        if (!killed)
+        {
+            body.velocity = moveDir * speed;
         }
     }
 
@@ -113,7 +151,7 @@ public class Fireball : MonoBehaviour
 
         hitTargets(hurtables);
 
-        Destroy(gameObject);
+        Kill();
     }
 
     private void GetBounceHits(float bounces, List<Hurtable> hurtables, List<GameObject> eligibleForHits, List<GameObject> alreadyHit)
@@ -171,6 +209,37 @@ public class Fireball : MonoBehaviour
             {
                 h.Dot(dotTickDamage, dotDuration);
             }
+        }
+    }
+
+    private void Kill()
+    {
+        if (!killed)
+        {
+            killed = true;
+            body.velocity = Vector2.zero;
+            collider.enabled = false;
+            renderer.enabled = false;
+            trailEffects.ForEach(effect => effect.Stop());
+            CreateExplosion();
+            Invoke("Destroy", 0.5f);
+        }
+    }
+
+    private void Destroy()
+    {
+        Destroy(gameObject);
+    }
+
+    private void CreateExplosion()
+    {
+        if (config.Aoe > 0)
+        {
+            var t = (float)config.Aoe / config.MaxAoeLevel;
+            var scale = Mathf.Lerp(1.0f, 5.0f, t);
+            var expl = Instantiate(FireExplosion);
+            expl.transform.position = transform.position;
+            expl.transform.localScale = new Vector3(scale, scale, scale);
         }
     }
 }

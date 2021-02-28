@@ -145,4 +145,5 @@ public class Hurtable : MonoBehaviour
         dotStarted = Time.time;
         dotLastDamage = Time.time;
     }
+
 }
