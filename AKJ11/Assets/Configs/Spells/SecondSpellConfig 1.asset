@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3f25089337b41214a84f337d57797ef5, type: 3}
   m_Name: SecondSpellConfig 1
   m_EditorClassIdentifier: 
+  <Name>k__BackingField: Fireball
   <VisibleStats>k__BackingField: 000000000100000002000000030000000400000006000000
   <Damage>k__BackingField: 0a0000000f000000160000001e0000002800000034000000430000005100000064000000
   <Aoe>k__BackingField:

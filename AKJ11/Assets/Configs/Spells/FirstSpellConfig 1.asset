@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3f25089337b41214a84f337d57797ef5, type: 3}
   m_Name: FirstSpellConfig 1
   m_EditorClassIdentifier: 
+  <Name>k__BackingField: Magic Missile
   <VisibleStats>k__BackingField: 000000000200000003000000040000000500000006000000
   <Damage>k__BackingField: 05000000080000000c000000110000001900000023000000300000003c00000050000000
   <Aoe>k__BackingField:

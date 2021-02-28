@@ -57,6 +57,15 @@ public class Experience : MonoBehaviour
         Debug.Log("Gained " + exp + " points of experience. Current level: " + level + " and remaining exp: " + currentExp);
     }
 
+    public float GetCooldown(SpellBaseConfig spell) {
+        if (spell == spell1Config) {
+            return spell.Cooldown[spell1Runtime.CooldownLevel];
+        } else if (spell == spell2Config) {
+            return spell.Cooldown[spell2Runtime.CooldownLevel];
+        }
+        return -1;
+    }
+
     public int GetUnusedStatPoints()
     {
         return statPointsToUse;

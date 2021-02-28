@@ -152,6 +152,9 @@ public class Shooting : MonoBehaviour
         if (SoundManager.main != null) {
             SoundManager.main.PlaySound(GameSoundType.Zing);
         }
+        if (SpellBar.main != null) {
+            SpellBar.main.SpellWasCast(attackSpell1Config);
+        }
     }
 
     private void ShootSpell2()
@@ -172,6 +175,9 @@ public class Shooting : MonoBehaviour
 
         if (SoundManager.main != null) {
             SoundManager.main.PlaySound(GameSoundType.FireBall);
+        }
+        if (SpellBar.main != null) {
+            SpellBar.main.SpellWasCast(attackSpell2Config);
         }
     }
 
