@@ -40,6 +40,7 @@ public class NodeContainer
     public NodeContainer(int x, int y, int width, int height, MapConfig config, TileStyle style, bool enableColliders = true)
     {
         viewContainer = Prefabs.Get<Transform>();
+        MonoBehaviour.print($"ViewContainer: viewContainer");
         viewContainer.name = $"X: {x} Y: {y} (w: {width} h: {height})";
         Rect = new RectInt(new Vector2Int(x, y), new Vector2Int(width, height));
         MidPoint = new Vector2Int(width / 2, height / 2);
