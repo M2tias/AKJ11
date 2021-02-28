@@ -21,6 +21,9 @@ public class MapGenerator : MonoBehaviour
 
     private int currentLevel = 0;
 
+    [SerializeField]
+    private int DebugCurrentLevel;
+
     private FullscreenFade fader;
 
     public static MapGenerator main;
@@ -40,7 +43,11 @@ public class MapGenerator : MonoBehaviour
     {
         fader = FullscreenFade.main;
         fader.Initialize();
+        #if UNITY_EDITOR 
+            currentLevel = DebugCurrentLevel;
+        #endif
         NextLevel();
+
     }
 
     void TheEnd()
@@ -81,7 +88,7 @@ public class MapGenerator : MonoBehaviour
         }
         if (nodeContainer != null)
         {
-            nodeContainer.Kill();
+            await nodeContainer.Kill();
         }
         nodeContainer = new NodeContainer(0, 0, config.Size, config.Size, config, config.CaveTileStyle);
         baseLayer = new NodeContainer(0, 0, config.Size, config.Size, config, config.DefaultTileStyle, false);
@@ -104,7 +111,7 @@ public class MapGenerator : MonoBehaviour
         int attempts = 20;
         while (caves.Count < config.NumberOfAreas && attempts > 0)
         {
-            nodeContainer.Kill();
+            await nodeContainer.Kill();
             nodeContainer = new NodeContainer(0, 0, config.Size, config.Size, config, config.CaveTileStyle);
             baseLayer.viewContainer.SetParent(nodeContainer.viewContainer);
             await GenerateCaves();
@@ -186,17 +193,36 @@ public class MapGenerator : MonoBehaviour
         if (player == null) {
             player = Instantiate(playerPrefab);
         }
-        player.transform.position = (Vector2)nodeContainer.MidPoint;
-        nextLevelTrigger = Prefabs.Get<NextLevelTrigger>();
-        nextLevelTrigger.transform.SetParent(nodeContainer.viewContainer);
-        nextLevelTrigger.Initialize(nodeContainer.MidPoint);
 
         List<MapNode> nonTowerNodes = nodeContainer.Nodes.Where(node => !node.IsWall && !towerNodes.Contains(node)).ToList();
-        NextLevelKey nextLevelKey = Prefabs.Get<NextLevelKey>();
-        nextLevelKey.transform.SetParent(nodeContainer.viewContainer);
         MapNode playerNode = nodeContainer.GetNode(nodeContainer.MidPoint);
-        MapNode keyNode = nonTowerNodes.OrderByDescending(node => node.Distance(playerNode)).First();
-        nextLevelKey.Initialize(keyNode.Position);
+
+        if (currentLevel == Configs.main.Maps.Count) {
+            Debug.Log("LastLevel");
+            TheEndView.main.Show();
+        } else {
+            nextLevelTrigger = Prefabs.Get<NextLevelTrigger>();
+            nextLevelTrigger.transform.SetParent(nodeContainer.viewContainer);
+            MapNode keyNode;
+            if (nonTowerNodes.Count > 0) {
+                keyNode = nonTowerNodes.OrderByDescending(node => node.Distance(playerNode)).First();
+                nextLevelTrigger.Initialize(nodeContainer.MidPoint);
+            } else {
+                keyNode = towerNodes.OrderByDescending(node => node.Distance(playerNode)).First();
+                MapNode enterNode = towerNodes.OrderByDescending(node => node.Distance(keyNode)).First();
+                nextLevelTrigger.Initialize(enterNode.Position);
+            }
+            NextLevelKey nextLevelKey = Prefabs.Get<NextLevelKey>();
+            nextLevelKey.transform.SetParent(nodeContainer.viewContainer);
+            nextLevelKey.Initialize(keyNode.Position);
+        }
+
+        player.transform.position = (Vector2)playerNode.Position;
+        Movement movement = player.GetComponentInChildren<Movement>();
+        if (movement != null) {
+            movement.transform.localPosition = Vector2.zero;
+        }
+ 
 
         SpawnEnemies(playerNode, nonTowerNodes);
 

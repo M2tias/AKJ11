@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2aa5175f86b830144a4a26a232736986, type: 3}
+  m_Name: Level10
+  m_EditorClassIdentifier: 
+  <NumberOfAreas>k__BackingField: 1
+  <Size>k__BackingField: 50
+  <PassageRadius>k__BackingField: 1
+  <Padding>k__BackingField: 1
+  <TowerRadius>k__BackingField: 5
+  <Spawns>k__BackingField:
+  - <SpawnThisManyTimes>k__BackingField: 1
+    <SpawnPosition>k__BackingField: 0
+    <Enemies>k__BackingField:
+    - {fileID: 11400000, guid: 2018262829697104ebf4db14be8d2197, type: 2}
+  <DefaultTileStyle>k__BackingField: {fileID: 11400000, guid: 48502af41c53cf14ca568797d9b64a83, type: 2}
+  <CaveTileStyle>k__BackingField: {fileID: 11400000, guid: 90c2167bb3edca941a4f2c7cfdf06883, type: 2}
