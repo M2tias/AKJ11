@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2aa5175f86b830144a4a26a232736986, type: 3}
-  m_Name: Level5
+  m_Name: Level9
   m_EditorClassIdentifier: 
-  <NumberOfAreas>k__BackingField: 2
+  <NumberOfAreas>k__BackingField: 4
   <Size>k__BackingField: 40
   <PassageRadius>k__BackingField: 1
   <Padding>k__BackingField: 4

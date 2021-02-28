@@ -12,11 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2aa5175f86b830144a4a26a232736986, type: 3}
   m_Name: Level4
   m_EditorClassIdentifier: 
-  <NumberOfAreas>k__BackingField: 3
+  <NumberOfAreas>k__BackingField: 2
   <Size>k__BackingField: 35
   <PassageRadius>k__BackingField: 1
   <Padding>k__BackingField: 4
-  <TowerRadius>k__BackingField: 5
+  <TowerRadius>k__BackingField: 6
   <Spawns>k__BackingField:
   - <SpawnThisManyTimes>k__BackingField: 2
     <SpawnPosition>k__BackingField: 1

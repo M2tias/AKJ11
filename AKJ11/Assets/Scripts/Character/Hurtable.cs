@@ -13,6 +13,8 @@ public class Hurtable : MonoBehaviour
     private float dotLastDamage = 0;
     private float dotPeriod = 1;
 
+    private Enemy enemy;
+
     [SerializeField]
     private UnityEvent deadAction;
 
@@ -63,6 +65,8 @@ public class Hurtable : MonoBehaviour
                 UIHealth.main.SetHp(config.MaxHealth, healthConfig.MaxHealth);
             }
         }
+
+        enemy = GetComponent<Enemy>();
     }
 
     // Update is called once per frame
@@ -96,7 +100,12 @@ public class Hurtable : MonoBehaviour
 
     public void Hurt(float damage, Experience playerExp)
     {
-        if(playerExp != null)
+        if (enemy != null)
+        {
+            enemy.Damaged();
+        }
+
+        if (playerExp != null)
         {
             playerExperience = playerExp;
         }
