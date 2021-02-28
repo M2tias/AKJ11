@@ -35,6 +35,8 @@ public class Enemy : MonoBehaviour
     private float dashSpeedDecay = 10.0f;
     private float moveSpeed;
 
+    private Collider2D collider;
+
     public void Start()
     {
         if (config != null)
@@ -71,6 +73,8 @@ public class Enemy : MonoBehaviour
         anim.runtimeAnimatorController = config.AnimatorController;
 
         moveSpeed = config.MoveSpeed;
+
+        collider = GetComponent<Collider2D>();
     }
 
     public void WakeUp() {
@@ -165,7 +169,8 @@ public class Enemy : MonoBehaviour
     {
         if (dashing)
         {
-            if (rb.velocity.magnitude <= config.MoveSpeed / 2.0f)
+            collider.enabled = false;
+            if (moveSpeed <= config.MoveSpeed / 2.0f || rb.velocity.magnitude < 0.1f)
             {
                 dashing = false;
                 moveSpeed = config.MoveSpeed;
@@ -184,6 +189,10 @@ public class Enemy : MonoBehaviour
                 targetPos = target.position;
                 UpdatePathing();
             }
+        }
+        else
+        {
+            collider.enabled = true;
         }
 
         weapon.LookAt(target.position);
