@@ -4792,8 +4792,8 @@ ParticleSystemRenderer:
   m_SortingOrder: 9
   m_RenderMode: 0
   m_SortMode: 0
-  m_MinParticleSize: 0.02
-  m_MaxParticleSize: 0.02
+  m_MinParticleSize: 0.01
+  m_MaxParticleSize: 0.01
   m_CameraVelocityScale: 0
   m_VelocityScale: 0
   m_LengthScale: 2
@@ -9665,8 +9665,8 @@ ParticleSystemRenderer:
   m_SortingOrder: 1
   m_RenderMode: 0
   m_SortMode: 0
-  m_MinParticleSize: 0.03
-  m_MaxParticleSize: 0.03
+  m_MinParticleSize: 0.02
+  m_MaxParticleSize: 0.02
   m_CameraVelocityScale: 0
   m_VelocityScale: 0
   m_LengthScale: 2
@@ -14539,8 +14539,8 @@ ParticleSystemRenderer:
   m_SortingOrder: 1
   m_RenderMode: 0
   m_SortMode: 0
-  m_MinParticleSize: 0.03
-  m_MaxParticleSize: 0.03
+  m_MinParticleSize: 0.02
+  m_MaxParticleSize: 0.02
   m_CameraVelocityScale: 0
   m_VelocityScale: 0
   m_LengthScale: 2
@@ -19354,8 +19354,8 @@ ParticleSystemRenderer:
   m_SortingOrder: 10
   m_RenderMode: 0
   m_SortMode: 0
-  m_MinParticleSize: 0.02
-  m_MaxParticleSize: 0.02
+  m_MinParticleSize: 0.015
+  m_MaxParticleSize: 0.015
   m_CameraVelocityScale: 0
   m_VelocityScale: 0
   m_LengthScale: 2
