@@ -34,7 +34,7 @@ public class Experience : MonoBehaviour
     void Start()
     {
         level = 0;
-        currentExp = 100;
+        currentExp = 0;
         statPointsToUse = 0;
         totalPointsUsed = 0;
         statPointsToUse += expConfig.StatPointsPerLevel[level]; // initial stat points
@@ -44,6 +44,9 @@ public class Experience : MonoBehaviour
         spell1Runtime.IsUnlocked = spell1Config.IsUnlocked;
         spell2Runtime.IsUnlocked = spell2Config.IsUnlocked;
         spellWallRuntime.IsUnlocked = spellWallConfig.IsUnlocked;
+        if (UIXP.main != null) {
+            UIXP.main.SetXP(0, 0, 0);
+        }
     }
 
     void Update()
@@ -54,7 +57,7 @@ public class Experience : MonoBehaviour
     public void AddExperience(int exp)
     {
         currentExp += exp;
-
+  
         while (currentExp >= expConfig.ExpPerLevel[level])
         {
             int remainder = currentExp - expConfig.ExpPerLevel[level];
@@ -63,6 +66,9 @@ public class Experience : MonoBehaviour
             statPointsToUse += expConfig.StatPointsPerLevel[level];
         }
         Debug.Log("Gained " + exp + " points of experience. Current level: " + level + " and remaining exp: " + currentExp);
+        if (UIXP.main != null) {
+            UIXP.main.SetXP(currentExp, expConfig.ExpPerLevel[level], level);
+        }
     }
 
     public float GetCooldown(SpellBaseConfig spell) {

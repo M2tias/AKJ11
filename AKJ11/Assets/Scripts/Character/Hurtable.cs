@@ -30,6 +30,10 @@ public class Hurtable : MonoBehaviour
 
     private Experience playerExperience;
 
+    public Color DotTint;
+
+    private bool dotting = false;
+
     public void Start()
     {
         if (healthConfig != null)
@@ -54,6 +58,11 @@ public class Hurtable : MonoBehaviour
         spriteRenderers = new List<SpriteRenderer>(GetComponentsInChildren<SpriteRenderer>());
         spriteRenderers.AddRange(GetComponents<SpriteRenderer>());
         origColors = spriteRenderers.Select(rend => rend.color).ToList();
+        if (gameObject.tag == "Player") {
+            if (UIHealth.main != null) {
+                UIHealth.main.SetHp(config.MaxHealth, healthConfig.MaxHealth);
+            }
+        }
     }
 
     // Update is called once per frame
@@ -63,12 +72,18 @@ public class Hurtable : MonoBehaviour
         {
             dotDamage = 0;
             dotStarted = 0;
+            dotting = false;
         }
 
         if(dotDamage > 0 && Time.time - dotLastDamage > dotPeriod)
         {
             Hurt(dotDamage);
             dotLastDamage = Time.time;
+
+            if (dotStarted + dotDuration < Time.time + dotPeriod)
+            {
+                dotting = false;
+            }
         }
 
         tint();
@@ -119,6 +134,11 @@ public class Hurtable : MonoBehaviour
                 damaged = Time.time;
             }
         }
+        if (gameObject.tag == "Player") {
+            if (UIHealth.main != null) {
+                UIHealth.main.SetHp(currentHealth, healthConfig.MaxHealth);
+            }
+        }
     }
 
     public void DisableInvulnerability()
@@ -134,14 +154,19 @@ public class Hurtable : MonoBehaviour
             var index = 0;
             foreach (var rend in spriteRenderers)
             {
-                var color = Color.Lerp(config.DamageTint, origColors[index++], t);
+                var origColor = dotting ? DotTint : origColors[index++];
+                var color = Color.Lerp(config.DamageTint, origColor, t);
                 rend.color = color;
             }
         }
         else
         {
             var index = 0;
-            spriteRenderers.ForEach(rend => rend.color = origColors[index++]);
+            foreach (var rend in spriteRenderers)
+            {
+                var origColor = dotting ? DotTint : origColors[index++];
+                rend.color = origColor;
+            }
         }
 
     }
@@ -152,6 +177,10 @@ public class Hurtable : MonoBehaviour
         dotDuration = duration;
         dotStarted = Time.time;
         dotLastDamage = Time.time;
+        if (damage > 0.1f)
+        {
+            dotting = true;
+        }
     }
 
 }

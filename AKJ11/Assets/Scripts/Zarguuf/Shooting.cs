@@ -73,7 +73,6 @@ public class Shooting : MonoBehaviour
         attack1CD = attackSpell1Config.Cooldown[Experience.main.GetSpell1Runtime().CooldownLevel];
         attack2CD = attackSpell2Config.Cooldown[Experience.main.GetSpell2Runtime().CooldownLevel];
         spellWallCD = spellWallConfig.Cooldown[Experience.main.GetSpellWallRuntime().CooldownLevel];
-
         bool canShoot1Again = Time.time - attack1Used > attack1CD;
         bool canShoot2Again = Time.time - attack2Used > attack2CD;
         bool canSpellWallAgain = Time.time - spellWallUsed > spellWallCD;

@@ -15,7 +15,7 @@ public class Fireball : MonoBehaviour
     [SerializeField]
     private int bounces;
     // [SerializeField]
-    private float bounceDistance = 5;
+    private float bounceDistance = 2;
     [SerializeField]
     private float dotTickDamage;
     [SerializeField]
@@ -173,7 +173,20 @@ public class Fireball : MonoBehaviour
 
         bouncedTargets.Add(other.gameObject);
         remainingBounces = bounces;
-        DoBounces();
+
+        if (remainingBounces > 0)
+        {
+            CreateExplosion();
+        }
+
+        if (hurtable != null)
+        {
+            DoBounces();
+        }
+        else
+        {
+            Kill();
+        }
     }
 
     private void DoAoeDamage(GameObject exclude)
@@ -283,6 +296,8 @@ public class Fireball : MonoBehaviour
         if (!killed)
         {
             killed = true;
+            bouncing = false;
+            nextTarget = null;
             body.velocity = Vector2.zero;
             collider.enabled = false;
             renderer.enabled = false;
