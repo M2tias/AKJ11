@@ -16,3 +16,5 @@ MonoBehaviour:
   <InvulnerabilityDuration>k__BackingField: 0
   <DamageTint>k__BackingField: {r: 1, g: 0, b: 0, a: 1}
   <DamageTintDuration>k__BackingField: 0.5
+  <HitSound>k__BackingField: 3
+  <DeathSound>k__BackingField: 2

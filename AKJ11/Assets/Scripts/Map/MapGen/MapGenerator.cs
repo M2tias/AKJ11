@@ -49,6 +49,9 @@ public class MapGenerator : MonoBehaviour
     }
 
     public async UniTask LevelEnd() {
+        if (SoundManager.main != null) {
+            SoundManager.main.PlaySound(GameSoundType.DoorOpen);
+        }
         await fader.Fade(fadeToBlack);
         await NextLevel();
     }
@@ -121,7 +124,7 @@ public class MapGenerator : MonoBehaviour
         }
         await GenerateTowerRoom();
         await FindAndConnectEnclosures();
-        await BlobGrid.Run(nodeContainer);
+        //await BlobGrid.Run(nodeContainer);
         CreateNavMesh();
         Populate();
         nodeContainer.Render();

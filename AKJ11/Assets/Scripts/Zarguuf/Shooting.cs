@@ -147,7 +147,11 @@ public class Shooting : MonoBehaviour
 
         Vector3 targetDir = aiming.GetDirection();
         Vector3 spawnPos = transform.position + targetDir.normalized * 0.6f;
+
         fireballInstance.GetComponent<Fireball>().Initialize(spawnPos, targetDir, Experience.main.GetSpell1Runtime());
+        if (SoundManager.main != null) {
+            SoundManager.main.PlaySound(GameSoundType.Zing);
+        }
     }
 
     private void ShootSpell2()
@@ -162,7 +166,13 @@ public class Shooting : MonoBehaviour
 
         Vector3 targetDir = aiming.GetDirection();
         Vector3 spawnPos = transform.position + targetDir.normalized * 0.6f;
+
         fireballInstance.GetComponent<Fireball>().Initialize(spawnPos, targetDir, Experience.main.GetSpell2Runtime());
+        fireballInstance.GetComponent<Fireball>().Initialize(spawnPos, targetDir, Experience.main.GetSpell2Runtime());
+
+        if (SoundManager.main != null) {
+            SoundManager.main.PlaySound(GameSoundType.FireBall);
+        }
     }
 
     public Spell GetCurrentSpell()

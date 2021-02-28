@@ -63,6 +63,9 @@ public class Weapon : MonoBehaviour
             animator.SetBool(getAnimationFor(type), true);
             attacking = true;
             playingAttackAnimation = true;
+            if (SoundManager.main != null) {
+                SoundManager.main.PlaySound(config.AnimationSound);
+            }
         }
     }
 
@@ -87,6 +90,9 @@ public class Weapon : MonoBehaviour
             var proj = Instantiate(projectile);
             proj.transform.position = projectileRoot.position;
             proj.Launch(transform.position + root.up, damage);
+            if (SoundManager.main != null) {
+                SoundManager.main.PlaySound(config.ProjectileSound);
+            }
         }
     }
 

@@ -14,6 +14,9 @@ public class NextLevelKey : MonoBehaviour
 
         if (other.gameObject.tag == "Player") {
             MapGenerator.main.FoundKey();
+            if (SoundManager.main != null) {
+                SoundManager.main.PlaySound(GameSoundType.FindKey);
+            }
             Destroy(gameObject);
         }
     }
