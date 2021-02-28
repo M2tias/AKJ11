@@ -111,7 +111,7 @@ public class MapGenerator : MonoBehaviour
         int attempts = 20;
         while (caves.Count < config.NumberOfAreas && attempts > 0)
         {
-            await nodeContainer.Kill();
+            nodeContainer.Kill();
             nodeContainer = new NodeContainer(0, 0, config.Size, config.Size, config, config.CaveTileStyle);
             baseLayer.viewContainer.SetParent(nodeContainer.viewContainer);
             await GenerateCaves();
