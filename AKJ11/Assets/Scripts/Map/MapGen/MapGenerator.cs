@@ -77,9 +77,9 @@ public class MapGenerator : MonoBehaviour
 
     async UniTask NewMap()
     {
-        if (Configs.main.Maps.Count > currentLevel)
-        {
-            config = Configs.main.Maps[currentLevel];
+        MapConfig nextMapConfig = Configs.main.Campaign.Get(currentLevel);
+        if (nextMapConfig != null) {
+            config = nextMapConfig;
             currentLevel += 1;
         }
         else
@@ -134,7 +134,8 @@ public class MapGenerator : MonoBehaviour
         await FindAndConnectEnclosures();
         await BlobGrid.Run(nodeContainer);
         CreateNavMesh();
-        Populate();
+        MapNode playerNode = Populate();
+        PlaceItems(playerNode);
         nodeContainer.Render();
     }
 
@@ -189,7 +190,7 @@ public class MapGenerator : MonoBehaviour
         return nodeContainer.viewContainer;
     }
 
-    private void Populate()
+    private MapNode Populate()
     {
         if (player == null) {
             player = Instantiate(playerPrefab);
@@ -198,7 +199,7 @@ public class MapGenerator : MonoBehaviour
         List<MapNode> nonTowerNodes = nodeContainer.Nodes.Where(node => !node.IsWall && !towerNodes.Contains(node)).ToList();
         MapNode playerNode = nodeContainer.GetNode(nodeContainer.MidPoint);
 
-        if (currentLevel == Configs.main.Maps.Count) {
+        if (Configs.main.Campaign.IsLastLevel(config)) {
             Debug.Log("LastLevel");
             TheEndView.main.Show();
         } else {
@@ -236,8 +237,42 @@ public class MapGenerator : MonoBehaviour
         {
             Debug.Log("<color=red>Camera doesn't have FollowTarget component!</color>");
         }
-        
+        return playerNode;
+    }
 
+    private void PlaceItems(MapNode playerNode) {
+        try{
+        if (config.Items.Count > 0) {
+            List<MapNode> nonTowerNodes = nodeContainer.Nodes.Where(node => !node.IsWall && !towerNodes.Contains(node)).ToList();
+            List<MapNode> itemTowerNodes = nodeContainer.Nodes.Where(node => node.IsTower && node.Distance(playerNode) > 2).ToList();
+            foreach(ItemSpawn spawn in config.Items) {
+                for (int timesSpawned = 0; timesSpawned < spawn.SpawnThisManyTimes; timesSpawned += 1) {
+                    MapNode spawnNode = null;
+                    if (spawn.SpawnPosition == SpawnPosition.Tower) {
+                        if (itemTowerNodes.Count < 1) {
+                            continue;
+                        }
+                        spawnNode = itemTowerNodes[UnityEngine.Random.Range(0, itemTowerNodes.Count)];
+                        itemTowerNodes.Remove(spawnNode);
+                    } else if (spawn.SpawnPosition == SpawnPosition.Cave) {
+                        if (nonTowerNodes.Count < 1) {
+                            continue;
+                        }
+                        spawnNode = nonTowerNodes[UnityEngine.Random.Range(0, nonTowerNodes.Count)];
+                        nonTowerNodes.Remove(spawnNode);
+                    }
+                    if (spawnNode != null) {
+                        PickupableItem item = Prefabs.Get<PickupableItem>();
+                        item.Initialize(spawn.Item, nodeContainer.viewContainer, spawnNode.Position);
+                    }
+                }
+            }
+        }
+        }
+        catch(Exception e) {
+            MonoBehaviour.print(e);
+        }
+        
     }
 
     private void SpawnEnemies(MapNode playerNode, List<MapNode> nonTowerNodes) {

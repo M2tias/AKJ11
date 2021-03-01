@@ -16,8 +16,7 @@ public class Configs : MonoBehaviour
     [field: SerializeField]
     public FollowTargetConfig Camera { get; private set; }
 
-
     [field: SerializeField]
-    public List<MapConfig> Maps { get; private set; }
+    public CampaignStructureConfig Campaign { get; private set; }
 
 }

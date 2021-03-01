@@ -37,7 +37,9 @@ public enum GameSoundType {
     FindKey,
     Zing,
     SkeletonShoot,
-    SwordSwing
+    SwordSwing,
+    Heal,
+    XPBottle
 }
 
 [System.Serializable]

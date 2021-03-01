@@ -30,6 +30,9 @@ public class MapConfig : ScriptableObject
     public List<EnemySpawn> Spawns { get; private set; }
 
     [field: SerializeField]
+    public List<ItemSpawn> Items { get; private set; }
+
+    [field: SerializeField]
     public TileStyle DefaultTileStyle {get; private set;}
 
     [field: SerializeField]
@@ -61,5 +64,19 @@ public class EnemySpawn
 public enum SpawnPosition {
     Cave,
     Tower
+}
+
+
+[System.Serializable]
+public class ItemSpawn
+{
+    [field: SerializeField]
+    public int SpawnThisManyTimes { get; private set; } = 1;
+
+    [field: SerializeField]
+    public SpawnPosition SpawnPosition { get; private set; } = SpawnPosition.Cave;
+
+    [field: SerializeField]
+    public ResourceGainConfig Item {get; private set;}
 }
 

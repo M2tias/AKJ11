@@ -155,6 +155,15 @@ public class Hurtable : MonoBehaviour
         }
     }
 
+    public void GainHealth(int amount) {
+        currentHealth = Mathf.Clamp(currentHealth + amount, 0, config.MaxHealth);
+        if (gameObject.tag == "Player") {
+            if (UIHealth.main != null) {
+                UIHealth.main.SetHp(currentHealth, healthConfig.MaxHealth);
+            }
+        }
+    }
+
     public void DisableInvulnerability()
     {
         invulnerable = false;
