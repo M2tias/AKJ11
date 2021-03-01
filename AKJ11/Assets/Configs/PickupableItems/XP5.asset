@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f421ea8e935e3124686fb9222e542288, type: 3}
   m_Name: XP5
   m_EditorClassIdentifier: 
-  <Sprite>k__BackingField: {fileID: 21300000, guid: 33dd17d8d23aeff4b9485611964f3d43, type: 3}
-  <ColorTint>k__BackingField: {r: 1, g: 0.8624264, b: 0, a: 1}
+  <Sprite>k__BackingField: {fileID: 21300000, guid: 669a0004351374f4d8651a1fd02d53ba, type: 3}
+  <ColorTint>k__BackingField: {r: 1, g: 1, b: 1, a: 1}
   <Type>k__BackingField: 2
   <amount>k__BackingField: 5
