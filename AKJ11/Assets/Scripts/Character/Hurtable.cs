@@ -196,13 +196,20 @@ public class Hurtable : MonoBehaviour
 
     public void Dot(float damage, float duration)
     {
-        dotDamage = damage;
-        dotDuration = duration;
-        dotStarted = Time.time;
-        dotLastDamage = Time.time;
-        if (damage > 0.1f)
+        if (dotting)
         {
-            dotting = true;
+            dotStarted = Time.time;
+            dotDuration = duration;
+        }
+        else {
+            dotDamage = damage;
+            dotDuration = duration;
+            dotStarted = Time.time;
+            dotLastDamage = Time.time;
+            if (damage > 0.1f)
+            {
+                dotting = true;
+            }
         }
     }
 

@@ -146,6 +146,51 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2ea67f24636682a47a1aa45e305db28f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  spell1Done:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1217718415}
+        m_TargetAssemblyTypeName: SpellStatsUI, Assembly-CSharp
+        m_MethodName: DoneButtonAction
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  spell2Done:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 453099679504166960}
+        m_TargetAssemblyTypeName: SpellStatsUI, Assembly-CSharp
+        m_MethodName: DoneButtonAction
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  spellWallDone:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 9140846892566879998}
+        m_TargetAssemblyTypeName: SpellStatsUI, Assembly-CSharp
+        m_MethodName: DoneButtonAction
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   spellBook: {fileID: 5689803947458898484}
 --- !u!1 &3907171522094099114
 GameObject:
