@@ -39,7 +39,9 @@ public enum GameSoundType {
     SkeletonShoot,
     SwordSwing,
     Heal,
-    XPBottle
+    PickupXP,
+    OpenSpellBook,
+    CloseSpellBook
 }
 
 [System.Serializable]

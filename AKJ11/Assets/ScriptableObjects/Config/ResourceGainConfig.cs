@@ -19,7 +19,7 @@ public class ResourceGainConfig : ScriptableObject
         if (Type == ResourceType.XP) {
             Experience.main.AddExperience(amount);
             if (SoundManager.main != null) {
-                SoundManager.main.PlaySound(GameSoundType.XPBottle);
+                SoundManager.main.PlaySound(GameSoundType.PickupXP);
             }
         }
         if (Type == ResourceType.HP) {

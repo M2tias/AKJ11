@@ -24,6 +24,9 @@ public class UIOpenSpellbook : MonoBehaviour
     private GameObject spellBook;
     public void Open() {
         spellBook.SetActive(true);
+        if (SoundManager.main != null) {
+            SoundManager.main.PlaySound(GameSoundType.OpenSpellBook);
+        }
     }
 
     public void Close() {
@@ -31,6 +34,9 @@ public class UIOpenSpellbook : MonoBehaviour
         spell1Done.Invoke();
         spell2Done.Invoke();
         spellWallDone.Invoke();
+        if (SoundManager.main != null) {
+            SoundManager.main.PlaySound(GameSoundType.CloseSpellBook);
+        }
     }
 
     public void Toggle() {
