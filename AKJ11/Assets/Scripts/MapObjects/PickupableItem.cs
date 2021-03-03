@@ -4,22 +4,22 @@ using UnityEngine;
 
 public class PickupableItem : MonoBehaviour
 {
-    private ResourceGainConfig resourceGain;
+    private PickupableItemScriptableObject item;
     [SerializeField]
     private SpriteRenderer spriteRenderer;
 
-    public void Initialize(ResourceGainConfig gain, Transform parent, Vector2Int position) {
-        this.resourceGain = gain;
-        spriteRenderer.sprite = gain.Sprite;
-        spriteRenderer.color = gain.ColorTint;
+    public void Initialize(PickupableItemScriptableObject item, Transform parent, Vector2Int position) {
+        this.item = item;
+        spriteRenderer.sprite = item.Config.Sprite;
+        spriteRenderer.color = item.Config.SpriteColorTint;
         this.transform.SetParent(parent);
         this.transform.position = (Vector2) position;
     }
 
     void OnTriggerEnter2D(Collider2D other) {
         if (other.gameObject.tag == "Player") {
-            if (resourceGain != null) {
-                resourceGain.Gain();
+            if (item != null) {
+                item.Gain();
                 Destroy(gameObject);
             }
         }

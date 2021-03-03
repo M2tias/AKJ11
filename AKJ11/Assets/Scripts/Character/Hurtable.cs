@@ -37,6 +37,9 @@ public class Hurtable : MonoBehaviour
     private bool dotting = false;
     private bool initialized = false;
 
+    private Vector2 xpOffset = new Vector2(-0.75f, 0.5f);
+    private Vector2 dmgOffset = new Vector2(0.2f, 0.2f);
+
     public void Start()
     {
         if (healthConfig != null)
@@ -122,6 +125,9 @@ public class Hurtable : MonoBehaviour
         if (!invulnerable)
         {
             currentHealth -= damage;
+            if (UIWorldCanvas.main != null) {
+                UIWorldCanvas.main.ShowNumber((Vector2)transform.position + dmgOffset, -damage, ResourceType.HP, false);
+            }
             if (currentHealth <= 0)
             {
                 if (deadAction != null)
@@ -136,6 +142,9 @@ public class Hurtable : MonoBehaviour
                 if (playerExp != null && expGainConfig != null)
                 {
                     Experience.main.AddExperience(expGainConfig.GainedExperience);
+                    if (UIWorldCanvas.main != null) {
+                        UIWorldCanvas.main.ShowNumber((Vector2)transform.position + xpOffset, expGainConfig.GainedExperience, ResourceType.XP);
+                    }
                 }
             }
             else
