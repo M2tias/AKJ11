@@ -77,6 +77,6 @@ public class ItemSpawn
     public SpawnPosition SpawnPosition { get; private set; } = SpawnPosition.Cave;
 
     [field: SerializeField]
-    public ResourceGainConfig Item {get; private set;}
+    public PickupableItemScriptableObject Item {get; private set;}
 }
 

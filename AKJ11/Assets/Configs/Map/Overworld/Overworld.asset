@@ -21,6 +21,6 @@ MonoBehaviour:
   <Items>k__BackingField:
   - <SpawnThisManyTimes>k__BackingField: 2
     <SpawnPosition>k__BackingField: 1
-    <Item>k__BackingField: {fileID: 11400000, guid: 049961e1067f95b4a9564a23658a6f9a, type: 2}
+    <Item>k__BackingField: {fileID: 11400000, guid: 0af6d286a5c04de4f83c13d2e425d209, type: 2}
   <DefaultTileStyle>k__BackingField: {fileID: 11400000, guid: 1021e8f3aba16034a923ec2c9177ebe2, type: 2}
   <CaveTileStyle>k__BackingField: {fileID: 11400000, guid: 21e492686bc6f54408d8f62dd8c9cc09, type: 2}
