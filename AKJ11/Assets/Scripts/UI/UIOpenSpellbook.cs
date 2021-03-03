@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.UI;
 
 public class UIOpenSpellbook : MonoBehaviour
 {
@@ -11,12 +12,38 @@ public class UIOpenSpellbook : MonoBehaviour
     private UnityEvent spell2Done;
     [SerializeField]
     private UnityEvent spellWallDone;
+    [SerializeField]
+    private Sprite defaultBook;
+    [SerializeField]
+    private Sprite pointsLeftBook;
+    [SerializeField]
+    private Text pointsLeftText;
+
+    Image image;
+
+    private void Start()
+    {
+        image = GetComponent<Image>();
+    }
 
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.I) || Input.GetKeyDown(KeyCode.Tab))
         {
             Toggle();
+        }
+
+        if(Experience.main.GetUnusedStatPoints() >  0)
+        {
+            image.sprite = pointsLeftBook;
+            pointsLeftText.text = Experience.main.GetUnusedStatPoints().ToString();
+            pointsLeftText.gameObject.SetActive(true);
+        }
+        else
+        {
+            image.sprite = defaultBook;
+            pointsLeftText.text = "0";
+            pointsLeftText.gameObject.SetActive(false);
         }
     }
 
