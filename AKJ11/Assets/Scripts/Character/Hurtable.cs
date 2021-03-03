@@ -133,7 +133,7 @@ public class Hurtable : MonoBehaviour
                     SoundManager.main.PlaySound(config.DeathSound);
                 }
 
-                if (playerExp != null && expGainConfig != null)
+                if (playerExperience != null && expGainConfig != null)
                 {
                     Experience.main.AddExperience(expGainConfig.GainedExperience);
                 }
