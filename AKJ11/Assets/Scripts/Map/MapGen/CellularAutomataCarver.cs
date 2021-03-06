@@ -33,7 +33,7 @@ public class CellularAutomataCarver
 
     public static bool RandomPercent(int percent)
     {
-        return percent >= UnityEngine.Random.Range(1, 101);
+        return percent >= RandomNumberGenerator.GetInstance().Range(1, 101);
     }
 
     private async UniTask RandomFillMap()

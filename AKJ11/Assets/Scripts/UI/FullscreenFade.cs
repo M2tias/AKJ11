@@ -20,10 +20,6 @@ public class FullscreenFade : MonoBehaviour
 
     private void Awake() {
         main = this;
-    }
-
-    public void Initialize()
-    {
         imgFade = GetComponentInChildren<Image>();
     }
 

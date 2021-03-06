@@ -5,6 +5,7 @@ using UnityEngine;
 public class MapAreaSplitter
 {
     public static List<RectInt> GetSplitAreas(MapConfig mapConfig) {
+        RandomNumberGenerator rng = RandomNumberGenerator.GetInstance();
         int centerRadius = mapConfig.TowerRadius;
         int padding = mapConfig.Padding;
         int mapWidth = mapConfig.Size;
@@ -40,7 +41,7 @@ public class MapAreaSplitter
         areas.Add(botRight);
         areas.Add(botLeft);
         while(areas.Count > mapConfig.NumberOfAreas) {
-            areas.RemoveAt(Random.Range(0, areas.Count));
+            areas.RemoveAt(rng.Range(0, areas.Count));
         }
 
         return areas;
