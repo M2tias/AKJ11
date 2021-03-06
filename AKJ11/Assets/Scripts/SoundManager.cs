@@ -52,11 +52,12 @@ public class GameSound {
     [field: SerializeField]
     private List<AudioSource> sounds;
 
+
     public AudioSource Get () 
     {
         if (sounds == null || sounds.Count == 0) {
             return null;
         } 
-        return sounds[Random.Range(0, sounds.Count)];
+        return sounds[UnityEngine.Random.Range(0, sounds.Count)];
     }
 }

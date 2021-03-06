@@ -44,6 +44,8 @@ public class MapGenerator : MonoBehaviour
 
     GameObject player;
 
+    private RandomNumberGenerator rng;
+
     void Awake()
     {
         main = this;
@@ -52,11 +54,12 @@ public class MapGenerator : MonoBehaviour
     void Start()
     {
         fader = FullscreenFade.main;
-        fader.Initialize();
         #if UNITY_EDITOR 
             currentLevel = DebugCurrentLevel;
         #endif
         Time.timeScale = 1f;
+        rng = RandomNumberGenerator.GetInstance();
+        SeedView.main.SetText(rng.Seed);
         NextLevel();
 
     }
@@ -263,13 +266,13 @@ public class MapGenerator : MonoBehaviour
                         if (itemTowerNodes.Count < 1) {
                             continue;
                         }
-                        spawnNode = itemTowerNodes[UnityEngine.Random.Range(0, itemTowerNodes.Count)];
+                        spawnNode = itemTowerNodes[rng.Range(0, itemTowerNodes.Count)];
                         itemTowerNodes.Remove(spawnNode);
                     } else if (spawn.SpawnPosition == SpawnPosition.Cave) {
                         if (nonTowerNodes.Count < 1) {
                             continue;
                         }
-                        spawnNode = nonTowerNodes[UnityEngine.Random.Range(0, nonTowerNodes.Count)];
+                        spawnNode = nonTowerNodes[rng.Range(0, nonTowerNodes.Count)];
                         nonTowerNodes.Remove(spawnNode);
                     }
                     if (spawnNode != null) {
@@ -304,12 +307,12 @@ public class MapGenerator : MonoBehaviour
                         MapNode randomNode;
                         if (enemySpawn.SpawnPosition == SpawnPosition.Cave)
                         {
-                            randomNode = nonEdgeNodes[UnityEngine.Random.Range(0, nonEdgeNodes.Count)];
+                            randomNode = nonEdgeNodes[rng.Range(0, nonEdgeNodes.Count)];
                             nonEdgeNodes.Remove(randomNode);
                         }
                         else
                         {
-                            randomNode = enemyTowerNodes[UnityEngine.Random.Range(0, enemyTowerNodes.Count)];
+                            randomNode = enemyTowerNodes[rng.Range(0, enemyTowerNodes.Count)];
                             enemyTowerNodes.Remove(randomNode);
                         }
                         Enemy enemy = Prefabs.Get<Enemy>();

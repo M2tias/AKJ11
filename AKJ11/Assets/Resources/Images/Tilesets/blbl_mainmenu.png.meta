@@ -155,6 +155,9 @@ TextureImporter:
   - first:
       213: -2504321181939934409
     second: background
+  - first:
+      213: -9157791363957236915
+    second: blbl_mainmenu_0
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -300,7 +303,7 @@ TextureImporter:
         width: 32
         height: 32
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -308,6 +311,48 @@ TextureImporter:
       bones: []
       spriteID: 73bdbfa472dde3dd0800000000000000
       internalID: -2504321181939934409
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: blbl_mainmenu_0
+      rect:
+        serializedVersion: 2
+        x: 41
+        y: 73
+        width: 77
+        height: 78
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 5, y: 13, z: 4, w: 5}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d4b5038464df8e080800000000000000
+      internalID: -9157791363957236915
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 0_smaller_sliced
+      rect:
+        serializedVersion: 2
+        x: 41
+        y: 81
+        width: 77
+        height: 70
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 5, y: 5, z: 4, w: 5}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 632d0dec04d75bb10800000000000000
+      internalID: 1996639727109853750
       vertices: []
       indices: 
       edges: []
