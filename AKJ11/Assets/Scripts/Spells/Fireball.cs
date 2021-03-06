@@ -15,7 +15,7 @@ public class Fireball : MonoBehaviour
     [SerializeField]
     private int bounces;
     // [SerializeField]
-    private float bounceDistance = 2;
+    private float bounceDistance = 3;
     [SerializeField]
     private float dotTickDamage;
     [SerializeField]

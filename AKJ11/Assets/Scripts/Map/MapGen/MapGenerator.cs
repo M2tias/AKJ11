@@ -15,6 +15,16 @@ public class MapGenerator : MonoBehaviour
 
     [SerializeField]
     private GameObject playerPrefab;
+    [SerializeField]
+    private TorchConfig torchLeftConfig;
+    [SerializeField]
+    private TorchConfig torchRightConfig;
+    [SerializeField]
+    private TorchConfig torchTopConfig;
+    [SerializeField]
+    private TorchConfig torchBottomConfig;
+    [SerializeField]
+    private GameObject torchPrefab;
 
     private FadeOptions fadeToBlack = new FadeOptions(Color.black, 0.2f, true);
     private FadeOptions fadeToTransparent = new FadeOptions(Color.clear, 0.5f, true);
@@ -224,9 +234,10 @@ public class MapGenerator : MonoBehaviour
         if (movement != null) {
             movement.transform.localPosition = Vector2.zero;
         }
- 
+
 
         SpawnEnemies(playerNode, nonTowerNodes);
+        SpawnTorches(playerNode, nonTowerNodes);
 
         FollowTarget cameraFollow = Camera.main.GetComponent<FollowTarget>();
         if (cameraFollow != null)
@@ -272,15 +283,16 @@ public class MapGenerator : MonoBehaviour
         catch(Exception e) {
             MonoBehaviour.print(e);
         }
-        
+
     }
 
-    private void SpawnEnemies(MapNode playerNode, List<MapNode> nonTowerNodes) {
+    private void SpawnEnemies(MapNode playerNode, List<MapNode> nonTowerNodes)
+    {
         float minDistanceFromPlayer = 2f;
 
         List<MapNode> nonEdgeNodes = nonTowerNodes.Where(node => !node.IsEdge).ToList();
         List<MapNode> enemyTowerNodes = towerNodes.Where(node => !node.IsEdge && node.Distance(playerNode) > minDistanceFromPlayer).ToList();
-        
+
         foreach (EnemySpawn enemySpawn in config.Spawns)
         {
             for (int spawnCount = 0; spawnCount < enemySpawn.SpawnThisManyTimes; spawnCount += 1)
@@ -317,4 +329,62 @@ public class MapGenerator : MonoBehaviour
         }
     }
 
+    private void SpawnTorches(MapNode playerNode, List<MapNode> nonTowerNodes)
+    {
+        IEnumerable<MapNode> edgeNodes = nonTowerNodes.Where(node => node.IsEdge);
+
+        List <MapNode> leftEdgeNodes = edgeNodes.Where(node =>
+            node.Neighbors.Any(n => n.IsWall && n.X < node.X && n.Y == node.Y) &&
+            node.Neighbors.Where(n => n.IsWall && n.X < node.X).Count() > 1
+        ).ToList();
+
+        List<MapNode> rightEdgeNodes = edgeNodes.Where(node =>
+            node.Neighbors.Any(n => n.IsWall && n.X > node.X && n.Y == node.Y) &&
+            node.Neighbors.Where(n => n.IsWall && n.X > node.X).Count() > 1
+        ).ToList();
+
+        List<MapNode> topEdgeNodes = edgeNodes.Where(node =>
+            node.Neighbors.Any(n => n.IsWall && n.X == node.X && n.Y > node.Y) &&
+            node.Neighbors.Where(n => n.IsWall && n.Y > node.Y).Count() > 1
+        ).ToList();
+
+        List<MapNode> bottomEdgeNodes = edgeNodes.Where(node =>
+            node.Neighbors.Any(n => n.IsWall && n.X == node.X && n.Y < node.Y) &&
+            node.Neighbors.Where(n => n.IsWall && n.Y < node.Y).Count() > 1
+        ).ToList();
+
+        float spawnPitch = 4f;
+
+        SpawnTorchesSide(leftEdgeNodes, spawnPitch, torchLeftConfig, "left");
+        SpawnTorchesSide(rightEdgeNodes, spawnPitch, torchRightConfig, "right");
+        SpawnTorchesSide(topEdgeNodes, spawnPitch, torchTopConfig, "top");
+        SpawnTorchesSide(bottomEdgeNodes, spawnPitch, torchBottomConfig, "bottom");
+    }
+
+    private void SpawnTorchesSide(List<MapNode> edgeNodes, float spawnPitch, TorchConfig config, string direction)
+    {
+        for (int index = 0; index < Mathf.RoundToInt(edgeNodes.Count / spawnPitch); index += 1)
+        {
+            try
+            {
+                SpawnTorch(edgeNodes, spawnPitch, index, config, direction);
+            }
+            catch (Exception e)
+            {
+                MonoBehaviour.print(e);
+            }
+        }
+    }
+
+    private void SpawnTorch(List<MapNode> edgeNodes, float spawnPitch, int index, TorchConfig config, string direction)
+    {
+        MapNode randomNode = edgeNodes[Math.Min(Mathf.RoundToInt(index * spawnPitch), edgeNodes.Count - 1)];//UnityEngine.Random.Range(0, rightEdgeNodes.Count)];
+
+        GameObject torchInstance2 = Instantiate(torchPrefab);
+        torchInstance2.GetComponent<Torch>().Initialize(config);
+        torchInstance2.transform.SetParent(nodeContainer.viewContainer);
+        Vector2 nodePos2 = (Vector2)randomNode.Position;
+        torchInstance2.transform.position = new Vector2(nodePos2.x, nodePos2.y);
+        torchInstance2.name = "torch_"+direction+"_X:" + randomNode.X + "|Y:" + randomNode.Y;
+    }
 }
