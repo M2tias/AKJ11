@@ -163,29 +163,31 @@ public class Fireball : MonoBehaviour
     private int remainingBounces;
     private List<GameObject> bouncedTargets = new List<GameObject>();
     private GameObject nextTarget;
-    private float bounceSpeed = 100f;
+    private float bounceSpeed = 15f;
 
     void OnTriggerEnter2D(Collider2D other)
     {
-        Hurtable hurtable = other.GetComponent<Hurtable>();
-        hitTarget(hurtable);
-        DoAoeDamage(other.gameObject);
+        if (!bouncing) {
+            Hurtable hurtable = other.GetComponent<Hurtable>();
+            hitTarget(hurtable);
+            DoAoeDamage(other.gameObject);
 
-        bouncedTargets.Add(other.gameObject);
-        remainingBounces = bounces;
+            bouncedTargets.Add(other.gameObject);
+            remainingBounces = bounces;
 
-        if (remainingBounces > 0)
-        {
-            CreateExplosion();
-        }
+            if (remainingBounces > 0)
+            {
+                CreateExplosion();
+            }
 
-        if (hurtable != null)
-        {
-            DoBounces();
-        }
-        else
-        {
-            Kill();
+            if (hurtable != null)
+            {
+                DoBounces();
+            }
+            else
+            {
+                Kill();
+            }
         }
     }
 

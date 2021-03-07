@@ -10,9 +10,9 @@ public class FollowTarget : MonoBehaviour
     private bool initialized = false;
     private float minimumDifference = 0.01f;
 
-    public void Initialize(FollowTargetConfig newConfig, Transform newTarget, bool instantPosition = true)
+    public void Initialize(FollowTargetConfig newConfig, bool instantPosition = true)
     {
-        target = newTarget;
+        target = GameObject.FindGameObjectWithTag("CameraFollowTarget").transform;
         config = newConfig;
         initialized = true;
         if (instantPosition) {

@@ -245,7 +245,7 @@ public class MapGenerator : MonoBehaviour
         FollowTarget cameraFollow = Camera.main.GetComponent<FollowTarget>();
         if (cameraFollow != null)
         {
-            cameraFollow.Initialize(Configs.main.Camera, player.GetComponentInChildren<Movement>().transform, true);
+            cameraFollow.Initialize(Configs.main.Camera, true);
         }
         else
         {
