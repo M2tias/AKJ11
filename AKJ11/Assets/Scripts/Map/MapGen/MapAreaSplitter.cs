@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class MapAreaSplitter
 {
-    public static List<RectInt> GetSplitAreas(MapConfig mapConfig) {
+    public static List<MapArea> GetSplitAreas(MapConfig mapConfig) {
         RandomNumberGenerator rng = RandomNumberGenerator.GetInstance();
         int centerRadius = mapConfig.TowerRadius;
         int padding = mapConfig.Padding;
@@ -13,7 +13,7 @@ public class MapAreaSplitter
         int halfWidth = mapWidth / 2;
         int halfHeight = mapHeight / 2;
 
-        List<RectInt> areas = new List<RectInt>();
+        List<MapArea> areas = new List<MapArea>();
         RectInt topLeft = new RectInt(
             new Vector2Int(padding, padding + halfHeight + centerRadius),
             new Vector2Int(mapWidth - (halfWidth - centerRadius) - (padding * 2), halfHeight - centerRadius - padding * 2)
@@ -36,14 +36,47 @@ public class MapAreaSplitter
             ),
             new Vector2Int(mapWidth - botRight.width - padding * 3, mapHeight - topLeft.height - padding * 3)
         );
-        areas.Add(topLeft);
-        areas.Add(topRight);
-        areas.Add(botRight);
-        areas.Add(botLeft);
+        areas.Add(new MapArea(topLeft, MapAreaType.TopLeft));
+        areas.Add(new MapArea(topRight, MapAreaType.TopRight));
+        areas.Add(new MapArea(botRight, MapAreaType.BotRight));
+        areas.Add(new MapArea(botLeft, MapAreaType.BotLeft));
+        if (Configs.main.Debug.ShowAreaBorders) {
+            foreach(MapArea area in areas) {
+                area.Show();
+            }
+        }
         while(areas.Count > mapConfig.NumberOfAreas) {
             areas.RemoveAt(rng.Range(0, areas.Count));
         }
 
         return areas;
     }
+
+}
+public class MapArea {
+    public RectInt Rect;
+    public MapAreaType Type;
+    private SpriteRenderer spriteRenderer;
+    public MapArea(RectInt rect, MapAreaType type ) {
+        Rect = rect;
+        Type = type;
+    }
+    public void Show() {
+        if (spriteRenderer == null) {
+            SpriteRenderer spriteRenderer = Prefabs.Get<SpriteRenderer>();
+            spriteRenderer.transform.position = Rect.center;
+            spriteRenderer.sprite = Configs.main.Debug.BorderSprite;
+            spriteRenderer.drawMode = SpriteDrawMode.Sliced;
+            spriteRenderer.sortingOrder = 500;
+            spriteRenderer.size = Rect.size;
+        }
+    }
+}
+
+public enum MapAreaType {
+    None,
+    TopLeft,
+    TopRight,
+    BotRight,
+    BotLeft
 }

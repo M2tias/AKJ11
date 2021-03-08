@@ -34,7 +34,7 @@ public class EnclosureConnector
     {
         List<MapNodeConnection> connections = new List<MapNodeConnection>();
         foreach(CaveEnclosure caveEnclosureA in enclosures) {
-            MapNodeConnection caveEnclosureConnection = new MapNodeConnection(caveEnclosureA);
+            MapNodeConnection caveEnclosureConnection = new MapNodeConnection(caveEnclosureA, config.ConnectionStrategy);
             caveEnclosureA.AddConnection(caveEnclosureConnection);
             foreach(CaveEnclosure caveEnclosureB in enclosures) {
                 if (caveEnclosureA == caveEnclosureB) {
@@ -73,17 +73,19 @@ public class EnclosureConnector
 }
 
 public class MapNodeConnection {
-    public MapNodeConnection(CaveEnclosure caveEnclosureA) {
+    private ConnectionStrategy strategy;
+    public MapNodeConnection(CaveEnclosure caveEnclosureA, ConnectionStrategy connectionStrategy) {
+        strategy = connectionStrategy;
         CaveEnclosureA = caveEnclosureA;
     }
+
 
     public void SetAsNewConnectionIfSmaller(MapNode nodeA, MapNode nodeB, CaveEnclosure caveEnclosureB) {
         if (nodeA == nodeB) {
             return;
         }
         float newDistance = Mathf.Abs(nodeA.Distance(nodeB));
-        
-        if (distance < 0 || newDistance < distance) {
+        if (distance < 0 || newDistance < distance || ConsiderCenter(newDistance, nodeB)) {
             distance = newDistance;
             NodeA = nodeA;
             NodeB = nodeB;
@@ -91,22 +93,21 @@ public class MapNodeConnection {
         }
     }
 
-    public void SetAsNewConnectionIfLarger(MapNode nodeA, MapNode nodeB, CaveEnclosure caveEnclosureB) {
-        if (nodeA == nodeB) {
-            return;
+    private bool ConsiderCenter(float newDistance, MapNode node) {
+        if (strategy == ConnectionStrategy.ClosestToCenter) {
+            return Mathf.Approximately(distance, newDistance) && NodeB.DistanceToCenter > node.DistanceToCenter;
         }
-        float newDistance = Mathf.Abs(nodeA.Distance(nodeB));
-        
-        if (distance < 0 || newDistance > distance) {
-            distance = newDistance;
-            NodeA = nodeA;
-            NodeB = nodeB;
-            CaveEnclosureB = caveEnclosureB;
-        }
+        return false;
     }
     public float distance = -1;
     public CaveEnclosure CaveEnclosureA;
     public CaveEnclosure CaveEnclosureB;
     public MapNode NodeA;
     public MapNode NodeB;
+}
+
+public enum ConnectionStrategy {
+    None,
+    First,
+    ClosestToCenter
 }

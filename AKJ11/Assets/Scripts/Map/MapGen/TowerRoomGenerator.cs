@@ -8,22 +8,12 @@ using System;
 public class TowerRoomGenerator
 {
 
-    private NodeContainer nodeContainer;
-    private MapConfig config;
-    private DelayCounter delayCounter = new DelayCounter(70);
-    private int buffer = 2;
-    public TowerRoomGenerator(MapConfig config, NodeContainer nodeContainer) {
-        this.config = config;
-        int size = config.TowerRadius * 2 + buffer;
-        this.nodeContainer = nodeContainer;
+    public static async UniTask<List<MapNode>> Generate(int radius, NodeContainer nodeContainer, Vector2Int startPoint) {
         if (Configs.main.Debug.DelayGeneration) {
             nodeContainer.Render();
         }
-    }
-
-    public async UniTask<List<MapNode>> Generate() {
-        MapNode midPoint = nodeContainer.GetNode(nodeContainer.MidPoint);
-        List<MapNode> nodes = await GridUtility.DrawCircle(nodeContainer, config.TowerRadius, midPoint.X, midPoint.Y);
+        MapNode midPoint = nodeContainer.GetNode(startPoint);
+        List<MapNode> nodes = await GridUtility.DrawCircle(nodeContainer, radius, midPoint.X, midPoint.Y);
         return nodes;
     }
 

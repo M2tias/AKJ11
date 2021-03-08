@@ -14,3 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <GenerationDelayMs>k__BackingField: 1
   <DelayGeneration>k__BackingField: 0
+  <DisableFader>k__BackingField: 0
+  <ShowAreaBorders>k__BackingField: 0
+  <BorderSprite>k__BackingField: {fileID: 21300000, guid: 425011536bb6d104ba0c29bcdd3e0f85, type: 3}

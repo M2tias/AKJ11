@@ -59,8 +59,12 @@ public class NodeContainer
     }
 
     public async UniTask Kill() {
-        GameObject.Destroy(ViewContainer.gameObject);
+        KillSync();
         await UniTask.NextFrame();
+    }
+
+    public void KillSync() {
+        GameObject.Destroy(ViewContainer.gameObject);
     }
 
     public NodeContainer(Vector2Int position, Vector2Int size)

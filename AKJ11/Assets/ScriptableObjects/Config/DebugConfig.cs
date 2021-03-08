@@ -8,10 +8,19 @@ public class DebugConfig : ScriptableObject
 
     [field: SerializeField]
     [field: Range(1, 1000)]
-    public int GenerationDelayMs {get; private set;} = 10;
+    public int GenerationDelayMs { get; private set; } = 10;
     private TimeSpan generationDelay = TimeSpan.Zero;
     [field: SerializeField]
-    public bool DelayGeneration {get; private set;} = true;
+    public bool DelayGeneration { get; private set; } = true;
+
+    [field: SerializeField]
+    public bool DisableFader { get; private set; } = false;
+
+    [field: SerializeField]
+    public bool ShowAreaBorders { get; private set; } = false;
+
+    [field: SerializeField]
+    public Sprite BorderSprite { get; private set; }
 
     public TimeSpan GenerationDelay
     {

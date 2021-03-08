@@ -21,10 +21,17 @@ public class FullscreenFade : MonoBehaviour
     private void Awake() {
         main = this;
         imgFade = GetComponentInChildren<Image>();
+        if (Configs.main != null && Configs.main.Debug != null && Configs.main.Debug.DisableFader) {
+            imgFade.color = Color.clear;
+        }
     }
 
     public async UniTask Fade(FadeOptions options)
     {
+        if (Configs.main != null && Configs.main.Debug != null && Configs.main.Debug.DisableFader) {
+            imgFade.color = Color.clear;
+            return;
+        }
         if (options == null) {
             options = new FadeOptions();
         }

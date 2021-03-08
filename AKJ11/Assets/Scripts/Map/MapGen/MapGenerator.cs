@@ -7,7 +7,7 @@ using Cysharp.Threading.Tasks;
 
 public class MapGenerator : MonoBehaviour
 {
-    List<RectInt> cavernAreas;
+    List<MapArea> cavernAreas;
     NodeContainer nodeContainer;
     MapConfig config;
     List<MapNode> towerNodes;
@@ -51,9 +51,9 @@ public class MapGenerator : MonoBehaviour
     void Start()
     {
         fader = FullscreenFade.main;
-        #if UNITY_EDITOR 
-            currentLevel = DebugCurrentLevel;
-        #endif
+#if UNITY_EDITOR
+        currentLevel = DebugCurrentLevel;
+#endif
         Time.timeScale = 1f;
         rng = RandomNumberGenerator.GetInstance();
         SeedView.main.SetText(rng.Seed);
@@ -66,29 +66,43 @@ public class MapGenerator : MonoBehaviour
         Debug.Log("Gratz!");
     }
 
-    public async UniTask LevelEnd() {
-        if (SoundManager.main != null) {
+    public async UniTask LevelEnd()
+    {
+        if (SoundManager.main != null)
+        {
             SoundManager.main.PlaySound(GameSoundType.DoorOpen);
         }
         await fader.Fade(fadeToBlack);
         await NextLevel();
     }
 
-    public void FoundKey() {
-        if (nextLevelTrigger != null) {
+    public void FoundKey()
+    {
+        if (nextLevelTrigger != null)
+        {
             nextLevelTrigger.Enable();
         }
     }
     public async UniTask NextLevel()
     {
-        await NewMap();
+        try {
+            await NewMap();
+        }
+        catch(Exception e) {
+            Debug.Log(e);
+        }
         await fader.Fade(fadeToTransparent);
     }
 
     async UniTask NewMap()
     {
         MapConfig nextMapConfig = Configs.main.Campaign.Get(currentLevel);
-        if (nextMapConfig != null) {
+        if (nextMapConfig.CaveTileStyle == null)
+        {
+            Debug.Log("<color=red>You need to select tileStyle for your map config!");
+        }
+        if (nextMapConfig != null)
+        {
             config = nextMapConfig;
             currentLevel += 1;
         }
@@ -110,52 +124,44 @@ public class MapGenerator : MonoBehaviour
         await Generate();
     }
 
-    void CreateBackgroundSprites() {
-        Vector2 tiledPosition = new Vector2(config.Size / 2 - 0.5f, config.Size / 2 - 0.5f);
+    void CreateBackgroundSprites()
+    {
+        float offset = (config.Size % 2) * 0.5f;
+        Vector2 tiledPosition = new Vector2(config.Size / 2 - 0.5f + offset, config.Size / 2 - 0.5f + offset);
         TiledBackground floor = Prefabs.Get<TiledBackground>();
         floor.Initialize(
             config.CaveTileStyle.GroundSprite,
             config.CaveTileStyle.GroundTint,
             nodeContainer.ViewContainer,
             -100,
-            config.Size,
+            new Vector2Int(config.Size, config.Size),
             tiledPosition
         );
         floor.name = "Floor";
-        TiledBackground outsideWall = Prefabs.Get<TiledBackground>();
-        outsideWall.Initialize(
+
+        int outsideSize = 10;
+        CreateBGSprite("OutsideTop", new Vector2(tiledPosition.x, config.Size + outsideSize / 2 - 0.5f), new Vector2Int(config.Size + outsideSize * 2, outsideSize));
+        CreateBGSprite("OutsideRight", new Vector2(outsideSize / 2 + config.Size - 0.5f, tiledPosition.y), new Vector2Int(outsideSize, config.Size));
+        CreateBGSprite("OutsideLeft", new Vector2(-outsideSize / 2 - 0.5f, tiledPosition.y), new Vector2Int(outsideSize, config.Size));
+        CreateBGSprite("OutsideBot", new Vector2(tiledPosition.x, -outsideSize / 2 - 0.5f), new Vector2Int(config.Size + outsideSize * 2, outsideSize));
+    }
+
+    void CreateBGSprite(string spriteName, Vector2 position, Vector2Int size) {
+        TiledBackground bgSprite = Prefabs.Get<TiledBackground>();
+        bgSprite.Initialize(
             config.CaveTileStyle.GroundSprite,
             config.CaveTileStyle.ColorTint,
             nodeContainer.ViewContainer,
             -101,
-            config.Size * 2,
-            tiledPosition
+            size,
+            position
         );
-        outsideWall.name = "Outsidewall";
+        bgSprite.name = spriteName;
     }
 
     async UniTask Generate()
     {
-        List<CaveEnclosure> caves;
-        await GenerateCaves();
-        caves = await EnclosureFinder.Find(nodeContainer);
-
-        int attempts = 20;
-        while (caves.Count < config.NumberOfAreas && attempts > 0)
-        {
-            nodeContainer.Kill();
-            nodeContainer = new NodeContainer(0, 0, config.Size, config.Size, config, config.CaveTileStyle);
-            await GenerateCaves();
-            caves = await EnclosureFinder.Find(nodeContainer);
-            attempts -= 1;
-            if (caves.Count < config.NumberOfAreas) {
-                Debug.Log($"{caves.Count} < {config.NumberOfAreas}, trying {attempts} more times...");
-            }
-        }
-        if (attempts < 1)
-        {
-            Debug.Log("Config sucks! Just couldn't create enough caves.");
-        }
+        await GenerateAndFindEnclosures();
         if (Configs.main.Debug.DelayGeneration)
         {
             nodeContainer.Render();
@@ -170,19 +176,96 @@ public class MapGenerator : MonoBehaviour
         nodeContainer.Render();
     }
 
+    async UniTask GenerateAndFindEnclosures()
+    {
+        List<CaveEnclosure> areas;
+        await GenerateEnclosures();
+        areas = await EnclosureFinder.Find(nodeContainer);
+
+        int attempts = 20;
+        while (areas.Count < config.NumberOfAreas && attempts > 0)
+        {
+            nodeContainer.KillSync();
+            nodeContainer = new NodeContainer(0, 0, config.Size, config.Size, config, config.CaveTileStyle);
+            await GenerateEnclosures();
+            areas = await EnclosureFinder.Find(nodeContainer);
+            attempts -= 1;
+            if (areas.Count < config.NumberOfAreas)
+            {
+                Debug.Log($"{areas.Count} < {config.NumberOfAreas}, trying {attempts} more times...");
+            }
+        }
+        if (attempts < 1)
+        {
+            Debug.Log($"Config sucks! Just couldn't create enough areas of type: {config.AreaType}.");
+        }
+    }
+
+    async UniTask GenerateEnclosures()
+    {
+        if (config.AreaType == SpawnPosition.Cave)
+        {
+            await GenerateCaves();
+        }
+        else
+        {
+            await GenerateCircularRooms();
+        }
+    }
+
     async UniTask GenerateCaves()
     {
-        foreach (RectInt area in cavernAreas)
+        foreach (MapArea area in cavernAreas)
         {
-            CellularAutomataCarver carver = new CellularAutomataCarver(area, nodeContainer);
+            CellularAutomataCarver carver = new CellularAutomataCarver(area.Rect, nodeContainer);
             await carver.Generate();
+        }
+    }
+
+    async UniTask GenerateCircularRooms()
+    {
+        int padding = config.Padding;
+        int radius = config.CircularAreaRadius;
+        foreach (MapArea area in cavernAreas)
+        {
+            towerNodes = await TowerRoomGenerator.Generate(
+                config.CircularAreaRadius,
+                nodeContainer,
+                CalculateCircularRoomPosition(area)
+            );
+        }
+    }
+
+    private Vector2Int CalculateCircularRoomPosition(MapArea area)
+    {
+        int offset = config.Padding + config.CircularAreaRadius;
+        if (area.Type == MapAreaType.BotLeft)
+        {
+            offset = area.Rect.xMin + offset;
+        }
+        else if (area.Type == MapAreaType.BotRight) {
+            offset = area.Rect.yMin + offset;
+        }
+        else if (area.Type == MapAreaType.TopLeft)
+        {
+            offset = area.Rect.yMax - offset;
+        }
+        else if (area.Type == MapAreaType.TopRight) {
+            offset = area.Rect.xMax - offset;
+        }
+        if (area.Type == MapAreaType.TopLeft || area.Type == MapAreaType.BotRight)
+        {
+            return new Vector2Int(nodeContainer.MidPoint.x, offset);
+        }
+        else
+        {
+            return new Vector2Int(offset, nodeContainer.MidPoint.y);
         }
     }
 
     async UniTask GenerateTowerRoom()
     {
-        TowerRoomGenerator towerRoomGenerator = new TowerRoomGenerator(config, nodeContainer);
-        towerNodes = await towerRoomGenerator.Generate();
+        towerNodes = await TowerRoomGenerator.Generate(config.TowerRadius, nodeContainer, nodeContainer.MidPoint);
         foreach (MapNode node in towerNodes)
         {
             node.IsTower = true;
@@ -217,30 +300,38 @@ public class MapGenerator : MonoBehaviour
     }
 
 
-    public Transform GetContainer() {
+    public Transform GetContainer()
+    {
         return nodeContainer.ViewContainer;
     }
 
     private MapNode Populate()
     {
-        if (player == null) {
+        if (player == null)
+        {
             player = Instantiate(playerPrefab);
         }
 
         List<MapNode> nonTowerNodes = nodeContainer.Nodes.Where(node => !node.IsWall && !towerNodes.Contains(node)).ToList();
         MapNode playerNode = nodeContainer.GetNode(nodeContainer.MidPoint);
 
-        if (Configs.main.Campaign.IsLastLevel(config)) {
+        if (Configs.main.Campaign.IsLastLevel(config))
+        {
             Debug.Log("LastLevel");
             TheEndView.main.Show();
-        } else {
+        }
+        else
+        {
             nextLevelTrigger = Prefabs.Get<NextLevelTrigger>();
             nextLevelTrigger.transform.SetParent(nodeContainer.ViewContainer);
             MapNode keyNode;
-            if (nonTowerNodes.Count > 0) {
+            if (nonTowerNodes.Count > 0)
+            {
                 keyNode = nonTowerNodes.OrderByDescending(node => node.Distance(playerNode)).First();
                 nextLevelTrigger.Initialize(nodeContainer.MidPoint);
-            } else {
+            }
+            else
+            {
                 keyNode = towerNodes.OrderByDescending(node => node.Distance(playerNode)).First();
                 MapNode enterNode = towerNodes.OrderByDescending(node => node.Distance(keyNode)).First();
                 nextLevelTrigger.Initialize(enterNode.Position);
@@ -252,7 +343,8 @@ public class MapGenerator : MonoBehaviour
 
         player.transform.position = (Vector2)playerNode.Position;
         Movement movement = player.GetComponentInChildren<Movement>();
-        if (movement != null) {
+        if (movement != null)
+        {
             movement.transform.localPosition = Vector2.zero;
         }
 
@@ -272,36 +364,48 @@ public class MapGenerator : MonoBehaviour
         return playerNode;
     }
 
-    private void PlaceItems(MapNode playerNode) {
-        try{
-        if (config.Items.Count > 0) {
-            List<MapNode> nonTowerNodes = nodeContainer.Nodes.Where(node => !node.IsWall && !towerNodes.Contains(node)).ToList();
-            List<MapNode> itemTowerNodes = nodeContainer.Nodes.Where(node => node.IsTower && node.Distance(playerNode) > 2).ToList();
-            foreach(ItemSpawn spawn in config.Items) {
-                for (int timesSpawned = 0; timesSpawned < spawn.SpawnThisManyTimes; timesSpawned += 1) {
-                    MapNode spawnNode = null;
-                    if (spawn.SpawnPosition == SpawnPosition.Tower) {
-                        if (itemTowerNodes.Count < 1) {
-                            continue;
+    private void PlaceItems(MapNode playerNode)
+    {
+        try
+        {
+            if (config.Items.Count > 0)
+            {
+                List<MapNode> nonTowerNodes = nodeContainer.Nodes.Where(node => !node.IsWall && !towerNodes.Contains(node)).ToList();
+                List<MapNode> itemTowerNodes = nodeContainer.Nodes.Where(node => node.IsTower && node.Distance(playerNode) > 2).ToList();
+                foreach (ItemSpawn spawn in config.Items)
+                {
+                    for (int timesSpawned = 0; timesSpawned < spawn.SpawnThisManyTimes; timesSpawned += 1)
+                    {
+                        MapNode spawnNode = null;
+                        if (spawn.SpawnPosition == SpawnPosition.Tower)
+                        {
+                            if (itemTowerNodes.Count < 1)
+                            {
+                                continue;
+                            }
+                            spawnNode = itemTowerNodes[rng.Range(0, itemTowerNodes.Count)];
+                            itemTowerNodes.Remove(spawnNode);
                         }
-                        spawnNode = itemTowerNodes[rng.Range(0, itemTowerNodes.Count)];
-                        itemTowerNodes.Remove(spawnNode);
-                    } else if (spawn.SpawnPosition == SpawnPosition.Cave) {
-                        if (nonTowerNodes.Count < 1) {
-                            continue;
+                        else if (spawn.SpawnPosition == SpawnPosition.Cave)
+                        {
+                            if (nonTowerNodes.Count < 1)
+                            {
+                                continue;
+                            }
+                            spawnNode = nonTowerNodes[rng.Range(0, nonTowerNodes.Count)];
+                            nonTowerNodes.Remove(spawnNode);
                         }
-                        spawnNode = nonTowerNodes[rng.Range(0, nonTowerNodes.Count)];
-                        nonTowerNodes.Remove(spawnNode);
-                    }
-                    if (spawnNode != null) {
-                        PickupableItem item = Prefabs.Get<PickupableItem>();
-                        item.Initialize(spawn.Item, nodeContainer.ViewContainer, spawnNode.Position);
+                        if (spawnNode != null)
+                        {
+                            PickupableItem item = Prefabs.Get<PickupableItem>();
+                            item.Initialize(spawn.Item, nodeContainer.ViewContainer, spawnNode.Position);
+                        }
                     }
                 }
             }
         }
-        }
-        catch(Exception e) {
+        catch (Exception e)
+        {
             MonoBehaviour.print(e);
         }
 
@@ -353,9 +457,9 @@ public class MapGenerator : MonoBehaviour
     {
         IEnumerable<MapNode> edgeNodes = nonTowerNodes.Where(node => node.IsEdge);
 
-        List <MapNode> leftEdgeNodes = edgeNodes.Where(node =>
-            node.Neighbors.Any(n => n.IsWall && n.X < node.X && n.Y == node.Y) &&
-            node.Neighbors.Where(n => n.IsWall && n.X < node.X).Count() > 1
+        List<MapNode> leftEdgeNodes = edgeNodes.Where(node =>
+           node.Neighbors.Any(n => n.IsWall && n.X < node.X && n.Y == node.Y) &&
+           node.Neighbors.Where(n => n.IsWall && n.X < node.X).Count() > 1
         ).ToList();
 
         List<MapNode> rightEdgeNodes = edgeNodes.Where(node =>
@@ -405,6 +509,6 @@ public class MapGenerator : MonoBehaviour
         torchInstance2.transform.SetParent(nodeContainer.ViewContainer);
         Vector2 nodePos2 = (Vector2)randomNode.Position;
         torchInstance2.transform.position = new Vector2(nodePos2.x, nodePos2.y);
-        torchInstance2.name = "torch_"+direction+"_X:" + randomNode.X + "|Y:" + randomNode.Y;
+        torchInstance2.name = "torch_" + direction + "_X:" + randomNode.X + "|Y:" + randomNode.Y;
     }
 }

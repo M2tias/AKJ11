@@ -27,7 +27,20 @@ public class MapNode
     public bool IsCave { get; set; } = false;
     public bool IsTower { get; set; } = false;
 
-    public bool IsEdge {get; set;} = false;
+    public bool IsEdge { get; set; } = false;
+
+    private float distanceToCenter = -2;
+    public float DistanceToCenter
+    {
+        get
+        {
+            if (distanceToCenter < -1)
+            {
+                distanceToCenter = Vector2.Distance(Position, container.MidPoint);
+            }
+            return distanceToCenter;
+        }
+    }
 
     public MapNode(int x, int y, NodeContainer container, Transform viewContainer, MapConfig config)
     {
@@ -39,7 +52,8 @@ public class MapNode
     }
 
 
-    public void SetStyle(TileStyle style) {
+    public void SetStyle(TileStyle style)
+    {
         view.SetStyle(style);
     }
 

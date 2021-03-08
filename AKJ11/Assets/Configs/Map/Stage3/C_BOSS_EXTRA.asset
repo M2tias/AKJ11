@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2aa5175f86b830144a4a26a232736986, type: 3}
+  m_Name: C_BOSS_EXTRA
+  m_EditorClassIdentifier: 
+  <NumberOfAreas>k__BackingField: 1
+  areaType: 1
+  <ConnectionStrategy>k__BackingField: 2
+  circularAreaRadius: 12
+  <Size>k__BackingField: 120
+  <Padding>k__BackingField: 1
+  <TowerRadius>k__BackingField: 7
+  <Spawns>k__BackingField:
+  - <SpawnThisManyTimes>k__BackingField: 1
+    <SpawnPosition>k__BackingField: 1
+    <Enemies>k__BackingField: []
+  <Items>k__BackingField: []
+  <CaveTileStyle>k__BackingField: {fileID: 11400000, guid: 909f881d511b9ab47a45beca55fb82af, type: 2}

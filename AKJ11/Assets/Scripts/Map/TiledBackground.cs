@@ -6,12 +6,12 @@ public class TiledBackground : MonoBehaviour
 {
     [SerializeField]
     private SpriteRenderer spriteRenderer;
-    public void Initialize(Sprite sprite, Color color, Transform parent, int order, int size, Vector2 position) {
+    public void Initialize(Sprite sprite, Color color, Transform parent, int order, Vector2Int size, Vector2 position) {
         transform.SetParent(parent, true);
         transform.localPosition = position;
         spriteRenderer.sprite = sprite;
         spriteRenderer.sortingOrder = order;
-        spriteRenderer.size = new Vector2(size, size);
+        spriteRenderer.size = size;
         spriteRenderer.color = color;
     }
 }
