@@ -9,7 +9,6 @@ public class MapGenerator : MonoBehaviour
 {
     List<RectInt> cavernAreas;
     NodeContainer nodeContainer;
-    NodeContainer baseLayer;
     MapConfig config;
     List<MapNode> towerNodes;
 
@@ -37,8 +36,6 @@ public class MapGenerator : MonoBehaviour
     private FullscreenFade fader;
 
     public static MapGenerator main;
-
-    public int EnemyCount = 0;
 
     private NextLevelTrigger nextLevelTrigger;
 
@@ -105,15 +102,36 @@ public class MapGenerator : MonoBehaviour
             await nodeContainer.Kill();
         }
         nodeContainer = new NodeContainer(0, 0, config.Size, config.Size, config, config.CaveTileStyle);
-        baseLayer = new NodeContainer(0, 0, config.Size, config.Size, config, config.DefaultTileStyle, false);
-        baseLayer.Render();
-        baseLayer.viewContainer.SetParent(nodeContainer.viewContainer);
         if (Configs.main.Debug.DelayGeneration)
         {
             nodeContainer.Render();
         }
         cavernAreas = MapAreaSplitter.GetSplitAreas(config);
         await Generate();
+    }
+
+    void CreateBackgroundSprites() {
+        Vector2 tiledPosition = new Vector2(config.Size / 2 - 0.5f, config.Size / 2 - 0.5f);
+        TiledBackground floor = Prefabs.Get<TiledBackground>();
+        floor.Initialize(
+            config.CaveTileStyle.GroundSprite,
+            config.CaveTileStyle.GroundTint,
+            nodeContainer.ViewContainer,
+            -100,
+            config.Size,
+            tiledPosition
+        );
+        floor.name = "Floor";
+        TiledBackground outsideWall = Prefabs.Get<TiledBackground>();
+        outsideWall.Initialize(
+            config.CaveTileStyle.GroundSprite,
+            config.CaveTileStyle.ColorTint,
+            nodeContainer.ViewContainer,
+            -101,
+            config.Size * 2,
+            tiledPosition
+        );
+        outsideWall.name = "Outsidewall";
     }
 
     async UniTask Generate()
@@ -127,7 +145,6 @@ public class MapGenerator : MonoBehaviour
         {
             nodeContainer.Kill();
             nodeContainer = new NodeContainer(0, 0, config.Size, config.Size, config, config.CaveTileStyle);
-            baseLayer.viewContainer.SetParent(nodeContainer.viewContainer);
             await GenerateCaves();
             caves = await EnclosureFinder.Find(nodeContainer);
             attempts -= 1;
@@ -143,6 +160,7 @@ public class MapGenerator : MonoBehaviour
         {
             nodeContainer.Render();
         }
+        CreateBackgroundSprites();
         await GenerateTowerRoom();
         await FindAndConnectEnclosures();
         await BlobGrid.Run(nodeContainer);
@@ -188,7 +206,7 @@ public class MapGenerator : MonoBehaviour
     {
         Transform meshContainer = Prefabs.Get<Transform>();
         meshContainer.name = "NavMeshMesh";
-        meshContainer.SetParent(nodeContainer.viewContainer);
+        meshContainer.SetParent(nodeContainer.ViewContainer);
         meshContainer.eulerAngles = new Vector3(90, 0, 0);
         Transform meshRotator = Prefabs.Get<Transform>();
         meshRotator.name = "NavMeshMeshRotator";
@@ -200,7 +218,7 @@ public class MapGenerator : MonoBehaviour
 
 
     public Transform GetContainer() {
-        return nodeContainer.viewContainer;
+        return nodeContainer.ViewContainer;
     }
 
     private MapNode Populate()
@@ -217,7 +235,7 @@ public class MapGenerator : MonoBehaviour
             TheEndView.main.Show();
         } else {
             nextLevelTrigger = Prefabs.Get<NextLevelTrigger>();
-            nextLevelTrigger.transform.SetParent(nodeContainer.viewContainer);
+            nextLevelTrigger.transform.SetParent(nodeContainer.ViewContainer);
             MapNode keyNode;
             if (nonTowerNodes.Count > 0) {
                 keyNode = nonTowerNodes.OrderByDescending(node => node.Distance(playerNode)).First();
@@ -228,7 +246,7 @@ public class MapGenerator : MonoBehaviour
                 nextLevelTrigger.Initialize(enterNode.Position);
             }
             NextLevelKey nextLevelKey = Prefabs.Get<NextLevelKey>();
-            nextLevelKey.transform.SetParent(nodeContainer.viewContainer);
+            nextLevelKey.transform.SetParent(nodeContainer.ViewContainer);
             nextLevelKey.Initialize(keyNode.Position);
         }
 
@@ -277,7 +295,7 @@ public class MapGenerator : MonoBehaviour
                     }
                     if (spawnNode != null) {
                         PickupableItem item = Prefabs.Get<PickupableItem>();
-                        item.Initialize(spawn.Item, nodeContainer.viewContainer, spawnNode.Position);
+                        item.Initialize(spawn.Item, nodeContainer.ViewContainer, spawnNode.Position);
                     }
                 }
             }
@@ -317,11 +335,10 @@ public class MapGenerator : MonoBehaviour
                         }
                         Enemy enemy = Prefabs.Get<Enemy>();
 
-                        enemy.transform.SetParent(nodeContainer.viewContainer);
+                        enemy.transform.SetParent(nodeContainer.ViewContainer);
                         enemy.Initialize(enemyConfig, randomNode);
                         enemy.name = enemyConfig.name;
                         enemy.WakeUp();
-                        EnemyCount += 1;
                     }
                     catch (Exception e)
                     {
@@ -385,7 +402,7 @@ public class MapGenerator : MonoBehaviour
 
         GameObject torchInstance2 = Instantiate(torchPrefab);
         torchInstance2.GetComponent<Torch>().Initialize(config);
-        torchInstance2.transform.SetParent(nodeContainer.viewContainer);
+        torchInstance2.transform.SetParent(nodeContainer.ViewContainer);
         Vector2 nodePos2 = (Vector2)randomNode.Position;
         torchInstance2.transform.position = new Vector2(nodePos2.x, nodePos2.y);
         torchInstance2.name = "torch_"+direction+"_X:" + randomNode.X + "|Y:" + randomNode.Y;

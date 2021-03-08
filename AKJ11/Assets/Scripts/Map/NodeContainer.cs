@@ -15,7 +15,8 @@ public class NodeContainer
     private List<MapNode> nodes = new List<MapNode>();
     public List<MapNode> Nodes { get { return nodes; } }
 
-    public Transform viewContainer;
+    public Transform ViewContainer;
+    public Transform TileContainer;
 
     public static List<Vector2Int> AllDirections = new List<Vector2Int>()
     {
@@ -37,18 +38,20 @@ public class NodeContainer
         new Vector2Int(-1,  0)  // west
     };
 
-    public NodeContainer(int x, int y, int width, int height, MapConfig config, TileStyle style, bool enableColliders = true)
+    public NodeContainer(int x, int y, int width, int height, MapConfig config, TileStyle style)
     {
-        viewContainer = Prefabs.Get<Transform>();
-        MonoBehaviour.print($"ViewContainer: viewContainer");
-        viewContainer.name = $"X: {x} Y: {y} (w: {width} h: {height})";
+        ViewContainer = Prefabs.Get<Transform>();
+        ViewContainer.name = $"[NodeContainer] (X: {x} Y: {y}) (w: {width} h: {height})";
+        TileContainer = Prefabs.Get<Transform>();
+        TileContainer.name = "Tiles";
+        TileContainer.SetParent(ViewContainer);
         Rect = new RectInt(new Vector2Int(x, y), new Vector2Int(width, height));
         MidPoint = new Vector2Int(width / 2, height / 2);
         for (int rows = 0; rows < width; rows += 1)
         {
             for (int columns = 0; columns < height; columns += 1)
             {
-                MapNode node = new MapNode(columns, rows, this, viewContainer, config, enableColliders);
+                MapNode node = new MapNode(columns, rows, this, TileContainer, config);
                 node.SetStyle(style);
                 nodes.Add(node);
             }
@@ -56,7 +59,7 @@ public class NodeContainer
     }
 
     public async UniTask Kill() {
-        GameObject.Destroy(viewContainer.gameObject);
+        GameObject.Destroy(ViewContainer.gameObject);
         await UniTask.NextFrame();
     }
 

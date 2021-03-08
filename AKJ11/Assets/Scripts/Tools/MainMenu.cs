@@ -44,9 +44,7 @@ public class MainMenu : MonoBehaviour
 
     private async UniTask FadeAndLoadGameScene()
     {
-        Debug.Log("Fading...");
         await FullscreenFade.main.Fade(fadeToBlack);
-        Debug.Log("Fading...");
         SceneLoader.LoadGameScene();
     }
 }

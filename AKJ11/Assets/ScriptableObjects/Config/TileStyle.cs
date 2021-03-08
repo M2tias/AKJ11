@@ -5,17 +5,19 @@ using System.Linq;
 
 [CreateAssetMenu(fileName = "TileStyle", menuName = "Configs/TileStyle")]
 
-public class TileStyle : ScriptableObject {
+public class TileStyle : ScriptableObject
+{
+
+    public static int GroundTileId = 39;
 
     [field: SerializeField]
-    public Color ColorTint {get; private set;} = Color.white;
+    public Color ColorTint { get; private set; } = Color.white;
     [field: SerializeField]
-    public Color GroundTint {get; private set;} = Color.white;
-    [field: SerializeField]
-    public Sprite GroundSprite {get; private set;}
+    public Color GroundTint { get; private set; } = Color.white;
+    public Sprite GroundSprite { get { return cases[TileStyle.GroundTileId]; } }
 
     [field: SerializeField]
-    public int LayerOrder {get; private set;} = 0;
+    public int LayerOrder { get; private set; } = 0;
 
     [SerializeField]
     private Texture2D texture;
@@ -35,7 +37,7 @@ public class TileStyle : ScriptableObject {
 
     public void LoadNewTexturesIfNeeded()
     {
-        if (previousTexture != texture || previousTexture == null)
+        if (previousTexture != texture || previousTexture == null || cases == null || cases.Count < 5)
         {
             LoadTextureCases();
             previousTexture = texture;

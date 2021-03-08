@@ -29,13 +29,13 @@ public class MapNode
 
     public bool IsEdge {get; set;} = false;
 
-    public MapNode(int x, int y, NodeContainer container, Transform viewContainer, MapConfig config, bool enableCollision)
+    public MapNode(int x, int y, NodeContainer container, Transform viewContainer, MapConfig config)
     {
         Rect = new RectInt(new Vector2Int(x, y), Vector2Int.one);
         MapGen = new MapGenerationData(this);
         this.container = container;
         view = Prefabs.Get<MapNodeView>();
-        view.Initialize(this, viewContainer, config, enableCollision);
+        view.Initialize(this, viewContainer, config);
     }
 
 

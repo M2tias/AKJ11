@@ -33,15 +33,9 @@ public class MapConfig : ScriptableObject
     public List<ItemSpawn> Items { get; private set; }
 
     [field: SerializeField]
-    public TileStyle DefaultTileStyle {get; private set;}
-
-    [field: SerializeField]
     public TileStyle CaveTileStyle {get; private set;}
-    /*[field: SerializeField]
-    public TileStyle TowerTileStyle {get; private set;}*/
 
     public Sprite GetSprite(int configuration, TileStyle style) {
-        //int lookedUp = marchingSquareLookup[configuration];
         int lookedUp = configuration;
         return style.Cases[lookedUp];
     } 

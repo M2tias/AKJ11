@@ -18,7 +18,6 @@ public class MapNodeView : MonoBehaviour
 
     private TileStyle style;
 
-    private bool enableCollision = false;
 
     [SerializeField]
     PolygonCollider2D polygonCollider2D;
@@ -36,9 +35,8 @@ public class MapNodeView : MonoBehaviour
         }
     }
 
-    public void Initialize(MapNode mapNode, Transform container, MapConfig config, bool enableCollision)
+    public void Initialize(MapNode mapNode, Transform container, MapConfig config)
     {
-        this.enableCollision = enableCollision;
         this.mapNode = mapNode;
         transform.SetParent(container);
         transform.position = (Vector2)mapNode.Position;
@@ -53,17 +51,20 @@ public class MapNodeView : MonoBehaviour
         Sprite sprite = GetSprite();
         Sprite oldSprite = spriteRenderer.sprite;
         spriteRenderer.sprite = sprite;
-        if (sprite != oldSprite && enableCollision)
+        if (sprite != oldSprite && spriteConfig != BlobGrid.EmptyTileId)
         {
             UpdateCollider();
         }
 
-        if (enableCollision) {
+        if (spriteConfig != BlobGrid.EmptyTileId) {
             polygonCollider2D.enabled = mapNode.IsWall;
         }
 
         spriteRenderer.color = GetColor();
         spriteRenderer.sortingOrder = GetOrder();
+
+        spriteRenderer.enabled = mapNode.IsWall;
+
     }
 
     private int GetOrder()

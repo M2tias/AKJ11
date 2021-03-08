@@ -45,10 +45,8 @@ public class CampaignStructureConfig : ScriptableObject
 
     public MapConfig Get(int currentLevel) {
         if (levels == null) {
-            MonoBehaviour.print("levels is null, grouping them...");
             GroupLevels();
         }
-        MonoBehaviour.print($"Levels count: {levels.Count} (vs {currentLevel})");
         if (currentLevel >= levels.Count) {
             return null;
         }
