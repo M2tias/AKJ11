@@ -30,5 +30,9 @@ MonoBehaviour:
     <SpawnPosition>k__BackingField: 0
     <Enemies>k__BackingField:
     - {fileID: 11400000, guid: 1e5ef633d1743274da3e62565075b393, type: 2}
+  <Items>k__BackingField:
+  - <SpawnThisManyTimes>k__BackingField: 2
+    <SpawnPosition>k__BackingField: 0
+    <Item>k__BackingField: {fileID: 11400000, guid: cbf04b5680d49114bb44f1f5ac08ec0c, type: 2}
   <DefaultTileStyle>k__BackingField: {fileID: 11400000, guid: cf4baa86ac433b0439a9d19f1b0c6c57, type: 2}
   <CaveTileStyle>k__BackingField: {fileID: 11400000, guid: 2ce329bd6d6e9314fbb85e29c232f7b9, type: 2}

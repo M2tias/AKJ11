@@ -13,10 +13,14 @@ MonoBehaviour:
   m_Name: LevelEnd
   m_EditorClassIdentifier: 
   <NumberOfAreas>k__BackingField: 0
-  <Size>k__BackingField: 50
+  <Size>k__BackingField: 69
   <PassageRadius>k__BackingField: 1
   <Padding>k__BackingField: 1
-  <TowerRadius>k__BackingField: 5
+  <TowerRadius>k__BackingField: 8
   <Spawns>k__BackingField: []
+  <Items>k__BackingField:
+  - <SpawnThisManyTimes>k__BackingField: 15
+    <SpawnPosition>k__BackingField: 1
+    <Item>k__BackingField: {fileID: 11400000, guid: 0af6d286a5c04de4f83c13d2e425d209, type: 2}
   <DefaultTileStyle>k__BackingField: {fileID: 11400000, guid: 8cd2113df7c46d84797c80b0705bf25f, type: 2}
   <CaveTileStyle>k__BackingField: {fileID: 11400000, guid: 909f881d511b9ab47a45beca55fb82af, type: 2}
