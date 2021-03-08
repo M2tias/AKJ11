@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <ColorTint>k__BackingField: {r: 0, g: 0.18431373, b: 0.010712177, a: 1}
   <GroundTint>k__BackingField: {r: 0, g: 1, b: 0.0013723373, a: 1}
-  <GroundSprite>k__BackingField: {fileID: -2504321181939934409, guid: 64763f787055f9f46b56ed9e41a0c10c, type: 3}
+  groundSprite: {fileID: 331832649918437126, guid: 76815e1c56b0e7541a91acce30ea6e86, type: 3}
   <LayerOrder>k__BackingField: -5
   texture: {fileID: 2800000, guid: 4a25eba0a21e1a84092fab14b8a02e3d, type: 3}
   previousTexture: {fileID: 2800000, guid: 4a25eba0a21e1a84092fab14b8a02e3d, type: 3}

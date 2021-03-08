@@ -317,7 +317,6 @@ MonoBehaviour:
   torchBottomConfig: {fileID: 11400000, guid: 2214f758f6e55f84aaf64092bbfaa2a8, type: 2}
   torchPrefab: {fileID: 3763296793274320720, guid: 0b5476cff8a56484493277f3cb5ac7b3, type: 3}
   DebugCurrentLevel: 0
-  EnemyCount: 0
 --- !u!114 &207710858
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -8,13 +8,15 @@ using System.Linq;
 public class TileStyle : ScriptableObject
 {
 
-    public static int GroundTileId = 39;
+    public static int GroundTileId = 12;
 
     [field: SerializeField]
     public Color ColorTint { get; private set; } = Color.white;
     [field: SerializeField]
     public Color GroundTint { get; private set; } = Color.white;
-    public Sprite GroundSprite { get { return cases[TileStyle.GroundTileId]; } }
+    [SerializeField]
+    private Sprite groundSprite;
+    public Sprite GroundSprite { get { return groundSprite == null ? cases[TileStyle.GroundTileId] : groundSprite; } }
 
     [field: SerializeField]
     public int LayerOrder { get; private set; } = 0;
