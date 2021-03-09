@@ -26,3 +26,4 @@ MonoBehaviour:
     - {fileID: 11400000, guid: 9002b0916c41d0345953f2de2f11927f, type: 2}
   <Items>k__BackingField: []
   <CaveTileStyle>k__BackingField: {fileID: 11400000, guid: 2ce329bd6d6e9314fbb85e29c232f7b9, type: 2}
+  <MageBossIsHere>k__BackingField: 1

@@ -13,8 +13,10 @@ MonoBehaviour:
   m_Name: A_AfterBoss
   m_EditorClassIdentifier: 
   <NumberOfAreas>k__BackingField: 0
+  areaType: 0
+  <ConnectionStrategy>k__BackingField: 1
+  circularAreaRadius: 5
   <Size>k__BackingField: 35
-  <PassageRadius>k__BackingField: 1
   <Padding>k__BackingField: 1
   <TowerRadius>k__BackingField: 5
   <Spawns>k__BackingField: []
@@ -25,5 +27,5 @@ MonoBehaviour:
   - <SpawnThisManyTimes>k__BackingField: 1
     <SpawnPosition>k__BackingField: 1
     <Item>k__BackingField: {fileID: 11400000, guid: 0af6d286a5c04de4f83c13d2e425d209, type: 2}
-  <DefaultTileStyle>k__BackingField: {fileID: 11400000, guid: 40234d6ca57ab3a4cb0fe6f7edba508f, type: 2}
   <CaveTileStyle>k__BackingField: {fileID: 11400000, guid: e574e65409d184b45ad511c11c99df63, type: 2}
+  <MageBossIsHere>k__BackingField: 0

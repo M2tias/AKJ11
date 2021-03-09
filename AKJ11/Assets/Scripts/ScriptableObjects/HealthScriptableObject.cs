@@ -25,4 +25,6 @@ public class HealthScriptableObject : ScriptableObject
     [field: SerializeField]
     public GameSoundType DeathSound { get; private set; }
 
+    public bool ImmuneToPoison = false;
+
 }

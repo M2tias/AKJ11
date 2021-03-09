@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using System.Linq;
 
 public class Boss : MonoBehaviour
 {
@@ -16,17 +17,24 @@ public class Boss : MonoBehaviour
     private bool sleeping = true;
 
     private Animator anim;
-
     private Rigidbody2D rb;
+    private Collider2D coll;
+    private Hurtable hurtable;
 
     private int aggroLayerMask;
 
     bool initialized = false;
 
     Quaternion initialArmsRotation;
+
+    private float maxHealth = 50;
+    private float health;
+    private float healingDuration = 10.0f;
+    private float selfHealPerSecond = 2.0f;
+
     private float maxArmsRotateSpeed = 360;
     private float aggroRange = 3.0f;
-    private float speedModifier = 10.0f;
+    private float speedModifier = 1.0f;
 
     private float delayAfterSpawn = 4.0f;
     private float minCooldown = 3.0f;
@@ -42,6 +50,8 @@ public class Boss : MonoBehaviour
     private bool ringAvailable = false;
     private bool homingSpells = false;
     private float channelTimer;
+
+    private List<BossHealer> healers;
 
     private BossState state = BossState.WAIT;
 
@@ -65,14 +75,24 @@ public class Boss : MonoBehaviour
         }
 
         aggroLayerMask = LayerMask.GetMask("Player", "Wall");
-        Hurtable hurtable = GetComponent<Hurtable>();
+        hurtable = GetComponent<Hurtable>();
         if (hurtable != null)
         {
             //hurtable.Initialize(config.HealthConfig, config.ExpGainConfig);
         }
         anim = GetComponent<Animator>();
+        coll = GetComponent<Collider2D>();
+        coll.enabled = false;
 
         initialArmsRotation = arms.localRotation;
+
+        health = maxHealth;
+
+        healers = new List<BossHealer>(
+            GameObject.FindGameObjectsWithTag("BossHealer")
+                .Select(it => it.GetComponent<BossHealer>())
+        );
+        healers.ForEach(it => it.SetHealTarget(transform));
 
         initialized = true;
     }
@@ -109,6 +129,9 @@ public class Boss : MonoBehaviour
                 break;
             case BossState.COOLDOWN:
                 handleCooldown();
+                break;
+            case BossState.HEALING:
+                handleHealing();
                 break;
         }
     }
@@ -153,8 +176,14 @@ public class Boss : MonoBehaviour
         }
     }
 
+    private void handleHealing()
+    {
+        health += Time.deltaTime * selfHealPerSecond;
+    }
+
     private void Spawn()
     {
+        coll.enabled = true;
         state = BossState.SPAWN;
         anim.SetBool("Spawn", true);
         SpawnEffect.Play();
@@ -170,11 +199,20 @@ public class Boss : MonoBehaviour
 
     private void prepareForAttack()
     {
+        if (state == BossState.HEALING || state == BossState.EXHAUSTED)
+        {
+            return;
+        }
         state = BossState.PREPARE;
     }
 
     private void startNextAttack()
     {
+        if (state == BossState.HEALING || state == BossState.EXHAUSTED)
+        {
+            return;
+        }
+
         if (ringAvailable)
         {
             anim.SetBool("Spell1", true);
@@ -284,7 +322,72 @@ public class Boss : MonoBehaviour
 
     public void Damaged(float damage)
     {
+        health -= damage;
 
+        if (health < 0)
+        {
+            if (state != BossState.EXHAUSTED)
+            {
+                Exhausted();
+            }
+            else
+            {
+                if (health < -50)
+                {
+                    Die();
+                }
+            }
+        }
+    }
+
+    public void Exhausted()
+    {
+        health = 0;
+        anim.SetBool("Exhausted", true);
+        if (countAliveHealers() > 0)
+        {
+            state = BossState.HEALING;
+            hurtable.Immune = true;
+            Invoke("Respawn", healingDuration);
+            startHealers();
+        }
+        else
+        {
+            state = BossState.EXHAUSTED;
+        }
+    }
+
+    public void Respawn()
+    {
+        hurtable.Immune = false;
+        anim.SetBool("Exhausted", false);
+        queueNextAttack();
+        stopHealers();
+    }
+
+    public void Die()
+    {
+        Destroy(gameObject);
+    }
+
+    private int countAliveHealers()
+    {
+        return healers.Where(it => it.IsAlive).Count();
+    }
+
+    private void startHealers()
+    {
+        healers.ForEach(it => it.StartHealing());
+    }
+
+    private void stopHealers()
+    {
+        healers.ForEach(it => it.StopHealing());
+    }
+
+    public void Heal()
+    {
+        health += 5;
     }
 
 }
@@ -296,5 +399,7 @@ enum BossState
     COOLDOWN,
     PREPARE,
     ATTACK,
-    CHANNEL
+    CHANNEL,
+    HEALING,
+    EXHAUSTED
 }

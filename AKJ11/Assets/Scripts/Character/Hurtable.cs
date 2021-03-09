@@ -43,6 +43,8 @@ public class Hurtable : MonoBehaviour
     private Vector2 xpOffset = new Vector2(-0.75f, 0.5f);
     private Vector2 dmgOffset = new Vector2(0.2f, 0.2f);
 
+    public bool Immune = false;
+
     public void Start()
     {
         if (healthConfig != null)
@@ -111,6 +113,11 @@ public class Hurtable : MonoBehaviour
 
     public void Hurt(float damage, Experience playerExp)
     {
+        if (Immune)
+        {
+            return;
+        }
+
         if (enemy != null)
         {
             enemy.Damaged();
@@ -212,6 +219,11 @@ public class Hurtable : MonoBehaviour
 
     public void Dot(float damage, float duration)
     {
+        if (config.ImmuneToPoison || Immune)
+        {
+            return;
+        }
+
         if (dotting)
         {
             dotStarted = Time.time;

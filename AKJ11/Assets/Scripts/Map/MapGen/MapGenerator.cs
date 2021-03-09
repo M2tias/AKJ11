@@ -524,12 +524,40 @@ public class MapGenerator : MonoBehaviour
 
         List<MapNode> nonEdgeNodes = nonTowerNodes.Where(node => !node.IsEdge).ToList();
         List<MapNode> enemyTowerNodes = towerNodes.Where(node => !node.IsEdge && node.Distance(playerNode) > minDistanceFromPlayer).ToList();
-        
+
+        for (int i = 0; i < 3; i++)
+        {
+            SpawnMageBossHealer(playerNode, nonTowerNodes);
+        }
+
         try
         {
             MapNode randomNode = nonEdgeNodes[rng.Range(0, nonEdgeNodes.Count)];
 
             var enemy = Prefabs.Get<Boss>();
+
+            enemy.transform.SetParent(nodeContainer.ViewContainer);
+            enemy.Initialize(randomNode);
+            enemy.WakeUp();
+        }
+        catch (Exception e)
+        {
+            MonoBehaviour.print(e);
+        }
+    }
+
+    private void SpawnMageBossHealer(MapNode playerNode, List<MapNode> nonTowerNodes)
+    {
+        float minDistanceFromPlayer = 1f;
+
+        List<MapNode> nonEdgeNodes = nonTowerNodes.Where(node => !node.IsEdge).ToList();
+        List<MapNode> enemyTowerNodes = towerNodes.Where(node => !node.IsEdge && node.Distance(playerNode) > minDistanceFromPlayer).ToList();
+
+        try
+        {
+            MapNode randomNode = nonEdgeNodes[rng.Range(0, nonEdgeNodes.Count)];
+
+            var enemy = Prefabs.Get<BossHealer>();
 
             enemy.transform.SetParent(nodeContainer.ViewContainer);
             enemy.Initialize(randomNode);

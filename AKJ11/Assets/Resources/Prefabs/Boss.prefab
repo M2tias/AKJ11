@@ -19772,9 +19772,11 @@ GameObject:
   - component: {fileID: 7463917658166431282}
   - component: {fileID: 3640171278597450790}
   - component: {fileID: 6811803806496073691}
-  m_Layer: 0
+  - component: {fileID: 1114095510708038904}
+  - component: {fileID: 7385234904899461195}
+  m_Layer: 8
   m_Name: Boss
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -19864,6 +19866,44 @@ MonoBehaviour:
       m_Calls: []
   healthConfig: {fileID: 11400000, guid: 9f42205d95d14534ab2859e238b44985, type: 2}
   DotTint: {r: 0.2509804, g: 0.7647059, b: 0.16078432, a: 1}
+  Immune: 0
+--- !u!50 &1114095510708038904
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5417031244428921022}
+  m_BodyType: 1
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 0
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 4
+--- !u!70 &7385234904899461195
+CapsuleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5417031244428921022}
+  m_Enabled: 0
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: -0.15100157}
+  m_Size: {x: 1.1463528, y: 1.8152831}
+  m_Direction: 0
 --- !u!1 &5417031244446521379
 GameObject:
   m_ObjectHideFlags: 0
