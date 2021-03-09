@@ -46,6 +46,10 @@ public class MapConfig : ScriptableObject
 
     [field: SerializeField]
     public TileStyle CaveTileStyle { get; private set; }
+    
+    [field: SerializeField]
+    public bool MageBossIsHere { get; private set; }
+
 
     public Sprite GetSprite(int configuration, TileStyle style)
     {

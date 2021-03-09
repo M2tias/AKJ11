@@ -351,6 +351,7 @@ public class MapGenerator : MonoBehaviour
 
         SpawnEnemies(playerNode, nonTowerNodes);
         SpawnTorches(playerNode, nonTowerNodes);
+        SpawnMageBoss(playerNode, nonTowerNodes);
 
         FollowTarget cameraFollow = Camera.main.GetComponent<FollowTarget>();
         if (cameraFollow != null)
@@ -510,5 +511,33 @@ public class MapGenerator : MonoBehaviour
         Vector2 nodePos2 = (Vector2)randomNode.Position;
         torchInstance2.transform.position = new Vector2(nodePos2.x, nodePos2.y);
         torchInstance2.name = "torch_" + direction + "_X:" + randomNode.X + "|Y:" + randomNode.Y;
+    }
+
+    private void SpawnMageBoss(MapNode playerNode, List<MapNode> nonTowerNodes)
+    {
+        if (!config.MageBossIsHere)
+        {
+            return;
+        }
+
+        float minDistanceFromPlayer = 1f;
+
+        List<MapNode> nonEdgeNodes = nonTowerNodes.Where(node => !node.IsEdge).ToList();
+        List<MapNode> enemyTowerNodes = towerNodes.Where(node => !node.IsEdge && node.Distance(playerNode) > minDistanceFromPlayer).ToList();
+        
+        try
+        {
+            MapNode randomNode = nonEdgeNodes[rng.Range(0, nonEdgeNodes.Count)];
+
+            var enemy = Prefabs.Get<Boss>();
+
+            enemy.transform.SetParent(nodeContainer.ViewContainer);
+            enemy.Initialize(randomNode);
+            enemy.WakeUp();
+        }
+        catch (Exception e)
+        {
+            MonoBehaviour.print(e);
+        }
     }
 }

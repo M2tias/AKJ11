@@ -16,6 +16,9 @@ public class Hurtable : MonoBehaviour
     private Enemy enemy;
 
     [SerializeField]
+    private UnityEvent<float> damagedCallback;
+
+    [SerializeField]
     private UnityEvent deadAction;
 
     public HealthScriptableObject healthConfig;
@@ -124,6 +127,10 @@ public class Hurtable : MonoBehaviour
 
         if (!invulnerable)
         {
+            if (damagedCallback != null)
+            {
+                damagedCallback.Invoke(damage);
+            }
             currentHealth -= damage;
             if (UIWorldCanvas.main != null) {
                 UIWorldCanvas.main.ShowNumber((Vector2)transform.position + dmgOffset, -damage, ResourceType.HP, false);
