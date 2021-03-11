@@ -5,15 +5,17 @@ using UnityEngine;
 public class NextLevelKey : MonoBehaviour
 {
 
-    public void Initialize(Vector2Int pos)
+    private NextLevelTrigger nextLevelTrigger;
+    public void Initialize(Vector2Int pos, NextLevelTrigger nextLevelTrigger)
     {
+        this.nextLevelTrigger = nextLevelTrigger;
         transform.position = (Vector2)pos;
     }
 
     void OnTriggerEnter2D(Collider2D other) {
 
         if (other.gameObject.tag == "Player") {
-            MapGenerator.main.FoundKey();
+            nextLevelTrigger.Enable();
             if (SoundManager.main != null) {
                 SoundManager.main.PlaySound(GameSoundType.FindKey);
             }

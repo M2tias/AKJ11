@@ -24,9 +24,6 @@ public class MapNode
     public List<MapNode> Neighbors { get; set; }
     public List<MapNode> OrthogonalNeighbors { get; set; }
 
-    public bool IsCave { get; set; } = false;
-    public bool IsTower { get; set; } = false;
-
     public bool IsEdge { get; set; } = false;
 
     private float distanceToCenter = -2;

@@ -13,22 +13,26 @@ MonoBehaviour:
   m_Name: A_Level2
   m_EditorClassIdentifier: 
   <NumberOfAreas>k__BackingField: 1
+  areaType: 0
+  <ConnectionStrategy>k__BackingField: 1
+  circularAreaRadius: 5
   <Size>k__BackingField: 30
-  <PassageRadius>k__BackingField: 1
   <Padding>k__BackingField: 1
   <TowerRadius>k__BackingField: 5
-  <Spawns>k__BackingField:
-  - <SpawnThisManyTimes>k__BackingField: 1
-    <SpawnPosition>k__BackingField: 1
-    <Enemies>k__BackingField:
-    - {fileID: 11400000, guid: 9002b0916c41d0345953f2de2f11927f, type: 2}
-  - <SpawnThisManyTimes>k__BackingField: 2
-    <SpawnPosition>k__BackingField: 0
-    <Enemies>k__BackingField:
-    - {fileID: 11400000, guid: 0c95e92d80b2e46418b93e46e6977a6f, type: 2}
-  - <SpawnThisManyTimes>k__BackingField: 2
-    <SpawnPosition>k__BackingField: 0
-    <Enemies>k__BackingField:
-    - {fileID: 11400000, guid: 723ced00e9b45814c8c946010d7c8a48, type: 2}
-  <DefaultTileStyle>k__BackingField: {fileID: 11400000, guid: cf4baa86ac433b0439a9d19f1b0c6c57, type: 2}
+  <Spawns>k__BackingField: []
+  <EntitySpawns>k__BackingField:
+  - <Amount>k__BackingField: 1
+    area: 1
+    location: 0
+    minPlayerDistance: 2
+    <Entities>k__BackingField:
+    - {fileID: 11400000, guid: 28e457ec0d6eb234aa9f6dffa6f028c7, type: 2}
+  - <Amount>k__BackingField: 2
+    area: 0
+    location: 0
+    minPlayerDistance: 0
+    <Entities>k__BackingField:
+    - {fileID: 11400000, guid: d49db55d10baf784390bacb845bf0997, type: 2}
+    - {fileID: 11400000, guid: 64606e883d61b8a46bfa8c637a72703d, type: 2}
+  <Items>k__BackingField: []
   <CaveTileStyle>k__BackingField: {fileID: 11400000, guid: 2ce329bd6d6e9314fbb85e29c232f7b9, type: 2}

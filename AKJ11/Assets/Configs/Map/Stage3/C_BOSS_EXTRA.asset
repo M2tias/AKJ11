@@ -19,9 +19,12 @@ MonoBehaviour:
   <Size>k__BackingField: 120
   <Padding>k__BackingField: 1
   <TowerRadius>k__BackingField: 7
-  <Spawns>k__BackingField:
-  - <SpawnThisManyTimes>k__BackingField: 1
-    <SpawnPosition>k__BackingField: 1
-    <Enemies>k__BackingField: []
+  <Spawns>k__BackingField: []
+  <EntitySpawns>k__BackingField:
+  - <Amount>k__BackingField: 1
+    <SpawnPosition>k__BackingField: 0
+    <SpawnStrategy>k__BackingField: 2
+    <Entities>k__BackingField:
+    - {fileID: 11400000, guid: e443a67657423ed4e9f86c297ad028fb, type: 2}
   <Items>k__BackingField: []
   <CaveTileStyle>k__BackingField: {fileID: 11400000, guid: 909f881d511b9ab47a45beca55fb82af, type: 2}
