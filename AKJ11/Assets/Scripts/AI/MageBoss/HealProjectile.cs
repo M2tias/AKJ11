@@ -49,7 +49,7 @@ public class HealProjectile : MonoBehaviour
         this.target = target;
     }
 
-    public void OnTriggerEnter2D(Collision2D collision)
+    public void OnTriggerEnter2D(Collider2D other)
     {
         if (killed)
         {
