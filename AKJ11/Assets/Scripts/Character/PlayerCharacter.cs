@@ -21,6 +21,7 @@ public class PlayerCharacter : MonoBehaviour {
         {
             movement.transform.localPosition = Vector2.zero;
         }
+        GetComponentInChildren<CameraTarget>().SetPosition();
     }
 
 }

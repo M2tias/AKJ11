@@ -260,6 +260,7 @@ GameObject:
   m_Component:
   - component: {fileID: 207710856}
   - component: {fileID: 207710857}
+  - component: {fileID: 207710859}
   - component: {fileID: 207710858}
   m_Layer: 0
   m_Name: Generator
@@ -364,6 +365,18 @@ MonoBehaviour:
   - <Type>k__BackingField: 12
     sounds:
     - {fileID: 704857447}
+--- !u!114 &207710859
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 207710855}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6095670bf365c2d46b0a68d0d7cbe0fb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &351086318
 PrefabInstance:
   m_ObjectHideFlags: 0

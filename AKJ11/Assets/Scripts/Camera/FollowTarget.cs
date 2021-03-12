@@ -24,6 +24,15 @@ public class FollowTarget : MonoBehaviour
         }
     }
 
+    public void SetPositionToTarget() {
+        transform.position = new Vector3(
+            config.FollowX ? target.position.x : transform.position.x,
+            config.FollowY ? target.position.y : transform.position.y,
+            config.FollowZ ? target.position.z : transform.position.z
+        );
+        Debug.Log($"Set pos to: {transform.position}");
+    }
+
     void Update()
     {
         if (initialized && !config.UseLateUpdate)

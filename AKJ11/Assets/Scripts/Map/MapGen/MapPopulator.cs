@@ -6,7 +6,7 @@ using Cysharp.Threading.Tasks;
 
 public class MapPopulator
 {
-    public static PlayerCharacter Populate(MapGenData data)
+    public static void Populate(MapGenData data)
     {
         PlayerCharacter player = data.Player;
         player.SetPosition(data.MidPointNode);
@@ -25,10 +25,9 @@ public class MapPopulator
         //SpawnEnemies(data);
 
         SetUpCamera();
-        return player;
     }
 
-    private static void SetUpCamera()
+    public static void SetUpCamera()
     {
         FollowTarget cameraFollow = Camera.main.GetComponent<FollowTarget>();
         if (cameraFollow != null)
@@ -45,23 +44,33 @@ public class MapPopulator
     {
         List<MapNode> nonTowerNodes = data.NonTowerNodes;
         List<MapNode> towerNodes = data.Tower.Nodes;
+        if (data.Config.KeySpawn == KeySpawn.MaxDistanceFromPlayer) {
+            MapNode keyNode;
+            if (nonTowerNodes.Count > 0)
+            {
+                keyNode = nonTowerNodes.OrderByDescending(node => node.Distance(data.Player.Node)).First();
+                PlaceNextLevelTrigger(data.MidPointNode);
+            }
+            else
+            {
+                keyNode = towerNodes.OrderByDescending(node => node.Distance(data.Player.Node)).First();
+                MapNode enterNode = towerNodes.OrderByDescending(node => node.Distance(keyNode)).First();
+                PlaceNextLevelTrigger(enterNode);
+            }
+            PlaceKey(keyNode);
+        }
+    }
+
+    public static void PlaceNextLevelTrigger(MapNode node) {
         NextLevelTrigger nextLevelTrigger = Prefabs.Get<NextLevelTrigger>();
-        nextLevelTrigger.transform.SetParent(data.NodeContainer.ViewContainer);
-        MapNode keyNode;
-        if (nonTowerNodes.Count > 0)
-        {
-            keyNode = nonTowerNodes.OrderByDescending(node => node.Distance(data.Player.Node)).First();
-            nextLevelTrigger.Initialize(data.NodeContainer.MidPoint);
-        }
-        else
-        {
-            keyNode = towerNodes.OrderByDescending(node => node.Distance(data.Player.Node)).First();
-            MapNode enterNode = towerNodes.OrderByDescending(node => node.Distance(keyNode)).First();
-            nextLevelTrigger.Initialize(enterNode.Position);
-        }
+        nextLevelTrigger.transform.SetParent(MapGenerator.main.GetContainer());
+        nextLevelTrigger.Initialize(node.Position);
+    }
+
+    public static void PlaceKey(MapNode node) {
         NextLevelKey nextLevelKey = Prefabs.Get<NextLevelKey>();
-        nextLevelKey.transform.SetParent(data.NodeContainer.ViewContainer);
-        nextLevelKey.Initialize(keyNode.Position, nextLevelTrigger);
+        nextLevelKey.transform.SetParent(NextLevelTrigger.main.transform.parent);
+        nextLevelKey.Initialize(node.Position, NextLevelTrigger.main);
     }
 
     private static void SpawnGameEntities(MapGenData data)

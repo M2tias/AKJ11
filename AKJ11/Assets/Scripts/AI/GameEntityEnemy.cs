@@ -47,8 +47,10 @@ public class GameEntityEnemy : GameEntity
         }
     }
 
+
     public override void Initialize(GameEntityConfig entityConfig, MapNode node)
     {
+        base.Initialize(entityConfig, node);
         gameEntityConfig = entityConfig;
         target = GameObject.FindGameObjectWithTag("Player").transform;
         rb = GetComponent<Rigidbody2D>();
@@ -66,7 +68,9 @@ public class GameEntityEnemy : GameEntity
         aggroLayerMask = LayerMask.GetMask("Player", "Wall");
         Hurtable hurtable = GetComponent<Hurtable>();
         if (hurtable != null) {
-            hurtable.Initialize(config.HealthConfig, config.ExpGainConfig);
+            hurtable.Initialize(config.HealthConfig, config.ExpGainConfig, delegate {
+                Die();
+            });
         }
         anim = GetComponent<Animator>();
         rend = GetComponent<SpriteRenderer>();
@@ -82,7 +86,13 @@ public class GameEntityEnemy : GameEntity
     }
 
     public override void WakeUp() {
+        base.WakeUp();
         sleeping = false;
+    }
+
+    public override void Die()
+    {
+        base.Die();
     }
 
     // Update is called once per frame
@@ -313,4 +323,11 @@ public class GameEntityEnemy : GameEntity
         NavMesh.CalculatePath((Vector2)transform.position, target, NavMesh.AllAreas, newPath);
         return newPath;
     }
+}
+
+
+enum State
+{
+    IDLE,
+    ATTACK
 }

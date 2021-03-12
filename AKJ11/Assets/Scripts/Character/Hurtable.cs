@@ -13,7 +13,7 @@ public class Hurtable : MonoBehaviour
     private float dotLastDamage = 0;
     private float dotPeriod = 1;
 
-    private Enemy enemy;
+    private GameEntityEnemy enemy;
 
     [SerializeField]
     private UnityEvent<float> damagedCallback;
@@ -45,6 +45,8 @@ public class Hurtable : MonoBehaviour
 
     public bool Immune = false;
 
+    private UnityAction deathAction;
+
     public void Start()
     {
         if (healthConfig != null)
@@ -55,11 +57,12 @@ public class Hurtable : MonoBehaviour
 
     public void Initialize(HealthScriptableObject config)
     {
-        Initialize(config, null);
+        Initialize(config, null, null);
     }
 
-    public void Initialize(HealthScriptableObject config, EnemyExperienceGainConfig expGainConfig)
+    public void Initialize(HealthScriptableObject config, EnemyExperienceGainConfig expGainConfig, UnityAction deathAction)
     {
+        this.deathAction = deathAction;
         this.config = config;
         this.expGainConfig = expGainConfig;
         if (config != null)
@@ -75,7 +78,7 @@ public class Hurtable : MonoBehaviour
             }
         }
 
-        enemy = GetComponent<Enemy>();
+        enemy = GetComponent<GameEntityEnemy>();
         initialized = true;
     }
 
@@ -144,22 +147,7 @@ public class Hurtable : MonoBehaviour
             }
             if (currentHealth <= 0)
             {
-                if (deadAction != null)
-                {
-                    deadAction.Invoke();
-                }
-
-                if (SoundManager.main != null) {
-                    SoundManager.main.PlaySound(config.DeathSound);
-                }
-
-                if (playerExperience != null && expGainConfig != null)
-                {
-                    Experience.main.AddExperience(expGainConfig.GainedExperience);
-                    if (UIWorldCanvas.main != null) {
-                        UIWorldCanvas.main.ShowNumber((Vector2)transform.position + xpOffset, expGainConfig.GainedExperience, ResourceType.XP);
-                    }
-                }
+                Die();
             }
             else
             {
@@ -174,6 +162,29 @@ public class Hurtable : MonoBehaviour
         if (gameObject.tag == "Player") {
             if (UIHealth.main != null) {
                 UIHealth.main.SetHp(currentHealth, healthConfig.MaxHealth);
+            }
+        }
+    }
+
+    public void Die() {
+        if (deadAction != null)
+        {
+            deadAction.Invoke();
+        }
+
+        if (deathAction != null) {
+            deathAction.Invoke();
+        }
+
+        if (SoundManager.main != null) {
+            SoundManager.main.PlaySound(config.DeathSound);
+        }
+
+        if (playerExperience != null && expGainConfig != null)
+        {
+            Experience.main.AddExperience(expGainConfig.GainedExperience);
+            if (UIWorldCanvas.main != null) {
+                UIWorldCanvas.main.ShowNumber((Vector2)transform.position + xpOffset, expGainConfig.GainedExperience, ResourceType.XP);
             }
         }
     }

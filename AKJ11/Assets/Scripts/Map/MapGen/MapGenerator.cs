@@ -65,6 +65,7 @@ public class MapGenerator : MonoBehaviour
         {
             SoundManager.main.PlaySound(GameSoundType.DoorOpen);
         }
+        GameStateManager.main.LevelEnded();
         await fader.Fade(fadeToBlack);
         await NextLevel();
     }
@@ -72,6 +73,11 @@ public class MapGenerator : MonoBehaviour
     public Transform GetContainer()
     {
         return nodeContainer.ViewContainer;
+    }
+
+    public NodeContainer GetNodeContainer()
+    {
+        return nodeContainer;
     }
 
     public async UniTask NextLevel()
@@ -82,6 +88,8 @@ public class MapGenerator : MonoBehaviour
         catch(Exception e) {
             Debug.Log(e);
         }
+        GameStateManager.main.LevelStarted(config, currentLevel);
+        Camera.main.GetComponent<FollowTarget>().SetPositionToTarget();
         await fader.Fade(fadeToTransparent);
     }
 
@@ -136,7 +144,7 @@ public class MapGenerator : MonoBehaviour
             Rooms = rooms,
             RoomsAndTower = roomsAndTower
         };
-        PlayerCharacter player = MapPopulator.Populate(data);
+        MapPopulator.Populate(data);
         TorchSpawner.Spawn(data);
         PlaceItems(data);
         nodeContainer.Render();

@@ -73,24 +73,23 @@ public class Boss : MonoBehaviour
 
     private BossState state = BossState.WAIT;
 
+    private MageBossContainer gameEntity;
+
 
     public void Start()
     {
         if (!initialized)
         {
-            Initialize(null, null);
+            Initialize(null, null, null);
             WakeUp();
         }
     }
 
-    public void Initialize(GameEntityConfig entityConfig, MapNode node)
+    public void Initialize(GameEntityConfig entityConfig, MapNode node, MageBossContainer gameEntity)
     {
+        this.gameEntity = gameEntity;
         target = GameObject.FindGameObjectWithTag("Player").transform;
         rb = GetComponent<Rigidbody2D>();
-        if (node != null)
-        {
-            transform.position = (Vector2)node.Position;
-        }
 
         aggroLayerMask = LayerMask.GetMask("Player", "Wall");
         hurtable = GetComponent<Hurtable>();
@@ -484,6 +483,7 @@ public class Boss : MonoBehaviour
 
     public void DieReally()
     {
+        gameEntity.Die();
         Destroy(gameObject);
     }
 

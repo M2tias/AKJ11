@@ -47,6 +47,9 @@ public class MapConfig : ScriptableObject
     [field: SerializeField]
     public TileStyle CaveTileStyle { get; private set; }
 
+    [field: SerializeField]
+    public KeySpawn KeySpawn {get; private set;}
+
     public Sprite GetSprite(int configuration, TileStyle style)
     {
         int lookedUp = configuration;
@@ -92,6 +95,11 @@ public enum SpawnStrategy {
     CenterOfTheEnclosure
 }
 
+
+public enum KeySpawn {
+    MaxDistanceFromPlayer,
+    LastEntityDrops
+}
 
 [System.Serializable]
 public class ItemSpawn
