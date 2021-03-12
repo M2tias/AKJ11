@@ -39,7 +39,7 @@ public class MapConfig : ScriptableObject
     public int TowerRadius { get; private set; } = 5;
 
     [field: SerializeField]
-    public List<EnemySpawn> Spawns { get; private set; }
+    public List<GameEntitySpawn> EntitySpawns { get; private set; }
 
     [field: SerializeField]
     public List<ItemSpawn> Items { get; private set; }
@@ -58,25 +58,42 @@ public class MapConfig : ScriptableObject
     }
 }
 
-
 [System.Serializable]
-public class EnemySpawn
+public class GameEntitySpawn
 {
     [field: SerializeField]
     [field: Range(1, 30)]
-    public int SpawnThisManyTimes { get; private set; } = 1;
+    public int Amount { get; private set; } = 1;
+
+    [SerializeField]
+    private SpawnPosition area = SpawnPosition.Cave;
+    public SpawnPosition Area { get {return area;}}
+
+    [SerializeField]
+    [ConditionalHide("area", SpawnPosition.Cave)]
+    private SpawnStrategy location = SpawnStrategy.Random;
+    public SpawnStrategy Location { get {return location;} }
+
+    [SerializeField]
+    [ConditionalHide("area", SpawnPosition.Tower)]
+    [Range(2, 5)]
+    private float minPlayerDistance = 2f;
+    public float MinimumDistanceFromPlayer {get {return minPlayerDistance;}}
 
     [field: SerializeField]
-    public SpawnPosition SpawnPosition { get; private set; } = SpawnPosition.Cave;
-
-    [field: SerializeField]
-    public List<EnemyConfig> Enemies { get; private set; }
+    public List<GameEntityConfig> Entities { get; private set; }
 }
 
 public enum SpawnPosition
 {
     Cave,
     Tower
+}
+
+public enum SpawnStrategy {
+    Random,
+    MaxDistanceFromPlayer,
+    CenterOfTheEnclosure
 }
 
 
@@ -87,8 +104,14 @@ public class ItemSpawn
     [field: Range(1, 30)]
     public int SpawnThisManyTimes { get; private set; } = 1;
 
-    [field: SerializeField]
-    public SpawnPosition SpawnPosition { get; private set; } = SpawnPosition.Cave;
+    [SerializeField]
+    [ConditionalHide("spawnPosition", SpawnPosition.Tower)]
+    private int minPlayerDistance = 2;
+    public int MinPlayerDistance { get {return minPlayerDistance;}}
+
+    [SerializeField]
+    private SpawnPosition spawnPosition = SpawnPosition.Cave;
+    public SpawnPosition SpawnPosition { get {return spawnPosition;}}
 
     [field: SerializeField]
     public PickupableItemScriptableObject Item { get; private set; }

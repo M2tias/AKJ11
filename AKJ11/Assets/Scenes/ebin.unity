@@ -310,13 +310,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cf9c1ed724a177c4c8834347dd0a4d02, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerPrefab: {fileID: 3692018723306053273, guid: 9e9eed98314e46f49b332cf9f89e3887, type: 3}
-  torchLeftConfig: {fileID: 11400000, guid: 528de62820ca1ef48b03da69bd13bb69, type: 2}
-  torchRightConfig: {fileID: 11400000, guid: 9276cb4bcef8fd1409da5aca4581546e, type: 2}
-  torchTopConfig: {fileID: 11400000, guid: bcfa07abd0c37da4ab6c94965bc09fb9, type: 2}
-  torchBottomConfig: {fileID: 11400000, guid: 2214f758f6e55f84aaf64092bbfaa2a8, type: 2}
-  torchPrefab: {fileID: 3763296793274320720, guid: 0b5476cff8a56484493277f3cb5ac7b3, type: 3}
   DebugCurrentLevel: 0
+  DebugSeed: 
+  NextLevelButton: 1
 --- !u!114 &207710858
 MonoBehaviour:
   m_ObjectHideFlags: 0
