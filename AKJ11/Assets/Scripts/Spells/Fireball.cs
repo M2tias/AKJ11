@@ -230,6 +230,7 @@ public class Fireball : MonoBehaviour
         foreach (var candidate in enemies)
         {
             if (bouncedTargets.Contains(candidate)) continue;
+            if (candidate.GetComponent<Hurtable>().Immune) continue;
 
             float distance = Vector2.Distance(candidate.transform.position, transform.position);
             if (bounceDistance > distance && distance < nearestDist)

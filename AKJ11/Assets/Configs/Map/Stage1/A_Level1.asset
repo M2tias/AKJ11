@@ -14,9 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <NumberOfAreas>k__BackingField: 1
   areaType: 0
-  <ConnectionStrategy>k__BackingField: 1
+  <ConnectionStrategy>k__BackingField: 2
   circularAreaRadius: 5
-  <Size>k__BackingField: 30
+  <Size>k__BackingField: 50
   <Padding>k__BackingField: 1
   <TowerRadius>k__BackingField: 5
   <Spawns>k__BackingField:

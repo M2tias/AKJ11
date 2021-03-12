@@ -26,5 +26,6 @@ public class HealthScriptableObject : ScriptableObject
     public GameSoundType DeathSound { get; private set; }
 
     public bool ImmuneToPoison = false;
+    public bool ShowDamageNumber = true;
 
 }

@@ -1,10 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class BossHealer : MonoBehaviour
 {
     public HealProjectile projectile;
+    public BossShield shield;
 
     public bool IsAlive = true;
 
@@ -13,11 +15,15 @@ public class BossHealer : MonoBehaviour
     private bool sleeping = true;
     private bool initialized = false;
     private bool isHealing;
+    
+    private Boss healTarget;
 
-    private Hurtable hurtable;
-    private Collider2D coll;
-    private Transform healTarget;
+    private List<BossHealerPart> parts = new List<BossHealerPart>();
 
+    public void RegisterPart(BossHealerPart part)
+    {
+        parts.Add(part);
+    }
 
     public void Start()
     {
@@ -34,12 +40,9 @@ public class BossHealer : MonoBehaviour
         {
             transform.position = (Vector2)node.Position;
         }
-        
-        hurtable = GetComponent<Hurtable>();
-        hurtable.Immune = true;
-        coll = GetComponent<Collider2D>();
 
         initialized = true;
+        shield.Activate();
     }
 
     public void WakeUp()
@@ -50,13 +53,16 @@ public class BossHealer : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if (IsAlive && parts.Count > 0 && parts.Where(part => part.IsAlive).Count() == 0)
+        {
+            Die();
+        }
     }
 
     public void Die()
     {
         IsAlive = false;
-        coll.enabled = false;
+        shield.Deactivate();
     }
 
     public void StartHealing()
@@ -67,8 +73,9 @@ public class BossHealer : MonoBehaviour
         }
 
         isHealing = true;
-        hurtable.Immune = false;
         Invoke("LaunchHeal", healInterval);
+        parts.ForEach(part => part.Activate());
+        shield.Deactivate();
     }
 
     public void StopHealing()
@@ -79,10 +86,11 @@ public class BossHealer : MonoBehaviour
         }
 
         isHealing = false;
-        hurtable.Immune = true;
+        parts.ForEach(part => part.Deactivate());
+        shield.Activate();
     }
 
-    public void SetHealTarget(Transform target)
+    public void SetHealTarget(Boss target)
     {
         healTarget = target;
     }
@@ -95,7 +103,7 @@ public class BossHealer : MonoBehaviour
         }
         var proj = Instantiate(projectile);
         proj.transform.position = transform.position;
-        proj.Launch(healTarget.position);
+        proj.Launch(healTarget);
         Invoke("LaunchHeal", healInterval);
     }
 }

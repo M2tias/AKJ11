@@ -10,8 +10,9 @@ public class Boss : MonoBehaviour
     public ParticleSystem SpawnEffect;
     public Projectile SpellProjectile;
     public Transform SpellRoot1, SpellRoot2;
-    public GameObject CircleOfDoom;
-    public GameObject PillarOfDoom;
+    public CircleOfDoom CircleOfDoomPrefab;
+    public PillarOfDoom PillarOfDoomPrefab;
+    public BossShield shield;
 
     private Transform target;
     private bool sleeping = true;
@@ -30,7 +31,9 @@ public class Boss : MonoBehaviour
     private float maxHealth = 50;
     private float health;
     private float healingDuration = 10.0f;
-    private float selfHealPerSecond = 2.0f;
+    private float selfHealPerTick = 2.0f;
+    private float selfHealTickInterval = 1.0f;
+    private float healIndicatorRange = 0.5f;
 
     private float maxArmsRotateSpeed = 360;
     private float aggroRange = 3.0f;
@@ -40,8 +43,10 @@ public class Boss : MonoBehaviour
     private float minCooldown = 3.0f;
     private float maxCooldown = 5.0f;
 
+    private float spellDamage = 1.0f;
+
     private float ringInitialCooldown = 20.0f;
-    private float ringCooldown = 12.5f;
+    private float ringCooldown = 15f;
 
     private float channelingDuration = 10.0f;
     private float channelInterval = 0.25f;
@@ -50,6 +55,14 @@ public class Boss : MonoBehaviour
     private bool ringAvailable = false;
     private bool homingSpells = false;
     private float channelTimer;
+
+    private float moveTimer;
+    private float moveInterval = 2.5f;
+    private float initialMoveDelay = 5.0f;
+    private float minMoveDistance = 1.0f;
+    private float maxMoveDistance = 2.0f;
+    private Vector2 moveTarget;
+    private float moveSpeed = 5.0f;
 
     private List<BossHealer> healers;
 
@@ -92,9 +105,12 @@ public class Boss : MonoBehaviour
             GameObject.FindGameObjectsWithTag("BossHealer")
                 .Select(it => it.GetComponent<BossHealer>())
         );
-        healers.ForEach(it => it.SetHealTarget(transform));
+        healers.ForEach(it => it.SetHealTarget(this));
+
+        shield.Deactivate();
 
         initialized = true;
+        resetMove();
     }
 
     public void WakeUp()
@@ -136,6 +152,26 @@ public class Boss : MonoBehaviour
         }
     }
 
+    void FixedUpdate()
+    {
+        if (sleeping)
+        {
+            return;
+        }
+        if (!canMove() || Vector2.Distance(transform.position, moveTarget) < 0.1f)
+        {
+            rb.velocity = Vector3.zero;
+        }
+        else
+        {
+            if (canMove())
+            {
+                var moveDir = moveTarget - (Vector2)transform.position;
+                rb.velocity = moveDir.normalized * moveSpeed;
+            }
+        }
+    }
+
     private void handleWaiting()
     {
         if (Vector2.Distance(transform.position, target.position) < aggroRange)
@@ -170,15 +206,14 @@ public class Boss : MonoBehaviour
 
         if (channelTimer < Time.time)
         {
-            var circle = Instantiate(PillarOfDoom);
-            circle.transform.position = (Vector2)target.position + new Vector2(Random.Range(-channelRadius, channelRadius), Random.Range(-channelRadius, channelRadius));
+            var pillar = Instantiate(PillarOfDoomPrefab);
+            pillar.transform.position = (Vector2)target.position + new Vector2(Random.Range(-channelRadius, channelRadius), Random.Range(-channelRadius, channelRadius));
             channelTimer = Time.time + channelInterval;
         }
     }
 
     private void handleHealing()
     {
-        health += Time.deltaTime * selfHealPerSecond;
     }
 
     private void Spawn()
@@ -187,10 +222,17 @@ public class Boss : MonoBehaviour
         state = BossState.SPAWN;
         anim.SetBool("Spawn", true);
         SpawnEffect.Play();
+        resetMove();
+        moveTimer = Time.time + initialMoveDelay;
     }
 
     private void queueNextAttack()
     {
+        if (state == BossState.HEALING || state == BossState.EXHAUSTED)
+        {
+            return;
+        }
+
         var cooldown = Random.Range(minCooldown, maxCooldown) / speedModifier;
         Invoke("prepareForAttack", cooldown - 0.5f);
         Invoke("startNextAttack", cooldown);
@@ -213,7 +255,7 @@ public class Boss : MonoBehaviour
             return;
         }
 
-        if (ringAvailable)
+        if (countAliveHealers() < 3 && ringAvailable)
         {
             anim.SetBool("Spell1", true);
             homingSpells = true;
@@ -248,6 +290,25 @@ public class Boss : MonoBehaviour
         }
     }
 
+    private void resetMove()
+    {
+        moveTarget = transform.position;
+    }
+
+    private bool canMove()
+    {
+        return state == BossState.COOLDOWN || state == BossState.PREPARE;
+    }
+
+    private void move()
+    {
+        if (canMove() && moveTimer < Time.time)
+        {
+            moveTarget = transform.position + Quaternion.AngleAxis(Random.Range(0, 360), Vector3.forward) * Vector2.up * Random.Range(minMoveDistance, maxMoveDistance);
+            moveTimer = Time.time + moveInterval;
+        }
+    }
+
     private void enableRing()
     {
         ringAvailable = true;
@@ -279,6 +340,11 @@ public class Boss : MonoBehaviour
 
     public void ChannelingFinished()
     {
+        if (state == BossState.HEALING || state == BossState.EXHAUSTED)
+        {
+            return;
+        }
+
         anim.SetBool("Channel", false);
         queueNextAttack();
     }
@@ -295,7 +361,7 @@ public class Boss : MonoBehaviour
         var spellTarget = homingSpells ? target.position : SpellRoot1.position + SpellRoot1.up;
         var proj = Instantiate(SpellProjectile);
         proj.transform.position = SpellRoot1.position;
-        proj.Launch(spellTarget, 5.0f);
+        proj.Launch(spellTarget, spellDamage);
         if (SoundManager.main != null)
         {
             //SoundManager.main.PlaySound(config.ProjectileSound);
@@ -304,10 +370,10 @@ public class Boss : MonoBehaviour
 
     public void ShootSpell2()
     {
-        var spellTarget = homingSpells ? target.position : SpellRoot2.position + SpellRoot1.up;
+        var spellTarget = homingSpells ? target.position : SpellRoot2.position + SpellRoot2.up;
         var proj = Instantiate(SpellProjectile);
         proj.transform.position = SpellRoot2.position;
-        proj.Launch(spellTarget, 5.0f);
+        proj.Launch(spellTarget, spellDamage);
         if (SoundManager.main != null)
         {
             //SoundManager.main.PlaySound(config.ProjectileSound);
@@ -316,8 +382,8 @@ public class Boss : MonoBehaviour
 
     public void CastCircle()
     {
-        var circle = Instantiate(CircleOfDoom);
-        circle.transform.position = target.position;
+        var circle = Instantiate(CircleOfDoomPrefab);
+        circle.Launch(target);
     }
 
     public void Damaged(float damage)
@@ -338,17 +404,29 @@ public class Boss : MonoBehaviour
                 }
             }
         }
+        else
+        {
+            move();
+        }
     }
 
     public void Exhausted()
     {
+        resetMove();
         health = 0;
         anim.SetBool("Exhausted", true);
+        anim.SetBool("Channel", false);
+        anim.SetBool("Spell1", false);
+        anim.SetBool("Spell2", false);
+        anim.SetBool("Spell3", false);
         if (countAliveHealers() > 0)
         {
             state = BossState.HEALING;
             hurtable.Immune = true;
+            Invoke("SelfHeal", selfHealTickInterval);
             Invoke("Respawn", healingDuration);
+            shield.Activate();
+            coll.enabled = false;
             startHealers();
         }
         else
@@ -359,13 +437,23 @@ public class Boss : MonoBehaviour
 
     public void Respawn()
     {
+        state = BossState.COOLDOWN;
+        resetMove();
         hurtable.Immune = false;
         anim.SetBool("Exhausted", false);
         queueNextAttack();
         stopHealers();
+        shield.Deactivate();
+        coll.enabled = true;
     }
 
     public void Die()
+    {
+        anim.SetBool("Die", true);
+        Invoke("DieReally", 15.0f);
+    }
+
+    public void DieReally()
     {
         Destroy(gameObject);
     }
@@ -385,9 +473,27 @@ public class Boss : MonoBehaviour
         healers.ForEach(it => it.StopHealing());
     }
 
+    private void SelfHeal()
+    {
+        if (state != BossState.HEALING)
+        {
+            return;
+        }
+
+        Heal(5);
+        Invoke("SelfHeal", selfHealTickInterval);
+    }
+
     public void Heal()
     {
-        health += 5;
+        Heal(5);
+    }
+
+    private void Heal(float amount)
+    {
+        health += amount;
+        var healIndicatorOffset = new Vector2(Random.Range(-healIndicatorRange, healIndicatorRange), Random.Range(-healIndicatorRange, healIndicatorRange));
+        UIWorldCanvas.main.ShowNumber((Vector2)transform.position + healIndicatorOffset, amount, ResourceType.HP);
     }
 
 }

@@ -139,7 +139,7 @@ public class Hurtable : MonoBehaviour
                 damagedCallback.Invoke(damage);
             }
             currentHealth -= damage;
-            if (UIWorldCanvas.main != null) {
+            if (UIWorldCanvas.main != null && config.ShowDamageNumber) {
                 UIWorldCanvas.main.ShowNumber((Vector2)transform.position + dmgOffset, -damage, ResourceType.HP, false);
             }
             if (currentHealth <= 0)

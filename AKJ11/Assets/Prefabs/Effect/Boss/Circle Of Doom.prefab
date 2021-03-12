@@ -11,7 +11,9 @@ GameObject:
   - component: {fileID: 7736955927647696112}
   - component: {fileID: 7736955927647696111}
   - component: {fileID: 7736955927647696110}
-  m_Layer: 0
+  - component: {fileID: 4573828631466637226}
+  - component: {fileID: 1239875287707823345}
+  m_Layer: 9
   m_Name: Circle Of Doom
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4815,6 +4817,53 @@ ParticleSystemRenderer:
   m_Mesh2: {fileID: 0}
   m_Mesh3: {fileID: 0}
   m_MaskInteraction: 0
+--- !u!114 &4573828631466637226
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7736955927647696109}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f9c9d2583dc9234abf4eb0c6eb844b6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!68 &1239875287707823345
+EdgeCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7736955927647696109}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_EdgeRadius: 0
+  m_Points:
+  - {x: 0.024346828, y: 1.489145}
+  - {x: -0.7032179, y: 1.3529354}
+  - {x: -1.1912256, y: 0.9483248}
+  - {x: -1.5020461, y: 0.3484139}
+  - {x: -1.4831598, y: -0.3857589}
+  - {x: -1.10563, y: -1.035949}
+  - {x: -0.44506833, y: -1.4439411}
+  - {x: 0.3310802, y: -1.4449397}
+  - {x: 0.68381345, y: -1.2564493}
+  - {x: 1.0232179, y: -1.077897}
+  - {x: 1.4112346, y: -0.48014122}
+  - {x: 1.4741564, y: 0.25394428}
+  - {x: 1.1595482, y: 0.96705586}
+  - {x: 0.67714906, y: 1.3340983}
+  - {x: 0.047932923, y: 1.4809155}
+  m_AdjacentStartPoint: {x: 0, y: 0}
+  m_AdjacentEndPoint: {x: 0, y: 0}
+  m_UseAdjacentStartPoint: 0
+  m_UseAdjacentEndPoint: 0
 --- !u!1 &7736955927964945020
 GameObject:
   m_ObjectHideFlags: 0
