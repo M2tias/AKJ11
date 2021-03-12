@@ -18,13 +18,13 @@ MonoBehaviour:
   circularAreaRadius: 12
   <Size>k__BackingField: 120
   <Padding>k__BackingField: 1
-  <TowerRadius>k__BackingField: 7
-  <Spawns>k__BackingField: []
+  <TowerRadius>k__BackingField: 5
   <EntitySpawns>k__BackingField:
   - <Amount>k__BackingField: 1
-    <SpawnPosition>k__BackingField: 0
-    <SpawnStrategy>k__BackingField: 2
+    area: 0
+    location: 2
+    minPlayerDistance: 2
     <Entities>k__BackingField:
-    - {fileID: 11400000, guid: e443a67657423ed4e9f86c297ad028fb, type: 2}
+    - {fileID: 11400000, guid: b5dcdbcfb1d9bc247a86ea759797efd0, type: 2}
   <Items>k__BackingField: []
   <CaveTileStyle>k__BackingField: {fileID: 11400000, guid: 909f881d511b9ab47a45beca55fb82af, type: 2}

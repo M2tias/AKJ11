@@ -35,8 +35,9 @@ public class HealProjectile : MonoBehaviour
         {
             rb.velocity = ((Vector2)target.transform.position - (Vector2)transform.position).normalized * speed;
 
-            if (Vector2.Distance(transform.position, target.transform.position) < 0.1f)
+            if (Vector2.Distance(transform.position, target.transform.position) < speed * Time.deltaTime + 0.1f)
             {
+                transform.position = target.transform.position;
                 target.Heal();
                 Kill();
             }
@@ -48,7 +49,7 @@ public class HealProjectile : MonoBehaviour
         this.target = target;
     }
 
-    public void OnCollisionEnter2D(Collision2D collision)
+    public void OnTriggerEnter2D(Collision2D collision)
     {
         if (killed)
         {

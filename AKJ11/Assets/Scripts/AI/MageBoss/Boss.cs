@@ -38,6 +38,8 @@ public class Boss : MonoBehaviour
     private float maxArmsRotateSpeed = 360;
     private float aggroRange = 3.0f;
     private float speedModifier = 1.0f;
+    private float maxSpeedModifier = 4.0f;
+    private float minSpeedModifier = 1.0f;
 
     private float delayAfterSpawn = 4.0f;
     private float minCooldown = 3.0f;
@@ -50,7 +52,7 @@ public class Boss : MonoBehaviour
 
     private float channelingDuration = 10.0f;
     private float channelInterval = 0.25f;
-    private float channelRadius = 5.0f;
+    private float channelRadius = 3.0f;
     private bool channelIntroduced = false;
 
     private bool ringAvailable = false;
@@ -127,6 +129,16 @@ public class Boss : MonoBehaviour
         if (sleeping)
         {
             return;
+        }
+
+        if (healers.Count > 0)
+        {
+            var healersAlive = countAliveHealers() / healers.Count;
+            speedModifier = Mathf.Lerp(maxSpeedModifier, minSpeedModifier, healersAlive);
+        }
+        else
+        {
+            speedModifier = maxSpeedModifier;
         }
 
         switch (state)
