@@ -51,18 +51,21 @@ public class Boss : MonoBehaviour
     private float channelingDuration = 10.0f;
     private float channelInterval = 0.25f;
     private float channelRadius = 5.0f;
-    
+    private bool channelIntroduced = false;
+
     private bool ringAvailable = false;
     private bool homingSpells = false;
     private float channelTimer;
 
     private float moveTimer;
-    private float moveInterval = 2.5f;
+    private float moveInterval = 2f;
+    private float moveChance = 0.5f;
     private float initialMoveDelay = 5.0f;
     private float minMoveDistance = 1.0f;
     private float maxMoveDistance = 2.0f;
     private Vector2 moveTarget;
     private float moveSpeed = 5.0f;
+    private float desiredDistance = 5.0f;
 
     private List<BossHealer> healers;
 
@@ -73,12 +76,12 @@ public class Boss : MonoBehaviour
     {
         if (!initialized)
         {
-            Initialize(null);
+            Initialize(null, null);
             WakeUp();
         }
     }
 
-    public void Initialize(MapNode node)
+    public void Initialize(GameEntityConfig entityConfig, MapNode node)
     {
         target = GameObject.FindGameObjectWithTag("Player").transform;
         rb = GetComponent<Rigidbody2D>();
@@ -187,6 +190,23 @@ public class Boss : MonoBehaviour
 
     private void handleCooldown()
     {
+        if (moveTimer < Time.time)
+        {
+            if (Vector2.Distance(transform.position, target.position) > desiredDistance)
+            {
+                var dir = transform.position - target.position;
+                moveTarget = target.position + dir.normalized * desiredDistance;
+            }
+            else
+            {
+                if (Random.Range(0.0f, 1.0f) <= moveChance)
+                {
+                    moveTarget = transform.position + Quaternion.AngleAxis(Random.Range(0, 360), Vector3.forward) * Vector2.up * Random.Range(minMoveDistance, maxMoveDistance);
+                }
+            }
+            moveTimer = Time.time + moveInterval;
+        }
+
         rotateArms();
     }
 
@@ -255,7 +275,9 @@ public class Boss : MonoBehaviour
             return;
         }
 
-        if (countAliveHealers() < 3 && ringAvailable)
+        var healerCount = countAliveHealers();
+
+        if (healerCount < 3 && ringAvailable)
         {
             anim.SetBool("Spell1", true);
             homingSpells = true;
@@ -265,7 +287,15 @@ public class Boss : MonoBehaviour
         }
         else
         {
-            var attack = Random.Range(1, 4);
+            var numberOfAttacks = healerCount == 4 ? 2 : 3;
+            var attack = Random.Range(1, numberOfAttacks + 1);
+
+            if (healerCount < 4 && !channelIntroduced)
+            {
+                attack = 3;
+                channelIntroduced = true;
+            }
+
             switch (attack)
             {
                 case 1:
@@ -298,15 +328,6 @@ public class Boss : MonoBehaviour
     private bool canMove()
     {
         return state == BossState.COOLDOWN || state == BossState.PREPARE;
-    }
-
-    private void move()
-    {
-        if (canMove() && moveTimer < Time.time)
-        {
-            moveTarget = transform.position + Quaternion.AngleAxis(Random.Range(0, 360), Vector3.forward) * Vector2.up * Random.Range(minMoveDistance, maxMoveDistance);
-            moveTimer = Time.time + moveInterval;
-        }
     }
 
     private void enableRing()
@@ -404,10 +425,6 @@ public class Boss : MonoBehaviour
                 }
             }
         }
-        else
-        {
-            move();
-        }
     }
 
     public void Exhausted()
@@ -494,6 +511,11 @@ public class Boss : MonoBehaviour
         health += amount;
         var healIndicatorOffset = new Vector2(Random.Range(-healIndicatorRange, healIndicatorRange), Random.Range(-healIndicatorRange, healIndicatorRange));
         UIWorldCanvas.main.ShowNumber((Vector2)transform.position + healIndicatorOffset, amount, ResourceType.HP);
+
+        if (health > maxHealth)
+        {
+            health = maxHealth;
+        }
     }
 
 }
