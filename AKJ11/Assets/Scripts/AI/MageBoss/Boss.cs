@@ -13,6 +13,7 @@ public class Boss : MonoBehaviour
     public CircleOfDoom CircleOfDoomPrefab;
     public PillarOfDoom PillarOfDoomPrefab;
     public BossShield shield;
+    public AmbientEffects ambient;
 
     private Transform target;
     private bool sleeping = true;
@@ -74,6 +75,8 @@ public class Boss : MonoBehaviour
     private BossState state = BossState.WAIT;
 
     private MageBossContainer gameEntity;
+
+    private bool dead;
 
 
     public void Start()
@@ -477,8 +480,20 @@ public class Boss : MonoBehaviour
 
     public void Die()
     {
+        if (dead)
+        {
+            return;
+        }
         anim.SetBool("Die", true);
         Invoke("DieReally", 15.0f);
+        Invoke("ChangeAmbient", 7.5f);
+        ambient.StopSad();
+        dead = true;
+    }
+
+    public void ChangeAmbient()
+    {
+        ambient.SetHappy();
     }
 
     public void DieReally()
