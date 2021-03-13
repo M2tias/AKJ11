@@ -470,6 +470,7 @@ public class Boss : MonoBehaviour
     {
         state = BossState.COOLDOWN;
         resetMove();
+        moveTimer = Time.time + moveInterval;
         hurtable.Immune = false;
         anim.SetBool("Exhausted", false);
         queueNextAttack();
