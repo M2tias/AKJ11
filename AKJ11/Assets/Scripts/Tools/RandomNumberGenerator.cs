@@ -7,6 +7,7 @@ public class RandomNumberGenerator
 {
 
     private static RandomNumberGenerator main;
+    private System.Random rng;
 
     private int intSeed;
     private string stringSeed = "";
@@ -20,7 +21,7 @@ public class RandomNumberGenerator
     {
         intSeed = seed;
         stringSeed = seed.ToString();
-        UnityEngine.Random.InitState(intSeed);
+        rng = new System.Random(seed);
     }
 
     public static void SetInstance(RandomNumberGenerator rng) {
@@ -34,29 +35,10 @@ public class RandomNumberGenerator
         return main;
     }
 
-    public float Value() {
-        return UnityEngine.Random.value;
-    }
-
-    public float[] Values(int numberOfValues)
-    {
-        float[] values = new float[numberOfValues];
-        for(int index = 0; index < numberOfValues; index += 1) {
-            values[index] = Value();
-        }
-        return values;
-    }
-
-    public float Range(float minInclusive, float maxInclusive)
-    {
-        //return rng.Next;
-        return UnityEngine.Random.Range(minInclusive, maxInclusive);
-    }
-
     public int Range(int minInclusive, int maxExclusive)
     {
-        //return rng.Next;
-        return UnityEngine.Random.Range(minInclusive, maxExclusive);
+        int result = rng.Next(minInclusive, maxExclusive);
+        return result;
     }
 
 }

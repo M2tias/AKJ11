@@ -164,9 +164,16 @@ public class Fireball : MonoBehaviour
     private List<GameObject> bouncedTargets = new List<GameObject>();
     private GameObject nextTarget;
     private float bounceSpeed = 15f;
+    private bool hitSomeone = false;
 
     void OnTriggerEnter2D(Collider2D other)
     {
+        if (hitSomeone)
+        {
+            return;
+        }
+        hitSomeone = true;
+
         if (!bouncing) {
             Hurtable hurtable = other.GetComponent<Hurtable>();
             hitTarget(hurtable);
@@ -230,6 +237,7 @@ public class Fireball : MonoBehaviour
         foreach (var candidate in enemies)
         {
             if (bouncedTargets.Contains(candidate)) continue;
+            if (candidate.GetComponent<Hurtable>().Immune) continue;
 
             float distance = Vector2.Distance(candidate.transform.position, transform.position);
             if (bounceDistance > distance && distance < nearestDist)

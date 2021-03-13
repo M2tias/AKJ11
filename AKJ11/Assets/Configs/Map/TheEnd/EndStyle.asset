@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f071b22c20e24d84ca7549d099e5fb7d, type: 3}
   m_Name: EndStyle
   m_EditorClassIdentifier: 
-  <ColorTint>k__BackingField: {r: 1, g: 1, b: 1, a: 1}
-  <GroundTint>k__BackingField: {r: 0, g: 0.6117647, b: 1, a: 1}
+  <ColorTint>k__BackingField: {r: 1, g: 0, b: 0.17789984, a: 1}
+  <GroundTint>k__BackingField: {r: 1, g: 0.6273585, b: 0.9678478, a: 1}
   groundSprite: {fileID: 0}
   <LayerOrder>k__BackingField: 0
   texture: {fileID: 2800000, guid: 76815e1c56b0e7541a91acce30ea6e86, type: 3}

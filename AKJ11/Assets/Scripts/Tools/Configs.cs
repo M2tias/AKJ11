@@ -19,4 +19,8 @@ public class Configs : MonoBehaviour
     [field: SerializeField]
     public CampaignStructureConfig Campaign { get; private set; }
 
+    [field: SerializeField]
+    public List<TorchConfig> TorchConfigs { get; private set; }
+
 }
+

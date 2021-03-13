@@ -13,8 +13,10 @@ MonoBehaviour:
   m_Name: A_BOSS
   m_EditorClassIdentifier: 
   <NumberOfAreas>k__BackingField: 1
+  areaType: 0
+  <ConnectionStrategy>k__BackingField: 1
+  circularAreaRadius: 5
   <Size>k__BackingField: 50
-  <PassageRadius>k__BackingField: 1
   <Padding>k__BackingField: 1
   <TowerRadius>k__BackingField: 5
   <Spawns>k__BackingField:
@@ -22,9 +24,16 @@ MonoBehaviour:
     <SpawnPosition>k__BackingField: 0
     <Enemies>k__BackingField:
     - {fileID: 11400000, guid: 37794feaedfc7f84cbba4cac0d5c6f2f, type: 2}
+  <EntitySpawns>k__BackingField:
+  - <Amount>k__BackingField: 1
+    area: 0
+    location: 2
+    minPlayerDistance: 0
+    <Entities>k__BackingField:
+    - {fileID: 11400000, guid: 71d718774f60395408493a2af6ea5e2b, type: 2}
   <Items>k__BackingField:
   - <SpawnThisManyTimes>k__BackingField: 1
+    <MinPlayerDistance>k__BackingField: 2
     <SpawnPosition>k__BackingField: 0
     <Item>k__BackingField: {fileID: 11400000, guid: cbf04b5680d49114bb44f1f5ac08ec0c, type: 2}
-  <DefaultTileStyle>k__BackingField: {fileID: 11400000, guid: 48502af41c53cf14ca568797d9b64a83, type: 2}
   <CaveTileStyle>k__BackingField: {fileID: 11400000, guid: 90c2167bb3edca941a4f2c7cfdf06883, type: 2}

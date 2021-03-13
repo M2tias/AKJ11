@@ -45,22 +45,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <Debug>k__BackingField: {fileID: 11400000, guid: e4da3a3b6a8c88747b9c2340d50f166a, type: 2}
   <Camera>k__BackingField: {fileID: 11400000, guid: e2370f9b7bb23074fb3a98edb2cb36f6, type: 2}
-  <Maps>k__BackingField:
-  - {fileID: 11400000, guid: 9824ec2f6fc6e044eb9fd2080855d8a1, type: 2}
-  - {fileID: 11400000, guid: c52a3db36aa689648bbe82e35e3af015, type: 2}
-  - {fileID: 11400000, guid: 23c0f766906601b4995901efc674dab9, type: 2}
-  - {fileID: 11400000, guid: 23c0f766906601b4995901efc674dab9, type: 2}
-  - {fileID: 11400000, guid: b7cc3ef9d0741294da02dc401226075f, type: 2}
-  - {fileID: 11400000, guid: eab6f2541241bc2479a71c4e217d1317, type: 2}
-  - {fileID: 11400000, guid: 262ea410ba3269748b977d79c8520021, type: 2}
-  - {fileID: 11400000, guid: 77668470e48101d48ad75ebdb2d7eccb, type: 2}
-  - {fileID: 11400000, guid: 010a5346d0e73524a8fe7c9265a77f66, type: 2}
-  - {fileID: 11400000, guid: 43a751f5c6988464792ac7698ad2727a, type: 2}
-  - {fileID: 11400000, guid: aeb2779ab8b6c4547a4e4a9be7c6e073, type: 2}
-  - {fileID: 11400000, guid: fca64254f30f2384eb9a5e0e60572d29, type: 2}
-  - {fileID: 11400000, guid: ca3576f0f03457746ad3ad8cfe474bd8, type: 2}
-  - {fileID: 11400000, guid: b00060a5c4b4bcf4fbf5ea3770c7a467, type: 2}
-  - {fileID: 11400000, guid: 6b9aa73177bc55d479165f8fd78424b0, type: 2}
-  - {fileID: 11400000, guid: 86f7db2cccd9a514f82fa36b5e533100, type: 2}
-  - {fileID: 11400000, guid: 890a355d36fdd1343a4d2bdb3f4a6a6a, type: 2}
   <Campaign>k__BackingField: {fileID: 11400000, guid: ae13cee030ad32f4a9fa26dfcee0d314, type: 2}
+  <TorchConfigs>k__BackingField:
+  - {fileID: 11400000, guid: bcfa07abd0c37da4ab6c94965bc09fb9, type: 2}
+  - {fileID: 11400000, guid: 9276cb4bcef8fd1409da5aca4581546e, type: 2}
+  - {fileID: 11400000, guid: 2214f758f6e55f84aaf64092bbfaa2a8, type: 2}
+  - {fileID: 11400000, guid: 528de62820ca1ef48b03da69bd13bb69, type: 2}

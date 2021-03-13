@@ -7,7 +7,6 @@ using System.Linq;
 public class EnclosureFinder
 {
 
-
     private static Vector2Int northCoord = new Vector2Int(0, 1);
     private static Vector2Int eastCoord = new Vector2Int(1, 0);
     private static Vector2Int southCoord = new Vector2Int(0, -1);
@@ -34,6 +33,7 @@ public class EnclosureFinder
         }
         return enclosures;
     }
+
     private static async UniTask FloodFill(Queue<MapNode> nodeQueue, CaveEnclosure enclosure, DelayCounter counter, List<MapNode> nodes, NodeContainer nodeContainer)
     {
         while (nodeQueue.Count > 0)
@@ -67,7 +67,6 @@ public class EnclosureFinder
     {
         return nodeContainer.GetNode(node.Position + coord);
     }
-
 
     private static bool ColorNode(MapNode node, CaveEnclosure enclosure, List<MapNode> nodes) {
         if (node == null)

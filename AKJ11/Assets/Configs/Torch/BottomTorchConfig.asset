@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0aee4cc3fe0c10441bd2bfc540f569dd, type: 3}
   m_Name: BottomTorchConfig
   m_EditorClassIdentifier: 
+  <Type>k__BackingField: 2
   <spritePosition>k__BackingField: {x: 0, y: -0.72}
   <sprite>k__BackingField: {fileID: 21300000, guid: af2c8ae4dc3071c4cac8b36bac252c24, type: 3}
   <spriteXFlip>k__BackingField: 0

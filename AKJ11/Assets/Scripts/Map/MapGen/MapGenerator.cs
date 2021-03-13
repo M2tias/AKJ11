@@ -10,20 +10,6 @@ public class MapGenerator : MonoBehaviour
     List<MapArea> cavernAreas;
     NodeContainer nodeContainer;
     MapConfig config;
-    List<MapNode> towerNodes;
-
-    [SerializeField]
-    private GameObject playerPrefab;
-    [SerializeField]
-    private TorchConfig torchLeftConfig;
-    [SerializeField]
-    private TorchConfig torchRightConfig;
-    [SerializeField]
-    private TorchConfig torchTopConfig;
-    [SerializeField]
-    private TorchConfig torchBottomConfig;
-    [SerializeField]
-    private GameObject torchPrefab;
 
     private FadeOptions fadeToBlack = new FadeOptions(Color.black, 0.2f, true);
     private FadeOptions fadeToTransparent = new FadeOptions(Color.clear, 0.5f, true);
@@ -32,14 +18,15 @@ public class MapGenerator : MonoBehaviour
 
     [SerializeField]
     private int DebugCurrentLevel;
+    [SerializeField]
+    private string DebugSeed = "";
+
+    [SerializeField]
+    private bool NextLevelButton = false;
 
     private FullscreenFade fader;
 
     public static MapGenerator main;
-
-    private NextLevelTrigger nextLevelTrigger;
-
-    GameObject player;
 
     private RandomNumberGenerator rng;
 
@@ -53,9 +40,15 @@ public class MapGenerator : MonoBehaviour
         fader = FullscreenFade.main;
 #if UNITY_EDITOR
         currentLevel = DebugCurrentLevel;
+        if (DebugSeed.Trim() != "") {
+            RandomNumberGenerator.SetInstance(new RandomNumberGenerator(DebugSeed));
+        }
+        if (NextLevelButton) {
+            Prefabs.Get<NextLevelButton>();
+        }
 #endif
-        Time.timeScale = 1f;
         rng = RandomNumberGenerator.GetInstance();
+        Time.timeScale = 1f;
         SeedView.main.SetText(rng.Seed);
         NextLevel();
 
@@ -72,17 +65,21 @@ public class MapGenerator : MonoBehaviour
         {
             SoundManager.main.PlaySound(GameSoundType.DoorOpen);
         }
+        GameStateManager.main.LevelEnded();
         await fader.Fade(fadeToBlack);
         await NextLevel();
     }
 
-    public void FoundKey()
+    public Transform GetContainer()
     {
-        if (nextLevelTrigger != null)
-        {
-            nextLevelTrigger.Enable();
-        }
+        return nodeContainer.ViewContainer;
     }
+
+    public NodeContainer GetNodeContainer()
+    {
+        return nodeContainer;
+    }
+
     public async UniTask NextLevel()
     {
         try {
@@ -91,6 +88,8 @@ public class MapGenerator : MonoBehaviour
         catch(Exception e) {
             Debug.Log(e);
         }
+        GameStateManager.main.LevelStarted(config, currentLevel);
+        Camera.main.GetComponent<FollowTarget>().SetPositionToTarget();
         await fader.Fade(fadeToTransparent);
     }
 
@@ -124,59 +123,34 @@ public class MapGenerator : MonoBehaviour
         await Generate();
     }
 
-    void CreateBackgroundSprites()
-    {
-        float offset = (config.Size % 2) * 0.5f;
-        Vector2 tiledPosition = new Vector2(config.Size / 2 - 0.5f + offset, config.Size / 2 - 0.5f + offset);
-        TiledBackground floor = Prefabs.Get<TiledBackground>();
-        floor.Initialize(
-            config.CaveTileStyle.GroundSprite,
-            config.CaveTileStyle.GroundTint,
-            nodeContainer.ViewContainer,
-            -100,
-            new Vector2Int(config.Size, config.Size),
-            tiledPosition
-        );
-        floor.name = "Floor";
-
-        int outsideSize = 10;
-        CreateBGSprite("OutsideTop", new Vector2(tiledPosition.x, config.Size + outsideSize / 2 - 0.5f), new Vector2Int(config.Size + outsideSize * 2, outsideSize));
-        CreateBGSprite("OutsideRight", new Vector2(outsideSize / 2 + config.Size - 0.5f, tiledPosition.y), new Vector2Int(outsideSize, config.Size));
-        CreateBGSprite("OutsideLeft", new Vector2(-outsideSize / 2 - 0.5f, tiledPosition.y), new Vector2Int(outsideSize, config.Size));
-        CreateBGSprite("OutsideBot", new Vector2(tiledPosition.x, -outsideSize / 2 - 0.5f), new Vector2Int(config.Size + outsideSize * 2, outsideSize));
-    }
-
-    void CreateBGSprite(string spriteName, Vector2 position, Vector2Int size) {
-        TiledBackground bgSprite = Prefabs.Get<TiledBackground>();
-        bgSprite.Initialize(
-            config.CaveTileStyle.GroundSprite,
-            config.CaveTileStyle.ColorTint,
-            nodeContainer.ViewContainer,
-            -101,
-            size,
-            position
-        );
-        bgSprite.name = spriteName;
-    }
 
     async UniTask Generate()
     {
-        await GenerateAndFindEnclosures();
+        List<CaveEnclosure> rooms = await GenerateAndFindEnclosures();
+        await EnclosureEdgeFinder.FindEdges(nodeContainer, rooms, config);
         if (Configs.main.Debug.DelayGeneration)
         {
             nodeContainer.Render();
         }
-        CreateBackgroundSprites();
-        await GenerateTowerRoom();
-        await FindAndConnectEnclosures();
+        BackgroundCreator.Create(nodeContainer, config);
+        CaveEnclosure tower = await TowerRoomGenerator.GenerateTower(config.TowerRadius, nodeContainer, nodeContainer.MidPoint);
+        CaveEnclosure roomsAndTower = await FindAndConnectEnclosures();
         await BlobGrid.Run(nodeContainer);
         CreateNavMesh();
-        MapNode playerNode = Populate();
-        PlaceItems(playerNode);
+        MapGenData data = new MapGenData{
+            NodeContainer = nodeContainer,
+            Config = config,
+            Tower = tower,
+            Rooms = rooms,
+            RoomsAndTower = roomsAndTower
+        };
+        MapPopulator.Populate(data);
+        TorchSpawner.Spawn(data);
+        PlaceItems(data);
         nodeContainer.Render();
     }
 
-    async UniTask GenerateAndFindEnclosures()
+    async UniTask<List<CaveEnclosure>> GenerateAndFindEnclosures()
     {
         List<CaveEnclosure> areas;
         await GenerateEnclosures();
@@ -199,6 +173,7 @@ public class MapGenerator : MonoBehaviour
         {
             Debug.Log($"Config sucks! Just couldn't create enough areas of type: {config.AreaType}.");
         }
+        return areas;
     }
 
     async UniTask GenerateEnclosures()
@@ -224,55 +199,18 @@ public class MapGenerator : MonoBehaviour
 
     async UniTask GenerateCircularRooms()
     {
-        int padding = config.Padding;
-        int radius = config.CircularAreaRadius;
         foreach (MapArea area in cavernAreas)
         {
-            towerNodes = await TowerRoomGenerator.Generate(
+            await TowerRoomGenerator.Generate(
                 config.CircularAreaRadius,
                 nodeContainer,
-                CalculateCircularRoomPosition(area)
+                config,
+                area
             );
         }
     }
 
-    private Vector2Int CalculateCircularRoomPosition(MapArea area)
-    {
-        int offset = config.Padding + config.CircularAreaRadius;
-        if (area.Type == MapAreaType.BotLeft)
-        {
-            offset = area.Rect.xMin + offset;
-        }
-        else if (area.Type == MapAreaType.BotRight) {
-            offset = area.Rect.yMin + offset;
-        }
-        else if (area.Type == MapAreaType.TopLeft)
-        {
-            offset = area.Rect.yMax - offset;
-        }
-        else if (area.Type == MapAreaType.TopRight) {
-            offset = area.Rect.xMax - offset;
-        }
-        if (area.Type == MapAreaType.TopLeft || area.Type == MapAreaType.BotRight)
-        {
-            return new Vector2Int(nodeContainer.MidPoint.x, offset);
-        }
-        else
-        {
-            return new Vector2Int(offset, nodeContainer.MidPoint.y);
-        }
-    }
-
-    async UniTask GenerateTowerRoom()
-    {
-        towerNodes = await TowerRoomGenerator.Generate(config.TowerRadius, nodeContainer, nodeContainer.MidPoint);
-        foreach (MapNode node in towerNodes)
-        {
-            node.IsTower = true;
-        }
-    }
-
-    async UniTask FindAndConnectEnclosures()
+    async UniTask<CaveEnclosure> FindAndConnectEnclosures()
     {
         List<CaveEnclosure> enclosures = await EnclosureFinder.Find(nodeContainer);
         EnclosureConnector connector = new EnclosureConnector(nodeContainer, config);
@@ -283,9 +221,13 @@ public class MapGenerator : MonoBehaviour
             enclosures = await EnclosureFinder.Find(nodeContainer);
         }
         await EnclosureEdgeFinder.FindEdges(nodeContainer, enclosures, config);
+        if (enclosures.Count == 1) {
+            return enclosures[0];
+        }
+        return null;
     }
 
-    void CreateNavMesh()
+    private void CreateNavMesh()
     {
         Transform meshContainer = Prefabs.Get<Transform>();
         meshContainer.name = "NavMeshMesh";
@@ -299,79 +241,14 @@ public class MapGenerator : MonoBehaviour
         NavMeshUtil.GenerateNavMesh(meshContainer.gameObject);
     }
 
-
-    public Transform GetContainer()
+    private void PlaceItems(MapGenData data)
     {
-        return nodeContainer.ViewContainer;
-    }
-
-    private MapNode Populate()
-    {
-        if (player == null)
-        {
-            player = Instantiate(playerPrefab);
-        }
-
-        List<MapNode> nonTowerNodes = nodeContainer.Nodes.Where(node => !node.IsWall && !towerNodes.Contains(node)).ToList();
-        MapNode playerNode = nodeContainer.GetNode(nodeContainer.MidPoint);
-
-        if (Configs.main.Campaign.IsLastLevel(config))
-        {
-            Debug.Log("LastLevel");
-            TheEndView.main.Show();
-        }
-        else
-        {
-            nextLevelTrigger = Prefabs.Get<NextLevelTrigger>();
-            nextLevelTrigger.transform.SetParent(nodeContainer.ViewContainer);
-            MapNode keyNode;
-            if (nonTowerNodes.Count > 0)
-            {
-                keyNode = nonTowerNodes.OrderByDescending(node => node.Distance(playerNode)).First();
-                nextLevelTrigger.Initialize(nodeContainer.MidPoint);
-            }
-            else
-            {
-                keyNode = towerNodes.OrderByDescending(node => node.Distance(playerNode)).First();
-                MapNode enterNode = towerNodes.OrderByDescending(node => node.Distance(keyNode)).First();
-                nextLevelTrigger.Initialize(enterNode.Position);
-            }
-            NextLevelKey nextLevelKey = Prefabs.Get<NextLevelKey>();
-            nextLevelKey.transform.SetParent(nodeContainer.ViewContainer);
-            nextLevelKey.Initialize(keyNode.Position);
-        }
-
-        player.transform.position = (Vector2)playerNode.Position;
-        Movement movement = player.GetComponentInChildren<Movement>();
-        if (movement != null)
-        {
-            movement.transform.localPosition = Vector2.zero;
-        }
-
-
-        SpawnEnemies(playerNode, nonTowerNodes);
-        SpawnTorches(playerNode, nonTowerNodes);
-
-        FollowTarget cameraFollow = Camera.main.GetComponent<FollowTarget>();
-        if (cameraFollow != null)
-        {
-            cameraFollow.Initialize(Configs.main.Camera, true);
-        }
-        else
-        {
-            Debug.Log("<color=red>Camera doesn't have FollowTarget component!</color>");
-        }
-        return playerNode;
-    }
-
-    private void PlaceItems(MapNode playerNode)
-    {
+        List <MapNode> towerNodes = new List<MapNode>(data.Tower.Nodes);
+        List <MapNode> nonTowerNodes = data.NonTowerNodes;
         try
         {
             if (config.Items.Count > 0)
             {
-                List<MapNode> nonTowerNodes = nodeContainer.Nodes.Where(node => !node.IsWall && !towerNodes.Contains(node)).ToList();
-                List<MapNode> itemTowerNodes = nodeContainer.Nodes.Where(node => node.IsTower && node.Distance(playerNode) > 2).ToList();
                 foreach (ItemSpawn spawn in config.Items)
                 {
                     for (int timesSpawned = 0; timesSpawned < spawn.SpawnThisManyTimes; timesSpawned += 1)
@@ -379,12 +256,13 @@ public class MapGenerator : MonoBehaviour
                         MapNode spawnNode = null;
                         if (spawn.SpawnPosition == SpawnPosition.Tower)
                         {
-                            if (itemTowerNodes.Count < 1)
+                            if (towerNodes.Count < 1)
                             {
                                 continue;
                             }
-                            spawnNode = itemTowerNodes[rng.Range(0, itemTowerNodes.Count)];
-                            itemTowerNodes.Remove(spawnNode);
+                            List<MapNode> possibleNodes = towerNodes.Where(node => node.Distance(data.Player.Node) > spawn.MinPlayerDistance).ToList();
+                            spawnNode = possibleNodes[rng.Range(0, possibleNodes.Count)];
+                            towerNodes.Remove(spawnNode);
                         }
                         else if (spawn.SpawnPosition == SpawnPosition.Cave)
                         {
@@ -408,107 +286,6 @@ public class MapGenerator : MonoBehaviour
         {
             MonoBehaviour.print(e);
         }
-
     }
 
-    private void SpawnEnemies(MapNode playerNode, List<MapNode> nonTowerNodes)
-    {
-        float minDistanceFromPlayer = 2f;
-
-        List<MapNode> nonEdgeNodes = nonTowerNodes.Where(node => !node.IsEdge).ToList();
-        List<MapNode> enemyTowerNodes = towerNodes.Where(node => !node.IsEdge && node.Distance(playerNode) > minDistanceFromPlayer).ToList();
-
-        foreach (EnemySpawn enemySpawn in config.Spawns)
-        {
-            for (int spawnCount = 0; spawnCount < enemySpawn.SpawnThisManyTimes; spawnCount += 1)
-            {
-                foreach (EnemyConfig enemyConfig in enemySpawn.Enemies)
-                {
-                    try
-                    {
-                        MapNode randomNode;
-                        if (enemySpawn.SpawnPosition == SpawnPosition.Cave)
-                        {
-                            randomNode = nonEdgeNodes[rng.Range(0, nonEdgeNodes.Count)];
-                            nonEdgeNodes.Remove(randomNode);
-                        }
-                        else
-                        {
-                            randomNode = enemyTowerNodes[rng.Range(0, enemyTowerNodes.Count)];
-                            enemyTowerNodes.Remove(randomNode);
-                        }
-                        Enemy enemy = Prefabs.Get<Enemy>();
-
-                        enemy.transform.SetParent(nodeContainer.ViewContainer);
-                        enemy.Initialize(enemyConfig, randomNode);
-                        enemy.name = enemyConfig.name;
-                        enemy.WakeUp();
-                    }
-                    catch (Exception e)
-                    {
-                        MonoBehaviour.print(e);
-                    }
-                }
-            }
-        }
-    }
-
-    private void SpawnTorches(MapNode playerNode, List<MapNode> nonTowerNodes)
-    {
-        IEnumerable<MapNode> edgeNodes = nonTowerNodes.Where(node => node.IsEdge);
-
-        List<MapNode> leftEdgeNodes = edgeNodes.Where(node =>
-           node.Neighbors.Any(n => n.IsWall && n.X < node.X && n.Y == node.Y) &&
-           node.Neighbors.Where(n => n.IsWall && n.X < node.X).Count() > 1
-        ).ToList();
-
-        List<MapNode> rightEdgeNodes = edgeNodes.Where(node =>
-            node.Neighbors.Any(n => n.IsWall && n.X > node.X && n.Y == node.Y) &&
-            node.Neighbors.Where(n => n.IsWall && n.X > node.X).Count() > 1
-        ).ToList();
-
-        List<MapNode> topEdgeNodes = edgeNodes.Where(node =>
-            node.Neighbors.Any(n => n.IsWall && n.X == node.X && n.Y > node.Y) &&
-            node.Neighbors.Where(n => n.IsWall && n.Y > node.Y).Count() > 1
-        ).ToList();
-
-        List<MapNode> bottomEdgeNodes = edgeNodes.Where(node =>
-            node.Neighbors.Any(n => n.IsWall && n.X == node.X && n.Y < node.Y) &&
-            node.Neighbors.Where(n => n.IsWall && n.Y < node.Y).Count() > 1
-        ).ToList();
-
-        float spawnPitch = 4f;
-
-        SpawnTorchesSide(leftEdgeNodes, spawnPitch, torchLeftConfig, "left");
-        SpawnTorchesSide(rightEdgeNodes, spawnPitch, torchRightConfig, "right");
-        SpawnTorchesSide(topEdgeNodes, spawnPitch, torchTopConfig, "top");
-        SpawnTorchesSide(bottomEdgeNodes, spawnPitch, torchBottomConfig, "bottom");
-    }
-
-    private void SpawnTorchesSide(List<MapNode> edgeNodes, float spawnPitch, TorchConfig config, string direction)
-    {
-        for (int index = 0; index < Mathf.RoundToInt(edgeNodes.Count / spawnPitch); index += 1)
-        {
-            try
-            {
-                SpawnTorch(edgeNodes, spawnPitch, index, config, direction);
-            }
-            catch (Exception e)
-            {
-                MonoBehaviour.print(e);
-            }
-        }
-    }
-
-    private void SpawnTorch(List<MapNode> edgeNodes, float spawnPitch, int index, TorchConfig config, string direction)
-    {
-        MapNode randomNode = edgeNodes[Math.Min(Mathf.RoundToInt(index * spawnPitch), edgeNodes.Count - 1)];//UnityEngine.Random.Range(0, rightEdgeNodes.Count)];
-
-        GameObject torchInstance2 = Instantiate(torchPrefab);
-        torchInstance2.GetComponent<Torch>().Initialize(config);
-        torchInstance2.transform.SetParent(nodeContainer.ViewContainer);
-        Vector2 nodePos2 = (Vector2)randomNode.Position;
-        torchInstance2.transform.position = new Vector2(nodePos2.x, nodePos2.y);
-        torchInstance2.name = "torch_" + direction + "_X:" + randomNode.X + "|Y:" + randomNode.Y;
-    }
 }
