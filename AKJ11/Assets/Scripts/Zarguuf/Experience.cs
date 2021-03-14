@@ -47,6 +47,7 @@ public class Experience : MonoBehaviour
         if (UIXP.main != null) {
             UIXP.main.SetXP(0, 0, 0);
         }
+        AddExperience(3000);
     }
 
     void Update()

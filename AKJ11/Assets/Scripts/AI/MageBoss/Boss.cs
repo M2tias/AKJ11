@@ -263,6 +263,7 @@ public class Boss : MonoBehaviour
         SpawnEffect.Play();
         resetMove();
         moveTimer = Time.time + initialMoveDelay;
+        ambient.PlayBossMusic();
     }
 
     private void queueNextAttack()
@@ -435,7 +436,7 @@ public class Boss : MonoBehaviour
     {
         health -= damage;
 
-        if (health < 0)
+        if (health < 0 && state != BossState.SPAWN)
         {
             if (state != BossState.EXHAUSTED)
             {
@@ -472,6 +473,7 @@ public class Boss : MonoBehaviour
         }
         else
         {
+            ambient.StopBossMusic();
             state = BossState.EXHAUSTED;
         }
     }
