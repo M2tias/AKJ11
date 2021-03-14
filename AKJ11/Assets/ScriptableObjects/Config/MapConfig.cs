@@ -98,7 +98,8 @@ public enum SpawnStrategy {
 
 public enum KeySpawn {
     MaxDistanceFromPlayer,
-    LastEntityDrops
+    LastEntityDrops,
+    Manual
 }
 
 [System.Serializable]

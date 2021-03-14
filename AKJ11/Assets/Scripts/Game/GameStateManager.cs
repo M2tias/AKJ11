@@ -52,4 +52,9 @@ public class GameStateManager : MonoBehaviour
     {
         return value >= Mathf.Min(min, max) && value <= Mathf.Max(min, max);
     }
+
+    public void SpawnKey(Vector2 position)
+    {
+        MapPopulator.PlaceKey(position);
+    }
 }

@@ -44,8 +44,8 @@ public class MapPopulator
     {
         List<MapNode> nonTowerNodes = data.NonTowerNodes;
         List<MapNode> towerNodes = data.Tower.Nodes;
-        if (data.Config.KeySpawn == KeySpawn.MaxDistanceFromPlayer) {
-            MapNode keyNode;
+        MapNode keyNode = null;
+        if (data.Config.KeySpawn == KeySpawn.MaxDistanceFromPlayer || data.Config.KeySpawn == KeySpawn.Manual) {
             if (nonTowerNodes.Count > 0)
             {
                 keyNode = nonTowerNodes.OrderByDescending(node => node.Distance(data.Player.Node)).First();
@@ -57,6 +57,10 @@ public class MapPopulator
                 MapNode enterNode = towerNodes.OrderByDescending(node => node.Distance(keyNode)).First();
                 PlaceNextLevelTrigger(enterNode);
             }
+        }
+
+        if (data.Config.KeySpawn == KeySpawn.MaxDistanceFromPlayer)
+        {
             PlaceKey(keyNode);
         }
     }
@@ -68,9 +72,14 @@ public class MapPopulator
     }
 
     public static void PlaceKey(MapNode node) {
+        PlaceKey(node.Position);
+    }
+
+    public static void PlaceKey(Vector2 position)
+    {
         NextLevelKey nextLevelKey = Prefabs.Get<NextLevelKey>();
         nextLevelKey.transform.SetParent(NextLevelTrigger.main.transform.parent);
-        nextLevelKey.Initialize(node.Position, NextLevelTrigger.main);
+        nextLevelKey.Initialize(position, NextLevelTrigger.main);
     }
 
     private static void SpawnGameEntities(MapGenData data)

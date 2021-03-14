@@ -501,6 +501,8 @@ public class Boss : MonoBehaviour
         ambient.StopSad();
         dead = true;
         hurtable.Immune = true;
+        coll.enabled = false;
+        GameStateManager.main.SpawnKey(transform.position);
     }
 
     public void ChangeAmbient()
