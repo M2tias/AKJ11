@@ -4,11 +4,13 @@ using UnityEngine;
 
 public class PillarOfDoom : MonoBehaviour
 {
+    public GameSoundType ExplodeSound;
+
     private Collider2D coll;
 
     private float damageStart = 2.0f;
     private float damageEnd = 2.25f;
-    private float damage = 5.0f;
+    private float damage = 8.0f;
 
     // Start is called before the first frame update
     void Start()
@@ -26,6 +28,10 @@ public class PillarOfDoom : MonoBehaviour
 
     private void EnableDamage()
     {
+        if (SoundManager.main != null)
+        {
+            SoundManager.main.PlaySound(ExplodeSound);
+        }
         coll.enabled = true;
     }
 

@@ -9793,6 +9793,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5ae7c3ea45196bf47836a04e97d5dd84, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ExplodeSound: 1
 --- !u!58 &7171925586129755038
 CircleCollider2D:
   m_ObjectHideFlags: 0

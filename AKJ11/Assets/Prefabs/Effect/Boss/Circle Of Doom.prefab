@@ -4829,6 +4829,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3f9c9d2583dc9234abf4eb0c6eb844b6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  FireSound: 1
 --- !u!68 &1239875287707823345
 EdgeCollider2D:
   m_ObjectHideFlags: 0

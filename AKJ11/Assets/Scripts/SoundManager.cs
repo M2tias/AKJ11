@@ -52,12 +52,55 @@ public class GameSound {
     [field: SerializeField]
     private List<AudioSource> sounds;
 
+    private List<GameSoundPool> soundPools = new List<GameSoundPool>();
+    private bool initialized = false;
 
     public AudioSource Get () 
     {
+        if (!initialized)
+        {
+            initialize();
+        }
+
         if (sounds == null || sounds.Count == 0) {
             return null;
         } 
-        return sounds[UnityEngine.Random.Range(0, sounds.Count)];
+        return soundPools[Random.Range(0, soundPools.Count)].getAvailable();
+    }
+
+    private void initialize()
+    {
+        soundPools = sounds.Select(it => new GameSoundPool(it)).ToList();
+        initialized = true;
+    }
+
+
+    private class GameSoundPool
+    {
+        private AudioSource originalAudioSource;
+        private List<AudioSource> audioSources = new List<AudioSource>();
+
+        public GameSoundPool(AudioSource audioSource)
+        {
+            originalAudioSource = audioSource;
+            addNewToPool();
+        }
+
+        public AudioSource getAvailable()
+        {
+            var src = audioSources.Where(it => it.isPlaying == false).FirstOrDefault();
+            if (src == null)
+            {
+                src = addNewToPool();
+            }
+            return src;
+        }
+
+        private AudioSource addNewToPool()
+        {
+            AudioSource newSource = GameObject.Instantiate(originalAudioSource, originalAudioSource.transform.parent);
+            audioSources.Add(newSource);
+            return newSource;
+        }
     }
 }

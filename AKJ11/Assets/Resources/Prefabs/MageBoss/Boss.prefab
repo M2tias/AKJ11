@@ -34322,6 +34322,10 @@ MonoBehaviour:
   CircleOfDoomPrefab: {fileID: 4573828631466637226, guid: 8c09738b386c93e4480a47a21467c05a, type: 3}
   PillarOfDoomPrefab: {fileID: 8730158593322894826, guid: 7bfbafcacf0049e4d86b7f739a7d8a77, type: 3}
   shield: {fileID: 6963731506406039319}
+  ambient: {fileID: 0}
+  SpellSound: 6
+  ChannelingSound: 8
+  CircleOfDoomSound: 8
 --- !u!114 &6811803806496073691
 MonoBehaviour:
   m_ObjectHideFlags: 0

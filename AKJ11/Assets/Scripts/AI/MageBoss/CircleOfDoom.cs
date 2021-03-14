@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class CircleOfDoom : MonoBehaviour
 {
+    public GameSoundType FireSound;
+
     private Collider2D coll;
     private Transform target;
 
@@ -11,7 +13,7 @@ public class CircleOfDoom : MonoBehaviour
     private float damageStart = 1.25f;
     private float damageEnd = 6.0f;
     private bool tracking = true;
-    private float damage = 5.0f;
+    private float damage = 6.0f;
 
     // Start is called before the first frame update
     void Start()
@@ -45,6 +47,11 @@ public class CircleOfDoom : MonoBehaviour
     private void EnableDamage()
     {
         coll.enabled = true;
+
+        if (SoundManager.main != null)
+        {
+            SoundManager.main.PlaySound(FireSound);
+        }
     }
 
     private void DisableDamage()
