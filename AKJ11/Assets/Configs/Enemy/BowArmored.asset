@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d1c07e48319c3524d9890dc08d0369d4, type: 3}
   m_Name: BowArmored
   m_EditorClassIdentifier: 
-  <MoveSpeed>k__BackingField: 1
-  <AttackRange>k__BackingField: 3
+  <MoveSpeed>k__BackingField: 2
+  <AttackRange>k__BackingField: 6
   <AggroRange>k__BackingField: 5
   <HealthConfig>k__BackingField: {fileID: 11400000, guid: 04f7a0acff1925445ac4c98e8a9f2a51, type: 2}
   <ExpGainConfig>k__BackingField: {fileID: 11400000, guid: 58a255521efbf8048ad69b120fe28961, type: 2}

@@ -33,9 +33,13 @@ MonoBehaviour:
     - {fileID: 11400000, guid: 43a751f5c6988464792ac7698ad2727a, type: 2}
   - <Name>k__BackingField: Blue
     <BossLevel>k__BackingField: {fileID: 11400000, guid: 86f7db2cccd9a514f82fa36b5e533100, type: 2}
-    <AfterBossLevel>k__BackingField: {fileID: 11400000, guid: 51c6c0382a0d7b8428a5c72911688e36, type: 2}
+    <AfterBossLevel>k__BackingField: {fileID: 11400000, guid: 724586ef26f88a046823687caab6e8b3, type: 2}
     <Levels>k__BackingField:
     - {fileID: 11400000, guid: fca64254f30f2384eb9a5e0e60572d29, type: 2}
     - {fileID: 11400000, guid: ca3576f0f03457746ad3ad8cfe474bd8, type: 2}
     - {fileID: 11400000, guid: b00060a5c4b4bcf4fbf5ea3770c7a467, type: 2}
     - {fileID: 11400000, guid: 6b9aa73177bc55d479165f8fd78424b0, type: 2}
+  - <Name>k__BackingField: Final Boss
+    <BossLevel>k__BackingField: {fileID: 11400000, guid: 51c6c0382a0d7b8428a5c72911688e36, type: 2}
+    <AfterBossLevel>k__BackingField: {fileID: 0}
+    <Levels>k__BackingField: []

@@ -19,19 +19,6 @@ MonoBehaviour:
   <Size>k__BackingField: 40
   <Padding>k__BackingField: 4
   <TowerRadius>k__BackingField: 7
-  <Spawns>k__BackingField:
-  - <SpawnThisManyTimes>k__BackingField: 5
-    <SpawnPosition>k__BackingField: 0
-    <Enemies>k__BackingField:
-    - {fileID: 11400000, guid: 191358d3389686048b096f049d9aec0a, type: 2}
-  - <SpawnThisManyTimes>k__BackingField: 8
-    <SpawnPosition>k__BackingField: 0
-    <Enemies>k__BackingField:
-    - {fileID: 11400000, guid: 1e5ef633d1743274da3e62565075b393, type: 2}
-  - <SpawnThisManyTimes>k__BackingField: 1
-    <SpawnPosition>k__BackingField: 0
-    <Enemies>k__BackingField:
-    - {fileID: 11400000, guid: 2018262829697104ebf4db14be8d2197, type: 2}
   <EntitySpawns>k__BackingField:
   - <Amount>k__BackingField: 6
     area: 0
@@ -46,5 +33,12 @@ MonoBehaviour:
     minPlayerDistance: 0
     <Entities>k__BackingField:
     - {fileID: 11400000, guid: ab79a698d078a4e42b9f88603d1a9660, type: 2}
+  - <Amount>k__BackingField: 1
+    area: 0
+    location: 0
+    minPlayerDistance: 0
+    <Entities>k__BackingField:
+    - {fileID: 11400000, guid: 67e410e0f0bacc64d93b02df2fe29243, type: 2}
   <Items>k__BackingField: []
   <CaveTileStyle>k__BackingField: {fileID: 11400000, guid: a7b538c441f1165469366ee2f3d8c055, type: 2}
+  <KeySpawn>k__BackingField: 0

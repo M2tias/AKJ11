@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d1c07e48319c3524d9890dc08d0369d4, type: 3}
   m_Name: EndBossSpearUltimate
   m_EditorClassIdentifier: 
-  <MoveSpeed>k__BackingField: 5
-  <AttackRange>k__BackingField: 3
+  <MoveSpeed>k__BackingField: 3
+  <AttackRange>k__BackingField: 1
   <AggroRange>k__BackingField: 5
   <HealthConfig>k__BackingField: {fileID: 11400000, guid: 3064216bae4ca9f4bab1ba1fa1ee6964, type: 2}
   <ExpGainConfig>k__BackingField: {fileID: 11400000, guid: 1407ae01415c6664db713990d661ff1c, type: 2}
@@ -21,6 +21,6 @@ MonoBehaviour:
   <AnimatorController>k__BackingField: {fileID: 9100000, guid: 811da30b8dfb75d41a2bb93035d89ed2, type: 2}
   <DashSpeed>k__BackingField: 10
   <DashDistance>k__BackingField: 5
-  <DashMinDelay>k__BackingField: 1
-  <DashMaxDelay>k__BackingField: 1
+  <DashMinDelay>k__BackingField: 3
+  <DashMaxDelay>k__BackingField: 4
   <ColorTint>k__BackingField: {r: 1, g: 0.5235849, b: 0.5235849, a: 1}

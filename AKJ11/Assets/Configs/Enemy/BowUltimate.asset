@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: BowUltimate
   m_EditorClassIdentifier: 
   <MoveSpeed>k__BackingField: 3
-  <AttackRange>k__BackingField: 4
+  <AttackRange>k__BackingField: 8
   <AggroRange>k__BackingField: 5
   <HealthConfig>k__BackingField: {fileID: 11400000, guid: 029c95359256df742a7b44b24695e046, type: 2}
   <ExpGainConfig>k__BackingField: {fileID: 11400000, guid: 18c12fe586e426044be99d186dc29f0e, type: 2}
