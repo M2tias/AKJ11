@@ -12,10 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 32a7ce4e8effb8a4387bd7a2d9985902, type: 3}
   m_Name: BossMageHealerHealthConfig
   m_EditorClassIdentifier: 
-  health: 25
+  health: 250
   <InvulnerabilityDuration>k__BackingField: 0
-  <DamageTint>k__BackingField: {r: 0, g: 0.6310158, b: 1, a: 1}
+  <DamageTint>k__BackingField: {r: 1, g: 0.7647059, b: 0, a: 1}
   <DamageTintDuration>k__BackingField: 0.5
   <HitSound>k__BackingField: 3
-  <DeathSound>k__BackingField: 0
+  <DeathSound>k__BackingField: 2
   ImmuneToPoison: 1
+  ShowDamageNumber: 1

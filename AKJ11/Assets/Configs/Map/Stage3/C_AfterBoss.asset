@@ -10,34 +10,24 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2aa5175f86b830144a4a26a232736986, type: 3}
-  m_Name: C_Level4
+  m_Name: C_AfterBoss
   m_EditorClassIdentifier: 
-  <NumberOfAreas>k__BackingField: 3
+  <NumberOfAreas>k__BackingField: 0
   areaType: 0
   <ConnectionStrategy>k__BackingField: 1
   circularAreaRadius: 5
   <Size>k__BackingField: 40
-  <Padding>k__BackingField: 4
-  <TowerRadius>k__BackingField: 7
-  <EntitySpawns>k__BackingField:
-  - <Amount>k__BackingField: 20
-    area: 0
-    location: 0
-    minPlayerDistance: 0
-    <Entities>k__BackingField:
-    - {fileID: 11400000, guid: c0c8689c61e4bbd468e4b9ec79c487cd, type: 2}
-    - {fileID: 11400000, guid: 6f7e02e470e33094bbb439a734e13acf, type: 2}
-  - <Amount>k__BackingField: 1
-    area: 0
-    location: 0
-    minPlayerDistance: 0
-    <Entities>k__BackingField:
-    - {fileID: 11400000, guid: 67e410e0f0bacc64d93b02df2fe29243, type: 2}
-    - {fileID: 11400000, guid: a7caae0f8e3a2de4e9cca87b2134ae64, type: 2}
+  <Padding>k__BackingField: 1
+  <TowerRadius>k__BackingField: 5
+  <EntitySpawns>k__BackingField: []
   <Items>k__BackingField:
+  - <SpawnThisManyTimes>k__BackingField: 10
+    minPlayerDistance: 2
+    spawnPosition: 1
+    <Item>k__BackingField: {fileID: 11400000, guid: cbf04b5680d49114bb44f1f5ac08ec0c, type: 2}
   - <SpawnThisManyTimes>k__BackingField: 2
     minPlayerDistance: 2
-    spawnPosition: 0
-    <Item>k__BackingField: {fileID: 11400000, guid: cbf04b5680d49114bb44f1f5ac08ec0c, type: 2}
+    spawnPosition: 1
+    <Item>k__BackingField: {fileID: 11400000, guid: 0af6d286a5c04de4f83c13d2e425d209, type: 2}
   <CaveTileStyle>k__BackingField: {fileID: 11400000, guid: a7b538c441f1165469366ee2f3d8c055, type: 2}
   <KeySpawn>k__BackingField: 0

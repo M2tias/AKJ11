@@ -6,10 +6,11 @@ public class NextLevelKey : MonoBehaviour
 {
 
     private NextLevelTrigger nextLevelTrigger;
-    public void Initialize(Vector2Int pos, NextLevelTrigger nextLevelTrigger)
+
+    public void Initialize(Vector2 pos, NextLevelTrigger nextLevelTrigger)
     {
         this.nextLevelTrigger = nextLevelTrigger;
-        transform.position = (Vector2)pos;
+        transform.position = pos;
     }
 
     void OnTriggerEnter2D(Collider2D other) {

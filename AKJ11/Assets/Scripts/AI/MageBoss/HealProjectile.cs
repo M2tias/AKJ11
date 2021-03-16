@@ -35,7 +35,7 @@ public class HealProjectile : MonoBehaviour
         {
             rb.velocity = ((Vector2)target.transform.position - (Vector2)transform.position).normalized * speed;
 
-            if (Vector2.Distance(transform.position, target.transform.position) < speed * Time.deltaTime + 0.1f)
+            if (Vector2.Distance(transform.position, target.transform.position) < speed * Time.deltaTime + 0.5f)
             {
                 transform.position = target.transform.position;
                 target.Heal();

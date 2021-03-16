@@ -27,7 +27,10 @@ public class CampaignStructureConfig : ScriptableObject
                 AddLevel(level);
             }
             AddLevel(stage.BossLevel);
-            AddLevel(stage.AfterBossLevel);
+            if (stage.AfterBossLevel != null)
+            {
+                AddLevel(stage.AfterBossLevel);
+            }
         }
         AddLevel(TheEndLevel);
     }

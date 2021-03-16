@@ -8,6 +8,8 @@ TagManager:
   - Enemy
   - CameraFollowTarget
   - BossHealer
+  - Music
+  - BossMusic
   layers:
   - Default
   - TransparentFX

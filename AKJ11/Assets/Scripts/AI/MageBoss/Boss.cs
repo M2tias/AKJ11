@@ -15,6 +15,10 @@ public class Boss : MonoBehaviour
     public BossShield shield;
     public AmbientEffects ambient;
 
+    public GameSoundType SpellSound;
+    public GameSoundType ChannelingSound;
+    public GameSoundType CircleOfDoomSound;
+
     private Transform target;
     private bool sleeping = true;
 
@@ -29,10 +33,11 @@ public class Boss : MonoBehaviour
 
     Quaternion initialArmsRotation;
 
-    private float maxHealth = 50;
+    private float maxHealth = 1500;
     private float health;
-    private float healingDuration = 10.0f;
-    private float selfHealPerTick = 2.0f;
+    private float healingDuration = 12.5f;
+    private float selfHealPerTick = 50.0f;
+    private float healPerHealerTick = 30.0f;
     private float selfHealTickInterval = 1.0f;
     private float healIndicatorRange = 0.5f;
 
@@ -46,8 +51,8 @@ public class Boss : MonoBehaviour
     private float minCooldown = 3.0f;
     private float maxCooldown = 5.0f;
 
-    private float spellDamage = 1.0f;
-
+    private float spellDamage = 4.0f;
+    
     private float ringInitialCooldown = 20.0f;
     private float ringCooldown = 15f;
 
@@ -258,6 +263,7 @@ public class Boss : MonoBehaviour
         SpawnEffect.Play();
         resetMove();
         moveTimer = Time.time + initialMoveDelay;
+        ambient.PlayBossMusic();
     }
 
     private void queueNextAttack()
@@ -399,7 +405,7 @@ public class Boss : MonoBehaviour
         proj.Launch(spellTarget, spellDamage);
         if (SoundManager.main != null)
         {
-            //SoundManager.main.PlaySound(config.ProjectileSound);
+            SoundManager.main.PlaySound(SpellSound);
         }
     }
 
@@ -411,7 +417,7 @@ public class Boss : MonoBehaviour
         proj.Launch(spellTarget, spellDamage);
         if (SoundManager.main != null)
         {
-            //SoundManager.main.PlaySound(config.ProjectileSound);
+            SoundManager.main.PlaySound(SpellSound);
         }
     }
 
@@ -419,13 +425,18 @@ public class Boss : MonoBehaviour
     {
         var circle = Instantiate(CircleOfDoomPrefab);
         circle.Launch(target);
+
+        if (SoundManager.main != null)
+        {
+            SoundManager.main.PlaySound(CircleOfDoomSound);
+        }
     }
 
     public void Damaged(float damage)
     {
         health -= damage;
 
-        if (health < 0)
+        if (health < 0 && state != BossState.SPAWN)
         {
             if (state != BossState.EXHAUSTED)
             {
@@ -433,7 +444,7 @@ public class Boss : MonoBehaviour
             }
             else
             {
-                if (health < -50)
+                if (health < -200)
                 {
                     Die();
                 }
@@ -462,6 +473,7 @@ public class Boss : MonoBehaviour
         }
         else
         {
+            ambient.StopBossMusic();
             state = BossState.EXHAUSTED;
         }
     }
@@ -470,6 +482,7 @@ public class Boss : MonoBehaviour
     {
         state = BossState.COOLDOWN;
         resetMove();
+        moveTimer = Time.time + moveInterval;
         hurtable.Immune = false;
         anim.SetBool("Exhausted", false);
         queueNextAttack();
@@ -489,6 +502,9 @@ public class Boss : MonoBehaviour
         Invoke("ChangeAmbient", 7.5f);
         ambient.StopSad();
         dead = true;
+        hurtable.Immune = true;
+        coll.enabled = false;
+        GameStateManager.main.SpawnKey(transform.position);
     }
 
     public void ChangeAmbient()
@@ -524,13 +540,13 @@ public class Boss : MonoBehaviour
             return;
         }
 
-        Heal(5);
+        Heal(selfHealPerTick);
         Invoke("SelfHeal", selfHealTickInterval);
     }
 
     public void Heal()
     {
-        Heal(5);
+        Heal(healPerHealerTick);
     }
 
     private void Heal(float amount)

@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: XP5
   m_EditorClassIdentifier: 
   <Config>k__BackingField: {fileID: 11400000, guid: 049961e1067f95b4a9564a23658a6f9a, type: 2}
-  <amount>k__BackingField: 5
+  <amount>k__BackingField: 50

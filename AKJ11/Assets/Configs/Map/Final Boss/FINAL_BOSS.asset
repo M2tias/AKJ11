@@ -10,13 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2aa5175f86b830144a4a26a232736986, type: 3}
-  m_Name: C_BOSS_EXTRA
+  m_Name: FINAL_BOSS
   m_EditorClassIdentifier: 
   <NumberOfAreas>k__BackingField: 1
   areaType: 1
   <ConnectionStrategy>k__BackingField: 2
   circularAreaRadius: 12
-  <Size>k__BackingField: 120
+  <Size>k__BackingField: 75
   <Padding>k__BackingField: 1
   <TowerRadius>k__BackingField: 5
   <EntitySpawns>k__BackingField:
@@ -28,4 +28,4 @@ MonoBehaviour:
     - {fileID: 11400000, guid: b5dcdbcfb1d9bc247a86ea759797efd0, type: 2}
   <Items>k__BackingField: []
   <CaveTileStyle>k__BackingField: {fileID: 11400000, guid: 909f881d511b9ab47a45beca55fb82af, type: 2}
-  <KeySpawn>k__BackingField: 1
+  <KeySpawn>k__BackingField: 2

@@ -4950,7 +4950,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 07130a972596af044907eb2a713f5b71, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lifetime: 10
+  lifetime: 7.5
   endFadeAmount: 0.3
 --- !u!208 &5416435792862421368
 NavMeshObstacle:

@@ -40,6 +40,7 @@ public class Shooting : MonoBehaviour
     private float attack2Used = -100f;
     private float spellWallCD;
     private float spellWallUsed = -100f;
+    private bool spellWallGhostActive = false;
 
     // Start is called before the first frame update
     void Start()
@@ -86,11 +87,16 @@ public class Shooting : MonoBehaviour
         }
         else if (Input.GetKeyDown(KeyCode.Mouse0) && currentSpell == Spell.wall)
         {
+            spellWallGhostActive = true;
             ShowGhostWall();
         }
         else if (Input.GetKeyUp(KeyCode.Mouse0) && currentSpell == Spell.wall)
         {
-            PlaceSpellWall();
+            if (spellWallGhostActive)
+            {
+                spellWallGhostActive = false;
+                PlaceSpellWall();
+            }
         }
 
         if (currentSpell == Spell.wall)
@@ -98,8 +104,9 @@ public class Shooting : MonoBehaviour
             RotateGhostWall();
         }
 
-        if (Input.GetKeyDown(KeyCode.Q) && canSpellWallAgain)
+        if (Input.GetKeyDown(KeyCode.Space) && canSpellWallAgain)
         {
+            spellWallGhostActive = false;
             SetCurrentSpell(Spell.wall);
         }
     }

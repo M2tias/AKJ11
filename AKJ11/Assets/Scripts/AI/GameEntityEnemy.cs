@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using System.Linq;
 
 public class GameEntityEnemy : GameEntity
 {
@@ -177,6 +178,17 @@ public class GameEntityEnemy : GameEntity
     private bool damaged = false;
 
     public void Damaged()
+    {
+        damaged = true;
+        
+        List<GameObject> enemies = GameObject.FindGameObjectsWithTag("Enemy").ToList();
+        enemies.Where(it => Vector2.Distance(transform.position, it.transform.position) < 3.0f)
+            .Select(it => it.GetComponent<GameEntityEnemy>())
+            .Where(it => it != null)
+            .ToList().ForEach(it => it.Aggro());
+    }
+
+    public void Aggro()
     {
         damaged = true;
     }
