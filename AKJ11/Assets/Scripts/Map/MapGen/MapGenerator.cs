@@ -30,6 +30,9 @@ public class MapGenerator : MonoBehaviour
 
     private RandomNumberGenerator rng;
 
+    private MapGenData data;
+    List<MapNode> hallwayNodes;
+
     void Awake()
     {
         main = this;
@@ -93,8 +96,37 @@ public class MapGenerator : MonoBehaviour
         await fader.Fade(fadeToTransparent);
     }
 
+    public async void SealRoomFromTower(MapNode roomNode) {
+        CaveEnclosure room = data.Rooms.FirstOrDefault(room => room.Nodes.Contains(roomNode));
+        if (room != null) {
+            foreach(MapNode edgeNode in room.Edges) {
+                foreach (MapNode neighbor in edgeNode.Neighbors) {
+                    if (!neighbor.IsWall && !room.Nodes.Contains(neighbor)) {
+                        hallwayNodes.Add(neighbor);
+                    }
+                }
+            }
+            foreach(MapNode hallwayNode in hallwayNodes) {
+                hallwayNode.MapGen.Uncarve();
+            }
+        }
+        await BlobGrid.Run(nodeContainer);
+        nodeContainer.Render();
+    }
+
+    public async void UnsealAllRooms() {
+        if (hallwayNodes.Count > 0) {
+            foreach(MapNode hallwayNode in hallwayNodes) {
+                hallwayNode.MapGen.Carve();
+            }
+            await BlobGrid.Run(nodeContainer);
+            nodeContainer.Render();
+        }
+    }
+
     async UniTask NewMap()
     {
+        hallwayNodes = new List<MapNode>();
         MapConfig nextMapConfig = Configs.main.Campaign.Get(currentLevel);
         if (nextMapConfig.CaveTileStyle == null)
         {
@@ -123,7 +155,6 @@ public class MapGenerator : MonoBehaviour
         await Generate();
     }
 
-
     async UniTask Generate()
     {
         List<CaveEnclosure> rooms = await GenerateAndFindEnclosures();
@@ -137,7 +168,7 @@ public class MapGenerator : MonoBehaviour
         CaveEnclosure roomsAndTower = await FindAndConnectEnclosures();
         await BlobGrid.Run(nodeContainer);
         CreateNavMesh();
-        MapGenData data = new MapGenData{
+        data = new MapGenData{
             NodeContainer = nodeContainer,
             Config = config,
             Tower = tower,

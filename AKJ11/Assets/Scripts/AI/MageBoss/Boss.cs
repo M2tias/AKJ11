@@ -83,6 +83,8 @@ public class Boss : MonoBehaviour
 
     private bool dead;
 
+    private MapNode spawnNode;
+
 
     public void Start()
     {
@@ -95,6 +97,8 @@ public class Boss : MonoBehaviour
 
     public void Initialize(GameEntityConfig entityConfig, MapNode node, MageBossContainer gameEntity)
     {
+        spawnNode = node;
+
         this.gameEntity = gameEntity;
         target = GameObject.FindGameObjectWithTag("Player").transform;
         rb = GetComponent<Rigidbody2D>();
@@ -257,6 +261,7 @@ public class Boss : MonoBehaviour
 
     private void Spawn()
     {
+        MapGenerator.main.SealRoomFromTower(spawnNode);
         coll.enabled = true;
         state = BossState.SPAWN;
         anim.SetBool("Spawn", true);
@@ -515,6 +520,7 @@ public class Boss : MonoBehaviour
     public void DieReally()
     {
         gameEntity.Die();
+        MapGenerator.main.UnsealAllRooms();
         Destroy(gameObject);
     }
 
