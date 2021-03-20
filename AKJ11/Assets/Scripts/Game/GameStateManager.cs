@@ -13,16 +13,43 @@ public class GameStateManager : MonoBehaviour
     private MapConfig currentConfig;
     private int currentLevel;
 
+    private Timer timer;
+
     void Awake() {
         main = this;
     }
 
     public void LevelStarted(MapConfig config, int levelIndex) {
+        if (timer == null) {
+            timer = new Timer();
+            if (UITimer.main != null) {
+                UITimer.main.timer = timer;
+            }
+        } else {
+            if (Configs.main.Campaign.IsLastLevel(config)) {
+               StopTime();
+            }
+        }
         currentLevel = levelIndex;
         currentConfig = config;
         deadEntities = new List<GameEntity>();
         wokeEntities = new List<GameEntity>();
-        Debug.Log($"Level {config.name} (number {levelIndex + 1}) started.");
+        Debug.Log($"Level {config.name} (number {levelIndex}) started.");
+    }
+
+    public void StopTime() {
+        if (timer != null) {
+            timer.Pause();
+        }
+        Time.timeScale = 0f;
+    }
+
+    public void StartTime() {
+        MonoBehaviour.print(currentConfig != null ? currentConfig.name : "");
+        if (timer != null && !Configs.main.Campaign.IsLastLevel(currentConfig)) {
+            timer.Unpause();
+        }
+        Time.timeScale = 1f;
     }
 
     public void LevelEnded() {

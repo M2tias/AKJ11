@@ -44,10 +44,6 @@ public class FullscreenFade : MonoBehaviour
     {
         originalColor = imgFade.color;
         fadingTimer = 0f;
-        if (options.StopTimeDuringFade)
-        {
-            Time.timeScale = 0f;
-        }
         isFading = true;
     }
 
@@ -61,10 +57,6 @@ public class FullscreenFade : MonoBehaviour
             {
                 imgFade.color = options.TargetColor;
                 fadingTimer = 0f;
-                if (options.StopTimeDuringFade)
-                {
-                    Time.timeScale = 1f;
-                }
                 isFading = false;
             }
         }
@@ -79,19 +71,16 @@ public class FadeOptions
     [Range(0f, 20f)]
     public float Duration;
 
-    public bool StopTimeDuringFade = true;
-    public FadeOptions(float duration = 0.2f, bool stopTime = true)
+    public FadeOptions(float duration = 0.2f)
     {
         TargetColor = new Color(0, 0, 0, 1);
         Duration = duration;
-        StopTimeDuringFade = stopTime;
     }
 
-    public FadeOptions(Color color, float duration = 0.2f, bool stopTime = true)
+    public FadeOptions(Color color, float duration = 0.2f)
     {
         TargetColor = color;
         Duration = duration;
-        StopTimeDuringFade = stopTime;
     }
 
 }

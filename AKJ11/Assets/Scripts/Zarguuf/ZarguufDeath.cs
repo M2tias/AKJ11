@@ -10,7 +10,7 @@ public class ZarguufDeath : MonoBehaviour
     {
         dead = true;
         GameOverView.main.Show();
-        Time.timeScale = 0f;
+        GameStateManager.main.StopTime();
         //Destroy(gameObject);
     }
 

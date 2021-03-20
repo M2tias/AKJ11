@@ -13,7 +13,6 @@ public class MapPopulator
 
         if (Configs.main.Campaign.IsLastLevel(data.Config))
         {
-            Debug.Log("LastLevel");
             TheEndView.main.Show();
         }
         else
@@ -22,7 +21,6 @@ public class MapPopulator
         }
 
         SpawnGameEntities(data);
-        //SpawnEnemies(data);
 
         SetUpCamera();
     }

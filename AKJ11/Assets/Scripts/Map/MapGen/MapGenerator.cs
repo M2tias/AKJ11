@@ -11,8 +11,8 @@ public class MapGenerator : MonoBehaviour
     NodeContainer nodeContainer;
     MapConfig config;
 
-    private FadeOptions fadeToBlack = new FadeOptions(Color.black, 0.2f, true);
-    private FadeOptions fadeToTransparent = new FadeOptions(Color.clear, 0.5f, true);
+    private FadeOptions fadeToBlack = new FadeOptions(Color.black, 0.2f);
+    private FadeOptions fadeToTransparent = new FadeOptions(Color.clear, 0.5f);
 
     private int currentLevel = 0;
 
@@ -51,7 +51,7 @@ public class MapGenerator : MonoBehaviour
         }
 #endif
         rng = RandomNumberGenerator.GetInstance();
-        Time.timeScale = 1f;
+        GameStateManager.main.StartTime();
         SeedView.main.SetText(rng.Seed);
         NextLevel();
 
@@ -69,6 +69,7 @@ public class MapGenerator : MonoBehaviour
             SoundManager.main.PlaySound(GameSoundType.DoorOpen);
         }
         GameStateManager.main.LevelEnded();
+        GameStateManager.main.StopTime();
         await fader.Fade(fadeToBlack);
         await NextLevel();
     }
@@ -94,6 +95,7 @@ public class MapGenerator : MonoBehaviour
         GameStateManager.main.LevelStarted(config, currentLevel);
         Camera.main.GetComponent<FollowTarget>().SetPositionToTarget();
         await fader.Fade(fadeToTransparent);
+        GameStateManager.main.StartTime();
     }
 
     public async void SealRoomFromTower(MapNode roomNode) {

@@ -33,7 +33,7 @@ public class Boss : MonoBehaviour
 
     Quaternion initialArmsRotation;
 
-    private float maxHealth = 1500;
+    private float maxHealth = -500;
     private float health;
     private float healingDuration = 12.5f;
     private float selfHealPerTick = 50.0f;
@@ -263,7 +263,7 @@ public class Boss : MonoBehaviour
     {
         MapGenerator.main.SealRoomFromTower(spawnNode);
         coll.enabled = true;
-        state = BossState.SPAWN;
+        state = BossState.EXHAUSTED;
         anim.SetBool("Spawn", true);
         SpawnEffect.Play();
         resetMove();

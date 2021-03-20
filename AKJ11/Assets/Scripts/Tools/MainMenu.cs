@@ -11,7 +11,7 @@ public class MainMenu : MonoBehaviour
     [SerializeField]
     private InputField seedInput;
 
-    private FadeOptions fadeToBlack = new FadeOptions(Color.black, 0.2f, true);
+    private FadeOptions fadeToBlack = new FadeOptions(Color.black, 0.2f);
 
     public void SetUpRng()
     {
@@ -44,9 +44,7 @@ public class MainMenu : MonoBehaviour
 
     private async UniTask FadeAndLoadGameScene()
     {
-        Debug.Log("Fading..");
         await FullscreenFade.main.Fade(fadeToBlack);
-        Debug.Log("Fade success!");
         SceneLoader.LoadGameScene();
     }
 }
