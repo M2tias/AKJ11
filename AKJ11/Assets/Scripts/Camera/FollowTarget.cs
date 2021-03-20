@@ -30,7 +30,6 @@ public class FollowTarget : MonoBehaviour
             config.FollowY ? target.position.y : transform.position.y,
             config.FollowZ ? target.position.z : transform.position.z
         );
-        Debug.Log($"Set pos to: {transform.position}");
     }
 
     void Update()

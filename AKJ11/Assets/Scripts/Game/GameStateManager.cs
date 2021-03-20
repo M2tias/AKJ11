@@ -34,7 +34,7 @@ public class GameStateManager : MonoBehaviour
         currentConfig = config;
         deadEntities = new List<GameEntity>();
         wokeEntities = new List<GameEntity>();
-        Debug.Log($"Level {config.name} (number {levelIndex}) started.");
+        Debug.Log($"Started level '{config.name}' (#{levelIndex}).");
     }
 
     public void StopTime() {
@@ -45,7 +45,6 @@ public class GameStateManager : MonoBehaviour
     }
 
     public void StartTime() {
-        MonoBehaviour.print(currentConfig != null ? currentConfig.name : "");
         if (timer != null && !Configs.main.Campaign.IsLastLevel(currentConfig)) {
             timer.Unpause();
         }
