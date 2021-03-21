@@ -13,7 +13,7 @@ public class CircleOfDoom : MonoBehaviour
     private float damageStart = 1.25f;
     private float damageEnd = 6.0f;
     private bool tracking = true;
-    private float damage = 6.0f;
+    private float damage = 15.0f;
 
     // Start is called before the first frame update
     void Start()

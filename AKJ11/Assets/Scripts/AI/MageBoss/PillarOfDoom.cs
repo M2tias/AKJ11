@@ -10,7 +10,7 @@ public class PillarOfDoom : MonoBehaviour
 
     private float damageStart = 2.0f;
     private float damageEnd = 2.25f;
-    private float damage = 8.0f;
+    private float damage = 10.0f;
 
     // Start is called before the first frame update
     void Start()

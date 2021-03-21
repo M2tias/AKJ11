@@ -51,7 +51,7 @@ public class Boss : MonoBehaviour
     private float minCooldown = 3.0f;
     private float maxCooldown = 5.0f;
 
-    private float spellDamage = 4.0f;
+    private float spellDamage = 6.0f;
     
     private float ringInitialCooldown = 20.0f;
     private float ringCooldown = 15f;
