@@ -12,6 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dc61ed45de898fb47bd51c2858257ca7, type: 3}
   m_Name: DefaultCampaign
   m_EditorClassIdentifier: 
+  <EndMessage>k__BackingField: 'The end.
+
+
+    Thanks for playing!'
   <IntroLevel>k__BackingField: {fileID: 11400000, guid: 9824ec2f6fc6e044eb9fd2080855d8a1, type: 2}
   <TheEndLevel>k__BackingField: {fileID: 11400000, guid: 890a355d36fdd1343a4d2bdb3f4a6a6a, type: 2}
   <Stages>k__BackingField:

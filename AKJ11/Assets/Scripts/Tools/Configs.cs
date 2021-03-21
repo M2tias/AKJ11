@@ -22,5 +22,7 @@ public class Configs : MonoBehaviour
     [field: SerializeField]
     public List<TorchConfig> TorchConfigs { get; private set; }
 
+    public MusicConfig DefaultMusic;
+
 }
 

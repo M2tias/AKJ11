@@ -9,6 +9,10 @@ public class CampaignStructureConfig : ScriptableObject
 {
 
     [field: SerializeField]
+    [field: TextArea]
+    public string EndMessage {get; private set;}
+
+    [field: SerializeField]
     public MapConfig IntroLevel {get; private set;}
     [field: SerializeField]
     public MapConfig TheEndLevel {get; private set;}

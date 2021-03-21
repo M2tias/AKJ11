@@ -13,7 +13,7 @@ public class MapPopulator
 
         if (Configs.main.Campaign.IsLastLevel(data.Config))
         {
-            TheEndView.main.Show();
+            TheEndView.main.Show(Configs.main.Campaign.EndMessage);
         }
         else
         {

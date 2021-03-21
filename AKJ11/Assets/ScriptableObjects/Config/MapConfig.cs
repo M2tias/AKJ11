@@ -8,9 +8,11 @@ public class MapConfig : ScriptableObject
 {
 
     [field: SerializeField]
+    public MusicConfig MusicConfig {get; private set;}
+
+    [field: SerializeField]
     [field: Range(0, 4)]
     public int NumberOfAreas { get; private set; } = 4;
-
 
     [SerializeField]
     private SpawnPosition areaType =  SpawnPosition.Cave;

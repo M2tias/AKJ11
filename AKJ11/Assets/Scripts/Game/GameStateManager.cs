@@ -15,11 +15,20 @@ public class GameStateManager : MonoBehaviour
 
     private Timer timer;
 
+    private MusicPlayer musicPlayer;
+
     void Awake() {
         main = this;
+        musicPlayer = MusicPlayer.GetInstance();
     }
 
     public void LevelStarted(MapConfig config, int levelIndex) {
+        if (config.MusicConfig != null) {
+            musicPlayer.SetConfig(config.MusicConfig);
+        }
+        if (!musicPlayer.HasConfig) {
+            musicPlayer.SetConfig(Configs.main.DefaultMusic);
+        }
         if (timer == null) {
             timer = new Timer();
             if (UITimer.main != null) {
@@ -35,6 +44,10 @@ public class GameStateManager : MonoBehaviour
         deadEntities = new List<GameEntity>();
         wokeEntities = new List<GameEntity>();
         Debug.Log($"Started level '{config.name}' (#{levelIndex}).");
+    }
+
+    public string GetFormattedTime() {
+        return timer.GetString();
     }
 
     public void StopTime() {
@@ -82,5 +95,9 @@ public class GameStateManager : MonoBehaviour
     public void SpawnKey(Vector2 position)
     {
         MapPopulator.PlaceKey(position);
+    }
+
+    private void Update() {
+        musicPlayer.Update();
     }
 }

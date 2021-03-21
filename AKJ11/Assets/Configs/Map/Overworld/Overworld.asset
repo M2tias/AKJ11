@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2aa5175f86b830144a4a26a232736986, type: 3}
   m_Name: Overworld
   m_EditorClassIdentifier: 
+  <MusicConfig>k__BackingField: {fileID: 0}
   <NumberOfAreas>k__BackingField: 0
   areaType: 0
   <ConnectionStrategy>k__BackingField: 1
@@ -19,10 +20,11 @@ MonoBehaviour:
   <Size>k__BackingField: 60
   <Padding>k__BackingField: 1
   <TowerRadius>k__BackingField: 7
-  <Spawns>k__BackingField: []
+  <EntitySpawns>k__BackingField: []
   <Items>k__BackingField:
   - <SpawnThisManyTimes>k__BackingField: 2
-    <SpawnPosition>k__BackingField: 1
+    minPlayerDistance: 2
+    spawnPosition: 1
     <Item>k__BackingField: {fileID: 11400000, guid: 0af6d286a5c04de4f83c13d2e425d209, type: 2}
   <CaveTileStyle>k__BackingField: {fileID: 11400000, guid: 21e492686bc6f54408d8f62dd8c9cc09, type: 2}
-  <MageBossIsHere>k__BackingField: 0
+  <KeySpawn>k__BackingField: 0

@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2aa5175f86b830144a4a26a232736986, type: 3}
   m_Name: FINAL_BOSS
   m_EditorClassIdentifier: 
+  <MusicConfig>k__BackingField: {fileID: 11400000, guid: 96d2301612f240e4abf2fcbc370d8064, type: 2}
   <NumberOfAreas>k__BackingField: 1
   areaType: 1
   <ConnectionStrategy>k__BackingField: 2

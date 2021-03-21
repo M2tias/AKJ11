@@ -5,6 +5,7 @@ using UnityEngine;
 public class Experience : MonoBehaviour
 {
     public static Experience main;
+    public int TotalExpGained {get; private set;}
 
     private int level;
     private int currentExp;
@@ -34,6 +35,7 @@ public class Experience : MonoBehaviour
     void Start()
     {
         level = 0;
+        TotalExpGained = 0;
         currentExp = 0;
         statPointsToUse = 0;
         totalPointsUsed = 0;
@@ -56,6 +58,7 @@ public class Experience : MonoBehaviour
 
     public void AddExperience(int exp)
     {
+        TotalExpGained += exp;
         currentExp += exp;
   
         while (currentExp >= expConfig.ExpPerLevel[level])
