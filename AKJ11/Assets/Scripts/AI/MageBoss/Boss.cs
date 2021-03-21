@@ -515,13 +515,13 @@ public class Boss : MonoBehaviour
 
     public void ChangeAmbient()
     {
+        MapGenerator.main.UnsealAllRooms();
         ambient.SetHappy();
     }
 
     public void DieReally()
     {
         gameEntity.Die();
-        MapGenerator.main.UnsealAllRooms();
         Destroy(gameObject);
     }
 
