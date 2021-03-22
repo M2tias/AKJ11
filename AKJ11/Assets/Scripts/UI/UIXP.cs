@@ -22,8 +22,8 @@ public class UIXP : MonoBehaviour
         if (current == max) {
             clamped = 0;
         }
-        txtCount.text = clamped.ToString() + "xp";
-        txtLevel.text = (level + 1).ToString();
+        txtCount.text = $"{clamped}xp / {max}xp";
+        txtLevel.text = $"LVL {(level + 1).ToString()}";
         imgFill.fillAmount = (float)clamped / (float)max;
     }
 

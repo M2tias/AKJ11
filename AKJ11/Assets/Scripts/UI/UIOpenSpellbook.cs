@@ -19,12 +19,8 @@ public class UIOpenSpellbook : MonoBehaviour
     [SerializeField]
     private Text pointsLeftText;
 
-    Image image;
-
-    private void Start()
-    {
-        image = GetComponent<Image>();
-    }
+    [SerializeField]
+    private Image bookImage;
 
     private void Update()
     {
@@ -35,13 +31,13 @@ public class UIOpenSpellbook : MonoBehaviour
 
         if(Experience.main.GetUnusedStatPoints() >  0)
         {
-            image.sprite = pointsLeftBook;
+            bookImage.sprite = pointsLeftBook;
             pointsLeftText.text = Experience.main.GetUnusedStatPoints().ToString();
             pointsLeftText.gameObject.SetActive(true);
         }
         else
         {
-            image.sprite = defaultBook;
+            bookImage.sprite = defaultBook;
             pointsLeftText.text = "0";
             pointsLeftText.gameObject.SetActive(false);
         }

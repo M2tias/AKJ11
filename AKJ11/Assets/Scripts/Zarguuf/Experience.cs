@@ -47,7 +47,7 @@ public class Experience : MonoBehaviour
         spell2Runtime.IsUnlocked = spell2Config.IsUnlocked;
         spellWallRuntime.IsUnlocked = spellWallConfig.IsUnlocked;
         if (UIXP.main != null) {
-            UIXP.main.SetXP(0, 0, 0);
+            UIXP.main.SetXP(0, expConfig.ExpPerLevel[level], 0);
         }
     }
 
