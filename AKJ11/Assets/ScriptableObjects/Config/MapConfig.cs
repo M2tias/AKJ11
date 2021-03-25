@@ -76,6 +76,11 @@ public class GameEntitySpawn
     public SpawnStrategy Location { get {return location;} }
 
     [SerializeField]
+    [ConditionalHide("area", SpawnPosition.Cave, "location", SpawnStrategy.Random)]
+    private bool canSpawnInHallways = true;
+    public bool CanSpawnInHallways { get {return canSpawnInHallways;} }
+
+    [SerializeField]
     [ConditionalHide("area", SpawnPosition.Tower)]
     [Range(2, 5)]
     private float minPlayerDistance = 2f;
@@ -90,6 +95,7 @@ public enum SpawnPosition
     Cave,
     Tower
 }
+
 
 public enum SpawnStrategy {
     Random,

@@ -1,5 +1,6 @@
 using UnityEditor;
 using UnityEngine;
+using System;
 
 [CustomPropertyDrawer(typeof(ConditionalHideAttribute))]
 public class ConditionalHidePropertyDrawer : PropertyDrawer
@@ -7,11 +8,11 @@ public class ConditionalHidePropertyDrawer : PropertyDrawer
     public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
     {
         ConditionalHideAttribute condHAtt = (ConditionalHideAttribute)attribute;
-        bool enabled = GetConditionalHideAttributeResult(condHAtt, property);
 
+        bool enabled = AllAreEnabled(condHAtt, property);
         bool wasEnabled = GUI.enabled;
         GUI.enabled = enabled;
-        if (!condHAtt.HideInInspector || enabled)
+        if (enabled)
         {
             EditorGUI.PropertyField(position, property, label, true);
         }
@@ -22,9 +23,9 @@ public class ConditionalHidePropertyDrawer : PropertyDrawer
     public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
     {
         ConditionalHideAttribute condHAtt = (ConditionalHideAttribute)attribute;
-        bool enabled = GetConditionalHideAttributeResult(condHAtt, property);
+        bool enabled = AllAreEnabled(condHAtt, property);
 
-        if (!condHAtt.HideInInspector || enabled)
+        if (enabled)
         {
             return EditorGUI.GetPropertyHeight(property, label);
         }
@@ -35,7 +36,21 @@ public class ConditionalHidePropertyDrawer : PropertyDrawer
 
     }
 
-    private bool GetConditionalHideAttributeResult(ConditionalHideAttribute condHAtt, SerializedProperty propertyA)
+    private bool AllAreEnabled(ConditionalHideAttribute conditionalHideAttribute, SerializedProperty property) {
+        bool allEnabled = true;
+        try {
+        foreach(ConditionalHideAttributeOptions condOptions in conditionalHideAttribute.OpProperties) {
+            if (!GetConditionalHideAttributeResult(condOptions, property)) {
+                allEnabled = false;
+                break;
+            }
+        } } catch (Exception e) {
+            MonoBehaviour.print("Exception: " + e);
+        }
+        return allEnabled;
+    }
+
+    private bool GetConditionalHideAttributeResult(ConditionalHideAttributeOptions condHAtt, SerializedProperty propertyA)
     {
         bool enabled = true;
 
@@ -44,24 +59,39 @@ public class ConditionalHidePropertyDrawer : PropertyDrawer
 
         if (sourcePropertyValue != null)
         {
-            var fieldValue = GetPropertyValue(sourcePropertyValue);
+            /*if (sourcePropertyValue.isArray) {
+                bool allAreTrue = true;
+                for (int index = 0; index < sourcePropertyValue.arraySize; index++) {
+                    SerializedProperty fieldValue = sourcePropertyValue.GetArrayElementAtIndex(index);
+                    if (!IsSingleFieldEnabled(condHAtt, fieldValue)) {
+                        allAreTrue = false;
+                    }
+                }
+                enabled = allAreTrue;
+            } else {*/
+            enabled = IsSingleFieldEnabled(condHAtt, sourcePropertyValue);
+            //}
 
-            var comparingValue = condHAtt.CompareValue.ToString();
-            var fieldValueString = fieldValue.ToString();
-
-            enabled = comparingValue == fieldValueString;
         }
         else
         {
             Debug.LogWarning("Attempting to use a ConditionalHideAttribute but no matching SourcePropertyValue found in object: " + condHAtt.SourceField);
         }
 
-        if (condHAtt.Inverse) enabled = !enabled;
+        //if (condHAtt.Inverse) enabled = !enabled;
 
         return enabled;
     }
 
-    private SerializedProperty FindSerializableProperty(ConditionalHideAttribute condHAtt, SerializedProperty property)
+    private bool IsSingleFieldEnabled(ConditionalHideAttributeOptions condHAtt, SerializedProperty propertyValue) {
+        var fieldValue = GetPropertyValue(propertyValue);
+        var comparingValue = condHAtt.CompareValue.ToString();
+        var fieldValueString = fieldValue.ToString();
+
+        return comparingValue == fieldValueString;
+    }
+
+    private SerializedProperty FindSerializableProperty(ConditionalHideAttributeOptions condHAtt, SerializedProperty property)
     {
         string propertyPath = property.propertyPath;
         int idx = propertyPath.LastIndexOf('.');

@@ -83,6 +83,8 @@ public class MapGenerationData
     private MapNode node;
     public bool AllNeighborsAreWalls { get; set; } = false;
 
+    public bool EntitySpawnsHere {get; set;} = false;
+
     public MapGenerationData(MapNode node)
     {
         this.node = node;

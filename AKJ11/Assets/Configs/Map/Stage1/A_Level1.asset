@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2aa5175f86b830144a4a26a232736986, type: 3}
   m_Name: A_Level1
   m_EditorClassIdentifier: 
+  <MusicConfig>k__BackingField: {fileID: 0}
   <NumberOfAreas>k__BackingField: 1
   areaType: 0
   <ConnectionStrategy>k__BackingField: 1
@@ -19,13 +20,14 @@ MonoBehaviour:
   <Size>k__BackingField: 30
   <Padding>k__BackingField: 1
   <TowerRadius>k__BackingField: 5
-  <Spawns>k__BackingField: []
   <EntitySpawns>k__BackingField:
   - <Amount>k__BackingField: 1
     area: 0
     location: 0
+    canSpawnInHallways: 1
     minPlayerDistance: 2
     <Entities>k__BackingField:
     - {fileID: 11400000, guid: 28e457ec0d6eb234aa9f6dffa6f028c7, type: 2}
   <Items>k__BackingField: []
   <CaveTileStyle>k__BackingField: {fileID: 11400000, guid: 2ce329bd6d6e9314fbb85e29c232f7b9, type: 2}
+  <KeySpawn>k__BackingField: 0

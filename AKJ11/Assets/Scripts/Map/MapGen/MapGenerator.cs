@@ -277,7 +277,7 @@ public class MapGenerator : MonoBehaviour
     private void PlaceItems(MapGenData data)
     {
         List <MapNode> towerNodes = new List<MapNode>(data.Tower.Nodes);
-        List <MapNode> nonTowerNodes = data.NonTowerNodes;
+        List <MapNode> nonTowerNodes = new List<MapNode>(data.NonTowerNodes);
         try
         {
             if (config.Items.Count > 0)
