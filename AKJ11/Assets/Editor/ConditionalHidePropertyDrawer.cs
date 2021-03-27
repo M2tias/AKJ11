@@ -9,10 +9,9 @@ public class ConditionalHidePropertyDrawer : PropertyDrawer
     {
         ConditionalHideAttribute condHAtt = (ConditionalHideAttribute)attribute;
 
-        bool enabled = AllAreEnabled(condHAtt, property);
         bool wasEnabled = GUI.enabled;
-        GUI.enabled = enabled;
-        if (enabled)
+        GUI.enabled = AllAreEnabled(condHAtt, property);
+        if (GUI.enabled)
         {
             EditorGUI.PropertyField(position, property, label, true);
         }
@@ -23,9 +22,8 @@ public class ConditionalHidePropertyDrawer : PropertyDrawer
     public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
     {
         ConditionalHideAttribute condHAtt = (ConditionalHideAttribute)attribute;
-        bool enabled = AllAreEnabled(condHAtt, property);
 
-        if (enabled)
+        if (AllAreEnabled(condHAtt, property))
         {
             return EditorGUI.GetPropertyHeight(property, label);
         }
@@ -36,15 +34,22 @@ public class ConditionalHidePropertyDrawer : PropertyDrawer
 
     }
 
-    private bool AllAreEnabled(ConditionalHideAttribute conditionalHideAttribute, SerializedProperty property) {
+    private bool AllAreEnabled(ConditionalHideAttribute conditionalHideAttribute, SerializedProperty property)
+    {
         bool allEnabled = true;
-        try {
-        foreach(ConditionalHideAttributeOptions condOptions in conditionalHideAttribute.OpProperties) {
-            if (!GetConditionalHideAttributeResult(condOptions, property)) {
-                allEnabled = false;
-                break;
+        try
+        {
+            foreach (ConditionalHideAttributeOptions condOptions in conditionalHideAttribute.OpProperties)
+            {
+                if (!GetConditionalHideAttributeResult(condOptions, property))
+                {
+                    allEnabled = false;
+                    break;
+                }
             }
-        } } catch (Exception e) {
+        }
+        catch (Exception e)
+        {
             MonoBehaviour.print("Exception: " + e);
         }
         return allEnabled;
@@ -52,38 +57,18 @@ public class ConditionalHidePropertyDrawer : PropertyDrawer
 
     private bool GetConditionalHideAttributeResult(ConditionalHideAttributeOptions condHAtt, SerializedProperty propertyA)
     {
-        bool enabled = true;
-
-
         SerializedProperty sourcePropertyValue = FindSerializableProperty(condHAtt, propertyA);
 
-        if (sourcePropertyValue != null)
-        {
-            /*if (sourcePropertyValue.isArray) {
-                bool allAreTrue = true;
-                for (int index = 0; index < sourcePropertyValue.arraySize; index++) {
-                    SerializedProperty fieldValue = sourcePropertyValue.GetArrayElementAtIndex(index);
-                    if (!IsSingleFieldEnabled(condHAtt, fieldValue)) {
-                        allAreTrue = false;
-                    }
-                }
-                enabled = allAreTrue;
-            } else {*/
-            enabled = IsSingleFieldEnabled(condHAtt, sourcePropertyValue);
-            //}
-
-        }
-        else
+        if (sourcePropertyValue == null)
         {
             Debug.LogWarning("Attempting to use a ConditionalHideAttribute but no matching SourcePropertyValue found in object: " + condHAtt.SourceField);
         }
 
-        //if (condHAtt.Inverse) enabled = !enabled;
-
-        return enabled;
+        return IsSingleFieldEnabled(condHAtt, sourcePropertyValue);
     }
 
-    private bool IsSingleFieldEnabled(ConditionalHideAttributeOptions condHAtt, SerializedProperty propertyValue) {
+    private bool IsSingleFieldEnabled(ConditionalHideAttributeOptions condHAtt, SerializedProperty propertyValue)
+    {
         var fieldValue = GetPropertyValue(propertyValue);
         var comparingValue = condHAtt.CompareValue.ToString();
         var fieldValueString = fieldValue.ToString();
@@ -145,7 +130,6 @@ public class ConditionalHidePropertyDrawer : PropertyDrawer
                 return prop.boundsValue;
             case SerializedPropertyType.Gradient:
                 return null;
-                //throw new System.InvalidOperationException("Can not handle Gradient types.");
         }
 
         return null;
