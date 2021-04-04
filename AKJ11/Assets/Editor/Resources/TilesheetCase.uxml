@@ -1,0 +1,15 @@
+<UXML xmlns="UnityEngine.UIElements">
+
+  <VisualElement class="tile-list-container">
+    <TextElement class="tilesheet-case-title"></TextElement>
+    <TextElement class="tilesheet-case-text-left" text="Rare"></TextElement>
+    <TextElement class="tilesheet-case-text-right" text="Common"></TextElement>
+    <VisualElement class="tile-container"></VisualElement>
+  </VisualElement>
+  <VisualElement class="tile-list-button-container">
+    <Button class="tile-list-add-button" text="+ Add new tile"></Button>
+  </VisualElement>
+  <VisualElement class="preview-container-parent">
+    <VisualElement class="preview-container"></VisualElement>
+  </VisualElement>
+</UXML>

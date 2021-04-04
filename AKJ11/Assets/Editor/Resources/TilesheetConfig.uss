@@ -1,0 +1,116 @@
+.root {
+    padding:5px;
+}
+
+.texture-display-container {
+    align-items:center;
+    padding:5px;
+    margin:5px;
+}
+
+.texture-display-secondary {
+    border-width:1px;
+    border-color:red;
+}
+
+.texture-display {
+    margin-top:1px;
+    margin-left:1px;
+}
+
+.tile-sheet-case-button {
+    padding:0;
+    position:absolute;
+    border-width:1px;
+    border-color:white;
+    background-color:transparent;
+    border-radius:0;
+    margin:0;
+}
+
+.tile-sheet-case-button:hover {
+    background-color:rgba(255, 255, 255, 0.5);
+    cursor:pointer;
+}
+
+.active-button {
+    background-color:rgba(155, 155, 255, 0.5);
+    border-color:chartreuse;
+    border-top-width:3px;
+    border-right-width:3px;
+    border-bottom-width:2px;
+    border-left-width:2px;
+}
+
+.active-button:hover {
+    background-color:rgba(155, 155, 255, 0.8);
+}
+
+.tilesheet-case-tile-image {
+    border-width:1px;
+    border-color:white;
+}
+
+.tilesheet-case-sprite-picker {
+    position:absolute;
+}
+
+.tilesheet-case-sprite-picker VisualElement{
+    justify-content:center;
+    align-items:center;
+}
+
+
+.tilesheet-case-sprite-picker ObjectFieldDisplay {
+    display:none;
+}
+
+.tilesheet-case-tile {
+    position:relative;
+    margin:1px 5px;
+    border-width:1px;
+}
+
+.tilesheet-case-tile-actual-chance {
+    position:absolute;
+    top:10px;
+}
+
+.tilesheet-case-tile-slider {
+    position:absolute;
+    right:30px;
+    top:10px;
+    bottom:0;
+}
+.tilesheet-case-text-left,
+.tilesheet-case-text-right{
+    position:absolute;
+    color:gray;
+}
+.tilesheet-case-text-right {
+    right:30px;
+    color:white;
+}
+
+.preview-container-parent {
+    align-items:center;
+    margin-top:20px;
+}
+
+.preview-container {
+    border-width:1px;
+    border-color:cyan;
+    position:relative;
+}
+
+.preview-image {
+    position:absolute;
+}
+
+.tile-list-remove-button {
+    position:absolute;
+    right:0;
+    width:24px;
+    height:24px;
+    top:5px;
+}

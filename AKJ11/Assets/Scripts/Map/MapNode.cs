@@ -49,9 +49,17 @@ public class MapNode
     }
 
 
+    public void SetOrderOffset(int offset) {
+        view.SetOrderOffset(offset);
+    }
+
     public void SetStyle(TileStyle style)
     {
         view.SetStyle(style);
+    }
+
+    public TileStyle GetStyle() {
+        return view.Style;
     }
 
     public bool IsInside(RectInt biggerRect)

@@ -1,0 +1,25 @@
+<UXML
+  xmlns:eng="UnityEngine.UIElements"
+  xmlns:ed="UnityEditor.UIElements"
+>
+  <eng:VisualElement class="root">
+    <Style src="TilesheetConfig.uss" />
+    <eng:TextElement class="c-name"></eng:TextElement>
+    <ed:ObjectField
+      type="UnityEngine.Texture2D, UnityEngine.CoreModule"
+      label="Texture"
+      binding-path="Texture"
+      class="object-field"
+    ></ed:ObjectField>
+    <eng:Button class="load-textures" text="Load textures"></eng:Button>
+    <eng:VisualElement class="texture-display-container">
+      <eng:VisualElement class="texture-display-secondary">
+        <eng:VisualElement class="texture-display">
+          <eng:Image class="texture-display-img"></eng:Image>
+        </eng:VisualElement>
+      </eng:VisualElement>
+    </eng:VisualElement>
+    <eng:VisualElement class="case-display"></eng:VisualElement>
+    <eng:VisualElement class="case-container"></eng:VisualElement>
+  </eng:VisualElement>
+</UXML>

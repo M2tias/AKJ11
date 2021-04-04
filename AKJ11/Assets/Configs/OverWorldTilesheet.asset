@@ -1,0 +1,517 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7f7797cc458416a4fa0928f0e17f2e37, type: 3}
+  m_Name: OverWorldTilesheet
+  m_EditorClassIdentifier: 
+  cases:
+  - sprite: {fileID: 2183893607474552392, guid: 4a25eba0a21e1a84092fab14b8a02e3d, type: 3}
+    DistributionMin: 0
+    DistributionMax: 10
+    caseName: blob1s6_0
+    tiles:
+    - sprite: {fileID: 2183893607474552392, guid: 4a25eba0a21e1a84092fab14b8a02e3d, type: 3}
+      material: {fileID: 0}
+      Distribution: 10
+      ActualSpawnChance: 0
+    <TileId>k__BackingField: 0
+  - sprite: {fileID: -2350752444546038960, guid: 4a25eba0a21e1a84092fab14b8a02e3d, type: 3}
+    DistributionMin: 0
+    DistributionMax: 10
+    caseName: blob1s6_1
+    tiles:
+    - sprite: {fileID: -2350752444546038960, guid: 4a25eba0a21e1a84092fab14b8a02e3d, type: 3}
+      material: {fileID: 0}
+      Distribution: 10
+      ActualSpawnChance: 0
+    <TileId>k__BackingField: 1
+  - sprite: {fileID: -3263884636492474184, guid: 4a25eba0a21e1a84092fab14b8a02e3d, type: 3}
+    DistributionMin: 0
+    DistributionMax: 10
+    caseName: blob1s6_2
+    tiles:
+    - sprite: {fileID: -3263884636492474184, guid: 4a25eba0a21e1a84092fab14b8a02e3d, type: 3}
+      material: {fileID: 0}
+      Distribution: 10
+      ActualSpawnChance: 0
+    <TileId>k__BackingField: 2
+  - sprite: {fileID: 7166126578127392097, guid: 4a25eba0a21e1a84092fab14b8a02e3d, type: 3}
+    DistributionMin: 0
+    DistributionMax: 10
+    caseName: blob1s6_3
+    tiles:
+    - sprite: {fileID: 7166126578127392097, guid: 4a25eba0a21e1a84092fab14b8a02e3d, type: 3}
+      material: {fileID: 0}
+      Distribution: 10
+      ActualSpawnChance: 0
+    <TileId>k__BackingField: 3
+  - sprite: {fileID: -6969061006232402803, guid: 4a25eba0a21e1a84092fab14b8a02e3d, type: 3}
+    DistributionMin: 0
+    DistributionMax: 10
+    caseName: blob1s6_4
+    tiles:
+    - sprite: {fileID: -6969061006232402803, guid: 4a25eba0a21e1a84092fab14b8a02e3d, type: 3}
+      material: {fileID: 0}
+      Distribution: 10
+      ActualSpawnChance: 0
+    <TileId>k__BackingField: 4
+  - sprite: {fileID: -4169149110504810137, guid: 4a25eba0a21e1a84092fab14b8a02e3d, type: 3}
+    DistributionMin: 0
+    DistributionMax: 10
+    caseName: blob1s6_5
+    tiles:
+    - sprite: {fileID: -4169149110504810137, guid: 4a25eba0a21e1a84092fab14b8a02e3d, type: 3}
+      material: {fileID: 0}
+      Distribution: 10
+      ActualSpawnChance: 0
+    <TileId>k__BackingField: 5
+  - sprite: {fileID: -3265679510123074961, guid: 4a25eba0a21e1a84092fab14b8a02e3d, type: 3}
+    DistributionMin: 0
+    DistributionMax: 10
+    caseName: blob1s6_6
+    tiles:
+    - sprite: {fileID: -3265679510123074961, guid: 4a25eba0a21e1a84092fab14b8a02e3d, type: 3}
+      material: {fileID: 0}
+      Distribution: 10
+      ActualSpawnChance: 0
+    <TileId>k__BackingField: 6
+  - sprite: {fileID: -315988027087936941, guid: 4a25eba0a21e1a84092fab14b8a02e3d, type: 3}
+    DistributionMin: 0
+    DistributionMax: 10
+    caseName: blob1s6_7
+    tiles:
+    - sprite: {fileID: -315988027087936941, guid: 4a25eba0a21e1a84092fab14b8a02e3d, type: 3}
+      material: {fileID: 0}
+      Distribution: 10
+      ActualSpawnChance: 0
+    <TileId>k__BackingField: 7
+  - sprite: {fileID: 946416833891815973, guid: 4a25eba0a21e1a84092fab14b8a02e3d, type: 3}
+    DistributionMin: 0
+    DistributionMax: 10
+    caseName: blob1s6_8
+    tiles:
+    - sprite: {fileID: 946416833891815973, guid: 4a25eba0a21e1a84092fab14b8a02e3d, type: 3}
+      material: {fileID: 0}
+      Distribution: 10
+      ActualSpawnChance: 0
+    <TileId>k__BackingField: 8
+  - sprite: {fileID: -8331966482551464236, guid: 4a25eba0a21e1a84092fab14b8a02e3d, type: 3}
+    DistributionMin: 0
+    DistributionMax: 10
+    caseName: blob1s6_9
+    tiles:
+    - sprite: {fileID: -8331966482551464236, guid: 4a25eba0a21e1a84092fab14b8a02e3d, type: 3}
+      material: {fileID: 0}
+      Distribution: 10
+      ActualSpawnChance: 0
+    <TileId>k__BackingField: 9
+  - sprite: {fileID: -8270945589360909522, guid: 4a25eba0a21e1a84092fab14b8a02e3d, type: 3}
+    DistributionMin: 0
+    DistributionMax: 10
+    caseName: blob1s6_10
+    tiles:
+    - sprite: {fileID: -8270945589360909522, guid: 4a25eba0a21e1a84092fab14b8a02e3d, type: 3}
+      material: {fileID: 0}
+      Distribution: 10
+      ActualSpawnChance: 0
+    <TileId>k__BackingField: 10
+  - sprite: {fileID: -5862653488482018518, guid: 4a25eba0a21e1a84092fab14b8a02e3d, type: 3}
+    DistributionMin: 0
+    DistributionMax: 10
+    caseName: blob1s6_11
+    tiles:
+    - sprite: {fileID: -5862653488482018518, guid: 4a25eba0a21e1a84092fab14b8a02e3d, type: 3}
+      material: {fileID: 0}
+      Distribution: 10
+      ActualSpawnChance: 0
+    <TileId>k__BackingField: 11
+  - sprite: {fileID: 4652268526499271630, guid: 4a25eba0a21e1a84092fab14b8a02e3d, type: 3}
+    DistributionMin: 0
+    DistributionMax: 10
+    caseName: blob1s6_12
+    tiles:
+    - sprite: {fileID: 4652268526499271630, guid: 4a25eba0a21e1a84092fab14b8a02e3d, type: 3}
+      material: {fileID: 0}
+      Distribution: 10
+      ActualSpawnChance: 100
+    <TileId>k__BackingField: 12
+  - sprite: {fileID: 2296459660147999832, guid: 4a25eba0a21e1a84092fab14b8a02e3d, type: 3}
+    DistributionMin: 0
+    DistributionMax: 10
+    caseName: blob1s6_13
+    tiles:
+    - sprite: {fileID: 2296459660147999832, guid: 4a25eba0a21e1a84092fab14b8a02e3d, type: 3}
+      material: {fileID: 0}
+      Distribution: 10
+      ActualSpawnChance: 0
+    <TileId>k__BackingField: 13
+  - sprite: {fileID: -6474810042443929878, guid: 4a25eba0a21e1a84092fab14b8a02e3d, type: 3}
+    DistributionMin: 0
+    DistributionMax: 10
+    caseName: blob1s6_14
+    tiles:
+    - sprite: {fileID: -6474810042443929878, guid: 4a25eba0a21e1a84092fab14b8a02e3d, type: 3}
+      material: {fileID: 0}
+      Distribution: 10
+      ActualSpawnChance: 0
+    <TileId>k__BackingField: 14
+  - sprite: {fileID: -5447428140551184230, guid: 4a25eba0a21e1a84092fab14b8a02e3d, type: 3}
+    DistributionMin: 0
+    DistributionMax: 10
+    caseName: blob1s6_15
+    tiles:
+    - sprite: {fileID: -5447428140551184230, guid: 4a25eba0a21e1a84092fab14b8a02e3d, type: 3}
+      material: {fileID: 0}
+      Distribution: 10
+      ActualSpawnChance: 0
+    <TileId>k__BackingField: 15
+  - sprite: {fileID: 8299062217918662007, guid: 4a25eba0a21e1a84092fab14b8a02e3d, type: 3}
+    DistributionMin: 0
+    DistributionMax: 10
+    caseName: blob1s6_16
+    tiles:
+    - sprite: {fileID: 8299062217918662007, guid: 4a25eba0a21e1a84092fab14b8a02e3d, type: 3}
+      material: {fileID: 0}
+      Distribution: 10
+      ActualSpawnChance: 0
+    <TileId>k__BackingField: 16
+  - sprite: {fileID: -3007425097483526148, guid: 4a25eba0a21e1a84092fab14b8a02e3d, type: 3}
+    DistributionMin: 0
+    DistributionMax: 10
+    caseName: blob1s6_17
+    tiles:
+    - sprite: {fileID: -3007425097483526148, guid: 4a25eba0a21e1a84092fab14b8a02e3d, type: 3}
+      material: {fileID: 0}
+      Distribution: 10
+      ActualSpawnChance: 0
+    <TileId>k__BackingField: 17
+  - sprite: {fileID: -1526290007751030008, guid: 4a25eba0a21e1a84092fab14b8a02e3d, type: 3}
+    DistributionMin: 0
+    DistributionMax: 10
+    caseName: blob1s6_18
+    tiles:
+    - sprite: {fileID: -1526290007751030008, guid: 4a25eba0a21e1a84092fab14b8a02e3d, type: 3}
+      material: {fileID: 0}
+      Distribution: 10
+      ActualSpawnChance: 0
+    <TileId>k__BackingField: 18
+  - sprite: {fileID: 4342958613477143416, guid: 4a25eba0a21e1a84092fab14b8a02e3d, type: 3}
+    DistributionMin: 0
+    DistributionMax: 10
+    caseName: blob1s6_19
+    tiles:
+    - sprite: {fileID: 4342958613477143416, guid: 4a25eba0a21e1a84092fab14b8a02e3d, type: 3}
+      material: {fileID: 0}
+      Distribution: 10
+      ActualSpawnChance: 0
+    <TileId>k__BackingField: 19
+  - sprite: {fileID: -2414562628117373301, guid: 4a25eba0a21e1a84092fab14b8a02e3d, type: 3}
+    DistributionMin: 0
+    DistributionMax: 10
+    caseName: blob1s6_20
+    tiles:
+    - sprite: {fileID: -2414562628117373301, guid: 4a25eba0a21e1a84092fab14b8a02e3d, type: 3}
+      material: {fileID: 0}
+      Distribution: 10
+      ActualSpawnChance: 0
+    <TileId>k__BackingField: 20
+  - sprite: {fileID: -3435555662215210869, guid: 4a25eba0a21e1a84092fab14b8a02e3d, type: 3}
+    DistributionMin: 0
+    DistributionMax: 10
+    caseName: blob1s6_21
+    tiles:
+    - sprite: {fileID: -3435555662215210869, guid: 4a25eba0a21e1a84092fab14b8a02e3d, type: 3}
+      material: {fileID: 0}
+      Distribution: 10
+      ActualSpawnChance: 0
+    <TileId>k__BackingField: 21
+  - sprite: {fileID: 7269395469733227152, guid: 4a25eba0a21e1a84092fab14b8a02e3d, type: 3}
+    DistributionMin: 0
+    DistributionMax: 10
+    caseName: blob1s6_22
+    tiles:
+    - sprite: {fileID: 7269395469733227152, guid: 4a25eba0a21e1a84092fab14b8a02e3d, type: 3}
+      material: {fileID: 0}
+      Distribution: 10
+      ActualSpawnChance: 0
+    <TileId>k__BackingField: 22
+  - sprite: {fileID: -8296636869735359267, guid: 4a25eba0a21e1a84092fab14b8a02e3d, type: 3}
+    DistributionMin: 0
+    DistributionMax: 10
+    caseName: blob1s6_23
+    tiles:
+    - sprite: {fileID: -8296636869735359267, guid: 4a25eba0a21e1a84092fab14b8a02e3d, type: 3}
+      material: {fileID: 0}
+      Distribution: 10
+      ActualSpawnChance: 0
+    <TileId>k__BackingField: 23
+  - sprite: {fileID: 3280314993724789801, guid: 4a25eba0a21e1a84092fab14b8a02e3d, type: 3}
+    DistributionMin: 0
+    DistributionMax: 10
+    caseName: blob1s6_24
+    tiles:
+    - sprite: {fileID: 3280314993724789801, guid: 4a25eba0a21e1a84092fab14b8a02e3d, type: 3}
+      material: {fileID: 0}
+      Distribution: 10
+      ActualSpawnChance: 0
+    <TileId>k__BackingField: 24
+  - sprite: {fileID: -1273872800682655054, guid: 4a25eba0a21e1a84092fab14b8a02e3d, type: 3}
+    DistributionMin: 0
+    DistributionMax: 10
+    caseName: blob1s6_25
+    tiles:
+    - sprite: {fileID: -1273872800682655054, guid: 4a25eba0a21e1a84092fab14b8a02e3d, type: 3}
+      material: {fileID: 0}
+      Distribution: 10
+      ActualSpawnChance: 0
+    <TileId>k__BackingField: 25
+  - sprite: {fileID: 7489683148545099696, guid: 4a25eba0a21e1a84092fab14b8a02e3d, type: 3}
+    DistributionMin: 0
+    DistributionMax: 10
+    caseName: blob1s6_26
+    tiles:
+    - sprite: {fileID: 7489683148545099696, guid: 4a25eba0a21e1a84092fab14b8a02e3d, type: 3}
+      material: {fileID: 0}
+      Distribution: 10
+      ActualSpawnChance: 0
+    <TileId>k__BackingField: 26
+  - sprite: {fileID: -5110102235515038829, guid: 4a25eba0a21e1a84092fab14b8a02e3d, type: 3}
+    DistributionMin: 0
+    DistributionMax: 10
+    caseName: blob1s6_27
+    tiles:
+    - sprite: {fileID: -5110102235515038829, guid: 4a25eba0a21e1a84092fab14b8a02e3d, type: 3}
+      material: {fileID: 0}
+      Distribution: 10
+      ActualSpawnChance: 0
+    <TileId>k__BackingField: 27
+  - sprite: {fileID: 3723038677954918491, guid: 4a25eba0a21e1a84092fab14b8a02e3d, type: 3}
+    DistributionMin: 0
+    DistributionMax: 10
+    caseName: blob1s6_28
+    tiles:
+    - sprite: {fileID: 3723038677954918491, guid: 4a25eba0a21e1a84092fab14b8a02e3d, type: 3}
+      material: {fileID: 0}
+      Distribution: 10
+      ActualSpawnChance: 0
+    <TileId>k__BackingField: 28
+  - sprite: {fileID: -7638210642460634372, guid: 4a25eba0a21e1a84092fab14b8a02e3d, type: 3}
+    DistributionMin: 0
+    DistributionMax: 10
+    caseName: blob1s6_29
+    tiles:
+    - sprite: {fileID: -7638210642460634372, guid: 4a25eba0a21e1a84092fab14b8a02e3d, type: 3}
+      material: {fileID: 0}
+      Distribution: 10
+      ActualSpawnChance: 0
+    <TileId>k__BackingField: 29
+  - sprite: {fileID: 8342066339225988161, guid: 4a25eba0a21e1a84092fab14b8a02e3d, type: 3}
+    DistributionMin: 0
+    DistributionMax: 10
+    caseName: blob1s6_30
+    tiles:
+    - sprite: {fileID: 8342066339225988161, guid: 4a25eba0a21e1a84092fab14b8a02e3d, type: 3}
+      material: {fileID: 0}
+      Distribution: 10
+      ActualSpawnChance: 0
+    <TileId>k__BackingField: 30
+  - sprite: {fileID: -478489594782773279, guid: 4a25eba0a21e1a84092fab14b8a02e3d, type: 3}
+    DistributionMin: 0
+    DistributionMax: 10
+    caseName: blob1s6_31
+    tiles:
+    - sprite: {fileID: -478489594782773279, guid: 4a25eba0a21e1a84092fab14b8a02e3d, type: 3}
+      material: {fileID: 0}
+      Distribution: 10
+      ActualSpawnChance: 0
+    <TileId>k__BackingField: 31
+  - sprite: {fileID: 3005552557051884256, guid: 4a25eba0a21e1a84092fab14b8a02e3d, type: 3}
+    DistributionMin: 0
+    DistributionMax: 10
+    caseName: blob1s6_32
+    tiles:
+    - sprite: {fileID: 3005552557051884256, guid: 4a25eba0a21e1a84092fab14b8a02e3d, type: 3}
+      material: {fileID: 0}
+      Distribution: 10
+      ActualSpawnChance: 0
+    <TileId>k__BackingField: 32
+  - sprite: {fileID: -5804756520783427835, guid: 4a25eba0a21e1a84092fab14b8a02e3d, type: 3}
+    DistributionMin: 0
+    DistributionMax: 10
+    caseName: blob1s6_33
+    tiles:
+    - sprite: {fileID: -5804756520783427835, guid: 4a25eba0a21e1a84092fab14b8a02e3d, type: 3}
+      material: {fileID: 0}
+      Distribution: 10
+      ActualSpawnChance: 0
+    <TileId>k__BackingField: 33
+  - sprite: {fileID: 6293474750699857285, guid: 4a25eba0a21e1a84092fab14b8a02e3d, type: 3}
+    DistributionMin: 0
+    DistributionMax: 10
+    caseName: blob1s6_34
+    tiles:
+    - sprite: {fileID: 6293474750699857285, guid: 4a25eba0a21e1a84092fab14b8a02e3d, type: 3}
+      material: {fileID: 0}
+      Distribution: 10
+      ActualSpawnChance: 0
+    <TileId>k__BackingField: 34
+  - sprite: {fileID: -3603965607220166434, guid: 4a25eba0a21e1a84092fab14b8a02e3d, type: 3}
+    DistributionMin: 0
+    DistributionMax: 10
+    caseName: blob1s6_35
+    tiles:
+    - sprite: {fileID: -3603965607220166434, guid: 4a25eba0a21e1a84092fab14b8a02e3d, type: 3}
+      material: {fileID: 0}
+      Distribution: 10
+      ActualSpawnChance: 0
+    <TileId>k__BackingField: 35
+  - sprite: {fileID: 2164485914156852815, guid: 4a25eba0a21e1a84092fab14b8a02e3d, type: 3}
+    DistributionMin: 0
+    DistributionMax: 10
+    caseName: blob1s6_36
+    tiles:
+    - sprite: {fileID: 2164485914156852815, guid: 4a25eba0a21e1a84092fab14b8a02e3d, type: 3}
+      material: {fileID: 0}
+      Distribution: 10
+      ActualSpawnChance: 0
+    <TileId>k__BackingField: 36
+  - sprite: {fileID: 3860109311194179519, guid: 4a25eba0a21e1a84092fab14b8a02e3d, type: 3}
+    DistributionMin: 0
+    DistributionMax: 10
+    caseName: blob1s6_37
+    tiles:
+    - sprite: {fileID: 3860109311194179519, guid: 4a25eba0a21e1a84092fab14b8a02e3d, type: 3}
+      material: {fileID: 0}
+      Distribution: 10
+      ActualSpawnChance: 0
+    <TileId>k__BackingField: 37
+  - sprite: {fileID: 8772615273889146702, guid: 4a25eba0a21e1a84092fab14b8a02e3d, type: 3}
+    DistributionMin: 0
+    DistributionMax: 10
+    caseName: blob1s6_38
+    tiles:
+    - sprite: {fileID: 8772615273889146702, guid: 4a25eba0a21e1a84092fab14b8a02e3d, type: 3}
+      material: {fileID: 0}
+      Distribution: 10
+      ActualSpawnChance: 0
+    <TileId>k__BackingField: 38
+  - sprite: {fileID: 6090231737078880527, guid: 4a25eba0a21e1a84092fab14b8a02e3d, type: 3}
+    DistributionMin: 0
+    DistributionMax: 10
+    caseName: blob1s6_39
+    tiles:
+    - sprite: {fileID: 6090231737078880527, guid: 4a25eba0a21e1a84092fab14b8a02e3d, type: 3}
+      material: {fileID: 0}
+      Distribution: 10
+      ActualSpawnChance: 0
+    <TileId>k__BackingField: 39
+  - sprite: {fileID: 8802121021103684825, guid: 4a25eba0a21e1a84092fab14b8a02e3d, type: 3}
+    DistributionMin: 0
+    DistributionMax: 10
+    caseName: blob1s6_40
+    tiles:
+    - sprite: {fileID: 8802121021103684825, guid: 4a25eba0a21e1a84092fab14b8a02e3d, type: 3}
+      material: {fileID: 0}
+      Distribution: 10
+      ActualSpawnChance: 0
+    <TileId>k__BackingField: 40
+  - sprite: {fileID: -3214884752046967136, guid: 4a25eba0a21e1a84092fab14b8a02e3d, type: 3}
+    DistributionMin: 0
+    DistributionMax: 10
+    caseName: blob1s6_41
+    tiles:
+    - sprite: {fileID: -3214884752046967136, guid: 4a25eba0a21e1a84092fab14b8a02e3d, type: 3}
+      material: {fileID: 0}
+      Distribution: 10
+      ActualSpawnChance: 0
+    <TileId>k__BackingField: 41
+  - sprite: {fileID: 3699815896277011792, guid: 4a25eba0a21e1a84092fab14b8a02e3d, type: 3}
+    DistributionMin: 0
+    DistributionMax: 10
+    caseName: blob1s6_42
+    tiles:
+    - sprite: {fileID: 3699815896277011792, guid: 4a25eba0a21e1a84092fab14b8a02e3d, type: 3}
+      material: {fileID: 0}
+      Distribution: 10
+      ActualSpawnChance: 0
+    <TileId>k__BackingField: 42
+  - sprite: {fileID: 5162000086815634550, guid: 4a25eba0a21e1a84092fab14b8a02e3d, type: 3}
+    DistributionMin: 0
+    DistributionMax: 10
+    caseName: blob1s6_43
+    tiles:
+    - sprite: {fileID: 5162000086815634550, guid: 4a25eba0a21e1a84092fab14b8a02e3d, type: 3}
+      material: {fileID: 0}
+      Distribution: 10
+      ActualSpawnChance: 0
+    <TileId>k__BackingField: 43
+  - sprite: {fileID: -5235394313020227382, guid: 4a25eba0a21e1a84092fab14b8a02e3d, type: 3}
+    DistributionMin: 0
+    DistributionMax: 10
+    caseName: blob1s6_44
+    tiles:
+    - sprite: {fileID: -5235394313020227382, guid: 4a25eba0a21e1a84092fab14b8a02e3d, type: 3}
+      material: {fileID: 0}
+      Distribution: 10
+      ActualSpawnChance: 0
+    <TileId>k__BackingField: 44
+  - sprite: {fileID: 647581721378397651, guid: 4a25eba0a21e1a84092fab14b8a02e3d, type: 3}
+    DistributionMin: 0
+    DistributionMax: 10
+    caseName: blob1s6_45
+    tiles:
+    - sprite: {fileID: 647581721378397651, guid: 4a25eba0a21e1a84092fab14b8a02e3d, type: 3}
+      material: {fileID: 0}
+      Distribution: 10
+      ActualSpawnChance: 0
+    <TileId>k__BackingField: 45
+  - sprite: {fileID: -5612077704171108726, guid: 4a25eba0a21e1a84092fab14b8a02e3d, type: 3}
+    DistributionMin: 0
+    DistributionMax: 10
+    caseName: blob1s6_46
+    tiles:
+    - sprite: {fileID: -5612077704171108726, guid: 4a25eba0a21e1a84092fab14b8a02e3d, type: 3}
+      material: {fileID: 0}
+      Distribution: 10
+      ActualSpawnChance: 0
+    <TileId>k__BackingField: 46
+  - sprite: {fileID: -4630444663151184699, guid: 4a25eba0a21e1a84092fab14b8a02e3d, type: 3}
+    DistributionMin: 0
+    DistributionMax: 10
+    caseName: blob1s6_47
+    tiles:
+    - sprite: {fileID: -4630444663151184699, guid: 4a25eba0a21e1a84092fab14b8a02e3d, type: 3}
+      material: {fileID: 0}
+      Distribution: 10
+      ActualSpawnChance: 0
+    <TileId>k__BackingField: 47
+  - sprite: {fileID: -6432102585875501233, guid: 4a25eba0a21e1a84092fab14b8a02e3d, type: 3}
+    DistributionMin: 0
+    DistributionMax: 10
+    caseName: blob1s6_48
+    tiles:
+    - sprite: {fileID: -6432102585875501233, guid: 4a25eba0a21e1a84092fab14b8a02e3d, type: 3}
+      material: {fileID: 0}
+      Distribution: 10
+      ActualSpawnChance: 0
+    <TileId>k__BackingField: 48
+  - sprite: {fileID: -3090069213400749067, guid: 4a25eba0a21e1a84092fab14b8a02e3d, type: 3}
+    DistributionMin: 0
+    DistributionMax: 10
+    caseName: blob1s6_49
+    tiles:
+    - sprite: {fileID: -3090069213400749067, guid: 4a25eba0a21e1a84092fab14b8a02e3d, type: 3}
+      material: {fileID: 0}
+      Distribution: 10
+      ActualSpawnChance: 0
+    <TileId>k__BackingField: 49
+  material: {fileID: 0}
+  Texture: {fileID: 2800000, guid: 4a25eba0a21e1a84092fab14b8a02e3d, type: 3}

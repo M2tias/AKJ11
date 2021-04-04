@@ -24,5 +24,9 @@ public class Configs : MonoBehaviour
 
     public MusicConfig DefaultMusic;
 
+
+    [field: SerializeField]
+    public TilesheetConfig DefaultTileSheet {get; private set;}
+
 }
 

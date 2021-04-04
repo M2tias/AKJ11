@@ -18,16 +18,20 @@ public class MapNodeView : MonoBehaviour
 
     private TileStyle style;
 
+    public TileStyle Style { get { return style; } }
 
     [SerializeField]
     PolygonCollider2D polygonCollider2D;
 
-    private void UpdateCollider() {
+    int orderOffset = 0;
+
+    private void UpdateCollider()
+    {
         List<Vector2> points = new List<Vector2>();
         List<Vector2> simplifiedPoints = new List<Vector2>();
         float tolerance = 0.05f;
         polygonCollider2D.pathCount = spriteRenderer.sprite.GetPhysicsShapeCount();
-        for(int i = 0; i < polygonCollider2D.pathCount; i++)
+        for (int i = 0; i < polygonCollider2D.pathCount; i++)
         {
             spriteRenderer.sprite.GetPhysicsShape(i, points);
             LineUtility.Simplify(points, tolerance, simplifiedPoints);
@@ -56,20 +60,22 @@ public class MapNodeView : MonoBehaviour
             UpdateCollider();
         }
 
-        if (spriteConfig != BlobGrid.EmptyTileId) {
+        if (spriteConfig != BlobGrid.EmptyTileId)
+        {
             polygonCollider2D.enabled = mapNode.IsWall;
         }
 
         spriteRenderer.color = GetColor();
         spriteRenderer.sortingOrder = GetOrder();
 
-        spriteRenderer.enabled = mapNode.IsWall;
+        //spriteRenderer.enabled = mapNode.IsWall;
+        spriteRenderer.enabled = true;
 
     }
 
     private int GetOrder()
     {
-        return GetStyle().LayerOrder;
+        return GetStyle().LayerOrder + orderOffset;
     }
 
     private TileStyle GetStyle()
@@ -87,19 +93,25 @@ public class MapNodeView : MonoBehaviour
     {
 
         TileStyle style = GetStyle();
-        if (!mapNode.IsWall)
+        if (!mapNode.IsWall && style.GroundSprite != null)
         {
             return style.GroundSprite;
         }
-        if (spriteConfig >= 0)
+        int tileId = spriteConfig;
+        if (!mapNode.IsWall || spriteConfig < 0)
         {
-            return config.GetSprite(spriteConfig, style);
+            tileId = BlobGrid.EmptyTileId;
         }
-        return style.GroundSprite;
+
+        return config.GetSprite(tileId, style);
     }
     public void SetStyle(TileStyle style)
     {
         this.style = style;
+    }
+
+    public void SetOrderOffset(int offset) {
+        orderOffset = offset;
     }
 
     public void SetSpriteConfig(int spriteConfig)

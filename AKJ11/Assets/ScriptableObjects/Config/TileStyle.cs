@@ -8,57 +8,33 @@ using System.Linq;
 public class TileStyle : ScriptableObject
 {
 
-    public static int GroundTileId = 12;
-
     [field: SerializeField]
     public Color ColorTint { get; private set; } = Color.white;
     [field: SerializeField]
     public Color GroundTint { get; private set; } = Color.white;
+
     [SerializeField]
     private Sprite groundSprite;
-    public Sprite GroundSprite { get { return groundSprite == null ? cases[TileStyle.GroundTileId] : groundSprite; } }
+    public Sprite GroundSprite { get { return groundSprite; } }
+    public Sprite DefaultGroundSprite { get { return groundSprite == null ? GetDefaultSprite() : groundSprite; } }
+
 
     [field: SerializeField]
     public int LayerOrder { get; private set; } = 0;
 
     [SerializeField]
-    private Texture2D texture;
-    [SerializeField]
-    [HideInInspector]
-    private Texture2D previousTexture;
+    private TilesheetConfig tilesheetConfig;
+    public TilesheetConfig TilesheetConfig { get { return tilesheetConfig; } }
 
-    [SerializeField]
-    private List<Sprite> cases;
-    public List<Sprite> Cases { get { return cases; } }
-
-
-    public void OnValidate()
-    {
-        LoadNewTexturesIfNeeded();
+    public Sprite GetSprite(int tileId) {
+        return tilesheetConfig.GetSprite(tileId);
     }
 
-    public void LoadNewTexturesIfNeeded()
-    {
-        if (previousTexture != texture || previousTexture == null || cases == null || cases.Count < 5)
-        {
-            LoadTextureCases();
-            previousTexture = texture;
+    public Sprite GetDefaultSprite() {
+        if (tilesheetConfig != null) {
+            return tilesheetConfig.GetFirstSprite(BlobGrid.EmptyTileId);
         }
-    }
-
-    private void LoadTextureCases()
-    {
-        Debug.Log("Clearing cases...");
-        cases.Clear();
-        if (texture == null)
-        {
-            Debug.Log("Empty case!");
-            cases.Add(null);
-            return;
-        }
-        Debug.Log(texture.name);
-        cases = Resources.LoadAll<Sprite>("Images/Tilesets/" + texture.name).ToList();
-        Debug.Log($"Got cases: {cases.Count}");
+        return null;
     }
 
 }

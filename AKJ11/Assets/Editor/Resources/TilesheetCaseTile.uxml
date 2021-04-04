@@ -1,0 +1,12 @@
+<UXML xmlns="UnityEngine.UIElements" xmlns:ed="UnityEditor.UIElements">
+  <VisualElement class="tilesheet-case-tile">
+    <Image class="tilesheet-case-tile-image"></Image>
+    <ed:ObjectField
+      type="UnityEngine.Sprite, UnityEngine.CoreModule"
+      class="tilesheet-case-sprite-picker"
+    ></ed:ObjectField>
+    <TextElement class="tilesheet-case-tile-actual-chance"></TextElement>
+    <SliderInt class="tilesheet-case-tile-slider"></SliderInt>
+    <Button class="tile-list-remove-button" text="-"></Button>
+  </VisualElement>
+</UXML>

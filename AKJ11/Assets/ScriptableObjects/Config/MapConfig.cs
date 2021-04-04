@@ -55,7 +55,10 @@ public class MapConfig : ScriptableObject
     public Sprite GetSprite(int configuration, TileStyle style)
     {
         int lookedUp = configuration;
-        return style.Cases[lookedUp];
+        if (style != null && style.TilesheetConfig != null) {
+            return style.GetSprite(configuration);
+        }
+        return Configs.main.DefaultTileSheet.GetSprite(configuration);
     }
 }
 

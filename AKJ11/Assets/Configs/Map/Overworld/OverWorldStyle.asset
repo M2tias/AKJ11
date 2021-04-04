@@ -69,3 +69,4 @@ MonoBehaviour:
   - {fileID: -4630444663151184699, guid: 4a25eba0a21e1a84092fab14b8a02e3d, type: 3}
   - {fileID: -6432102585875501233, guid: 4a25eba0a21e1a84092fab14b8a02e3d, type: 3}
   - {fileID: -3090069213400749067, guid: 4a25eba0a21e1a84092fab14b8a02e3d, type: 3}
+  tilesheetConfig: {fileID: 11400000, guid: 4114a9dc35353444ea36252feb095110, type: 2}

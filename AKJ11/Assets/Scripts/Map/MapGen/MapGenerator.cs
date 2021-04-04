@@ -181,6 +181,7 @@ public class MapGenerator : MonoBehaviour
         TorchSpawner.Spawn(data);
         PlaceItems(data);
         nodeContainer.Render();
+        BackgroundCreator.CreateFloor(data, config, nodeContainer);
     }
 
     async UniTask<List<CaveEnclosure>> GenerateAndFindEnclosures()
