@@ -98,37 +98,21 @@ public class MapGenerator : MonoBehaviour
         GameStateManager.main.StartTime();
     }
 
-    public async void SealRoomFromTower(MapNode roomNode) {
-        CaveEnclosure room = data.Rooms.FirstOrDefault(room => room.Nodes.Contains(roomNode));
-        if (room != null) {
-            foreach(MapNode edgeNode in room.Edges) {
-                foreach (MapNode neighbor in edgeNode.Neighbors) {
-                    if (!neighbor.IsWall && !room.Nodes.Contains(neighbor)) {
-                        hallwayNodes.Add(neighbor);
-                    }
-                }
-            }
-            foreach(MapNode hallwayNode in hallwayNodes) {
-                hallwayNode.MapGen.Uncarve();
-            }
-        }
+    public async void SealRooms() {
+        await RoomSealer.SealAllRooms(data, hallwayNodes);
+    }
+
+    public async void UnsealAllRooms() {
+        await RoomSealer.UnsealAllRooms(hallwayNodes);
+    }
+
+    public async UniTask RunBlobGrid() {
         await BlobGrid.Run(nodeContainer);
         nodeContainer.Render();
     }
 
-    public async void UnsealAllRooms() {
-        if (hallwayNodes.Count > 0) {
-            foreach(MapNode hallwayNode in hallwayNodes) {
-                hallwayNode.MapGen.Carve();
-            }
-            await BlobGrid.Run(nodeContainer);
-            nodeContainer.Render();
-        }
-    }
-
     async UniTask NewMap()
     {
-        hallwayNodes = new List<MapNode>();
         MapConfig nextMapConfig = Configs.main.Campaign.Get(currentLevel);
         if (nextMapConfig.CaveTileStyle == null)
         {
@@ -160,13 +144,14 @@ public class MapGenerator : MonoBehaviour
     async UniTask Generate()
     {
         List<CaveEnclosure> rooms = await GenerateAndFindEnclosures();
-        await EnclosureEdgeFinder.FindEdges(nodeContainer, rooms, config);
+        await EnclosureEdgeFinder.FindEdges(nodeContainer, rooms);
         if (Configs.main.Debug.DelayGeneration)
         {
             nodeContainer.Render();
         }
         BackgroundCreator.Create(nodeContainer, config);
         CaveEnclosure tower = await TowerRoomGenerator.GenerateTower(config.TowerRadius, nodeContainer, nodeContainer.MidPoint);
+        await EnclosureEdgeFinder.FindEdges(nodeContainer, tower);
         CaveEnclosure roomsAndTower = await FindAndConnectEnclosures();
         await BlobGrid.Run(nodeContainer);
         CreateNavMesh();
@@ -181,7 +166,11 @@ public class MapGenerator : MonoBehaviour
         TorchSpawner.Spawn(data);
         PlaceItems(data);
         nodeContainer.Render();
-        BackgroundCreator.CreateFloor(data, config, nodeContainer);
+        hallwayNodes = RoomSealer.FindHallwayNodes(data);
+        BackgroundCreator.CreateFloor(data, config, nodeContainer, hallwayNodes);
+        if (config.SealTower) {
+            await RoomSealer.SealTower(data, true);
+        }
     }
 
     async UniTask<List<CaveEnclosure>> GenerateAndFindEnclosures()
@@ -250,11 +239,11 @@ public class MapGenerator : MonoBehaviour
         EnclosureConnector connector = new EnclosureConnector(nodeContainer, config);
         while (enclosures.Count > 1)
         {
-            await EnclosureEdgeFinder.FindEdges(nodeContainer, enclosures, config);
+            await EnclosureEdgeFinder.FindEdges(nodeContainer, enclosures);
             await connector.Connect(enclosures);
             enclosures = await EnclosureFinder.Find(nodeContainer);
         }
-        await EnclosureEdgeFinder.FindEdges(nodeContainer, enclosures, config);
+        await EnclosureEdgeFinder.FindEdges(nodeContainer, enclosures);
         if (enclosures.Count == 1) {
             return enclosures[0];
         }

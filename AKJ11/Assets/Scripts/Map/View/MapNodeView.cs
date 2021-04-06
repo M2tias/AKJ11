@@ -24,6 +24,10 @@ public class MapNodeView : MonoBehaviour
     PolygonCollider2D polygonCollider2D;
 
     int orderOffset = 0;
+    bool dead = false;
+    int oldSpriteConfig = -1;
+
+    private WallShield wallShield;
 
     private void UpdateCollider()
     {
@@ -52,12 +56,18 @@ public class MapNodeView : MonoBehaviour
     }
     public void Render()
     {
-        Sprite sprite = GetSprite();
-        Sprite oldSprite = spriteRenderer.sprite;
-        spriteRenderer.sprite = sprite;
-        if (sprite != oldSprite && spriteConfig != BlobGrid.EmptyTileId)
-        {
-            UpdateCollider();
+        if (dead) {
+            return;
+        }
+        Sprite sprite = spriteRenderer.sprite;
+        if (oldSpriteConfig != spriteConfig || sprite == null) {
+            sprite = GetSprite();
+            spriteRenderer.sprite = sprite;
+            if (spriteConfig != BlobGrid.EmptyTileId)
+            {
+                UpdateCollider();
+            }
+            oldSpriteConfig = spriteConfig;
         }
 
         if (spriteConfig != BlobGrid.EmptyTileId)
@@ -68,10 +78,11 @@ public class MapNodeView : MonoBehaviour
         spriteRenderer.color = GetColor();
         spriteRenderer.sortingOrder = GetOrder();
 
-        //spriteRenderer.enabled = mapNode.IsWall;
         spriteRenderer.enabled = true;
 
     }
+
+    private bool isDestroyable = false;
 
     private int GetOrder()
     {
@@ -117,6 +128,37 @@ public class MapNodeView : MonoBehaviour
     public void SetSpriteConfig(int spriteConfig)
     {
         this.spriteConfig = spriteConfig;
+    }
+
+    public void Seal(bool destroyable) {
+        isDestroyable = destroyable;
+        if (!isDestroyable) {
+            wallShield = Prefabs.Get<WallShield>();
+            wallShield.transform.SetParent(transform);
+            wallShield.transform.localPosition = Vector2.zero;
+        }
+    }
+
+    public void Unseal() {
+        if (wallShield != null) {
+            Destroy(wallShield.gameObject);
+        }
+    }
+
+    public void Die() {
+        polygonCollider2D.enabled = false;
+        mapNode.IsWall = false;
+        spriteRenderer.enabled = false;
+        dead = true;
+        MapGenerator.main.RunBlobGrid();
+    }
+
+    void OnTriggerEnter2D(Collider2D collider2D) {
+        if (isDestroyable) {
+            if (collider2D.gameObject.layer == LayerMask.NameToLayer("PlayerWeapon")) {
+                Die();
+            }
+        }
     }
 
 }

@@ -72,6 +72,15 @@ public class MapNode
         view.Render();
     }
 
+    public void Seal(bool destroyable = false) {
+        MapGen.Uncarve();
+        view.Seal(destroyable);
+    }
+
+    public void Unseal() {
+        MapGen.Carve();
+        view.Unseal();
+    }
 
     public void SetSpriteConfig(int spriteConfig)
     {

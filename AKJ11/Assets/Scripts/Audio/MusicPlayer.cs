@@ -42,7 +42,6 @@ public class MusicPlayer
             Debug.Log("Your music config has no boss music!");
             return;
         }
-
         currentBoss.time = currentMain.time;
         await CrossFade(currentMain, currentBoss, 1f, 1f);
         await UniTask.Delay(5000);
@@ -66,19 +65,18 @@ public class MusicPlayer
             source.clip = config.Main;
             source.volume = config.Volume;
             source.Play();
-            return null;
+        }
+        if (config.Boss != null) {
+            if (currentBoss == null) {
+                currentBoss = InitializeAudioSource("Boss");
+            }
+            currentBoss.clip = config.Boss;
+            currentBoss.Play();
         }
         if (source.clip != config.Main) {
             if (source.isPlaying) {
                 AudioSource newSource = InitializeAudioSource(source.name + " (new)");
                 newSource.clip = config.Main;
-                if (config.Boss != null) {
-                    if (currentBoss == null) {
-                        currentBoss = InitializeAudioSource("Boss");
-                    }
-                    currentBoss.clip = config.Boss;
-                    currentBoss.Play();
-                }
                 newSource.Play();
                 await CrossFade(source, newSource, config.FadeOutDuration, config.FadeInDuration);
                 source.name += " (disabled)";
@@ -92,7 +90,7 @@ public class MusicPlayer
 
     private void InitializeAudioSources() {
         if (currentBoss == null) {
-            currentBoss = InitializeAudioSource("Alternative music");
+            currentBoss = InitializeAudioSource("Boss music");
         }
         if (currentMain == null) {
             currentMain = InitializeAudioSource("Main music");

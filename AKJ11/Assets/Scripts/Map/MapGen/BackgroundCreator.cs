@@ -17,16 +17,16 @@ public class BackgroundCreator {
         CreateBGSprite(nodeContainer, config, "OutsideBot", new Vector2(tiledPosition.x, -outsideSize / 2 - 0.5f), new Vector2Int(config.Size + outsideSize * 2, outsideSize));
     }
 
-    public static void CreateFloor(MapGenData data, MapConfig config, NodeContainer nodeContainer) {
-        List<MapNode> extraFloorNodes = new List<MapNode>();
+    public static void CreateFloor(MapGenData data, MapConfig config, NodeContainer nodeContainer, List<MapNode> hallwayNodes) {
+        List<MapNode> extraFloorNodes = new List<MapNode>(hallwayNodes);
         Transform container = Prefabs.Get<Transform>();
         container.name ="ExtraFloor";
         container.SetParent(nodeContainer.ViewContainer);
         data.RoomsAndTower.Nodes.Where(node => !node.IsWall).ToList().ForEach(node => {
-                nodeContainer.FindAllNeighbors(node)
-                .Where(node => node.IsWall && !extraFloorNodes.Contains(node))
-                .ToList()
-                .ForEach(node => extraFloorNodes.Add(node));
+            nodeContainer.FindAllNeighbors(node)
+            .Where(node => (node.IsWall) && !extraFloorNodes.Contains(node))
+            .ToList()
+            .ForEach(node => extraFloorNodes.Add(node));
         });
         foreach(MapNode node in extraFloorNodes) {
             MapNode newNode = new MapNode(node.X, node.Y, nodeContainer, container, config);

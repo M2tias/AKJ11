@@ -261,7 +261,7 @@ public class Boss : MonoBehaviour
 
     private void Spawn()
     {
-        MapGenerator.main.SealRoomFromTower(spawnNode);
+        MapGenerator.main.SealRooms();
         coll.enabled = true;
         state = BossState.SPAWN;
         anim.SetBool("Spawn", true);

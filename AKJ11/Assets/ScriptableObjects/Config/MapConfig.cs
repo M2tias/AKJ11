@@ -14,6 +14,9 @@ public class MapConfig : ScriptableObject
     [field: Range(0, 4)]
     public int NumberOfAreas { get; private set; } = 4;
 
+    [field: SerializeField]
+    public bool SealTower {get; private set;} = true;
+
     [SerializeField]
     private SpawnPosition areaType =  SpawnPosition.Cave;
     public SpawnPosition AreaType { get {return areaType;} }

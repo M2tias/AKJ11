@@ -47,6 +47,9 @@ public class GameStateManager : MonoBehaviour
     }
 
     public string GetFormattedTime() {
+        if (timer == null) {
+            return "-";
+        }
         return timer.GetString();
     }
 
