@@ -28,6 +28,8 @@ public class MapNodeView : MonoBehaviour
     int oldSpriteConfig = -1;
 
     private WallShield wallShield;
+    private BrokenWallIndicator brokenWallIndicator;
+    private bool renderFloor = false;
 
     private void UpdateCollider()
     {
@@ -43,8 +45,9 @@ public class MapNodeView : MonoBehaviour
         }
     }
 
-    public void Initialize(MapNode mapNode, Transform container, MapConfig config)
+    public void Initialize(MapNode mapNode, Transform container, MapConfig config, bool renderFloor = false)
     {
+        this.renderFloor = renderFloor;
         this.mapNode = mapNode;
         transform.SetParent(container);
         transform.position = (Vector2)mapNode.Position;
@@ -63,6 +66,9 @@ public class MapNodeView : MonoBehaviour
         if (oldSpriteConfig != spriteConfig || sprite == null) {
             sprite = GetSprite();
             spriteRenderer.sprite = sprite;
+            if (brokenWallIndicator != null) {
+                brokenWallIndicator.SetSprite(spriteRenderer.sprite);
+            }
             if (spriteConfig != BlobGrid.EmptyTileId)
             {
                 UpdateCollider();
@@ -78,7 +84,7 @@ public class MapNodeView : MonoBehaviour
         spriteRenderer.color = GetColor();
         spriteRenderer.sortingOrder = GetOrder();
 
-        spriteRenderer.enabled = true;
+        spriteRenderer.enabled = (mapNode.IsWall || renderFloor);
 
     }
 
@@ -133,15 +139,25 @@ public class MapNodeView : MonoBehaviour
     public void Seal(bool destroyable) {
         isDestroyable = destroyable;
         if (!isDestroyable) {
-            wallShield = Prefabs.Get<WallShield>();
-            wallShield.transform.SetParent(transform);
-            wallShield.transform.localPosition = Vector2.zero;
+            if (wallShield == null) {
+                wallShield = Prefabs.Get<WallShield>();
+                wallShield.transform.SetParent(transform);
+                wallShield.transform.localPosition = Vector2.zero;
+            }
+        } else if (brokenWallIndicator == null) {
+            brokenWallIndicator = Prefabs.Get<BrokenWallIndicator>();
+            brokenWallIndicator.transform.SetParent(transform);
+            brokenWallIndicator.transform.localPosition = Vector2.zero;
+            brokenWallIndicator.SetSprite(spriteRenderer.sprite);
         }
     }
 
     public void Unseal() {
         if (wallShield != null) {
             Destroy(wallShield.gameObject);
+        }
+        if (brokenWallIndicator != null) {
+            Destroy(brokenWallIndicator.gameObject);
         }
     }
 
@@ -150,6 +166,7 @@ public class MapNodeView : MonoBehaviour
         mapNode.IsWall = false;
         spriteRenderer.enabled = false;
         dead = true;
+        Unseal();
         MapGenerator.main.RunBlobGrid();
     }
 

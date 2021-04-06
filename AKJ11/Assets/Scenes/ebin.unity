@@ -441,6 +441,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   DebugCurrentLevel: 0
   DebugSeed: 
+  DebugIntSeed: 0
   NextLevelButton: 1
 --- !u!114 &207710858
 MonoBehaviour:

@@ -4,53 +4,52 @@ using Cysharp.Threading.Tasks;
 
 public class RoomSealer {
 
-    public static List<MapNode> FindHallwayNodes(MapGenData data) {
-        List<MapNode> hallwayNodes = new List<MapNode>();
+    public static List<MapNode> FindNodesToSeal(MapGenData data) {
+        List<MapNode> sealNodes = new List<MapNode>();
         foreach(CaveEnclosure room in data.Rooms) {
             foreach(MapNode edgeNode in room.Edges) {
                 foreach (MapNode neighbor in edgeNode.Neighbors) {
-                    if (!neighbor.IsWall && !room.Nodes.Contains(neighbor) && !hallwayNodes.Contains(neighbor)) {
-                        hallwayNodes.Add(neighbor);
+                    if (!neighbor.IsWall && !room.Nodes.Contains(neighbor) && !sealNodes.Contains(neighbor)) {
+                        sealNodes.Add(neighbor);
                     }
                 }
             }
         }
         foreach(MapNode edgeNode in data.Tower.Edges) {
             foreach (MapNode neighbor in edgeNode.Neighbors) {
-                if (!neighbor.IsWall && !data.Tower.Nodes.Contains(neighbor) && !hallwayNodes.Contains(neighbor)) {
-                    hallwayNodes.Add(neighbor);
+                if (!neighbor.IsWall && !data.Tower.Nodes.Contains(neighbor) && !sealNodes.Contains(neighbor)) {
+                    sealNodes.Add(neighbor);
                 }
             }
         }
-        return hallwayNodes;
+        return sealNodes;
     }
 
-    public static async UniTask SealTower(MapGenData data, bool destroyable = false) {
-        List<MapNode> hallwayNodes = new List<MapNode>();
+    public static async UniTask<List<MapNode>> SealTower(MapGenData data, NodeContainer nodeContainer, bool destroyable = false) {
+        List<MapNode> sealNodes = new List<MapNode>();
         foreach(MapNode edgeNode in data.Tower.Edges) {
-            foreach (MapNode neighbor in edgeNode.Neighbors) {
-                if (!neighbor.IsWall && !data.Tower.Nodes.Contains(neighbor)) {
-                    hallwayNodes.Add(neighbor);
-                }
+            if (!sealNodes.Contains(edgeNode) && nodeContainer.FindAllNeighbors(edgeNode).Any(neighbor => !neighbor.IsWall && !data.Tower.Nodes.Contains(neighbor))) {
+                sealNodes.Add(edgeNode);
             }
         }
-        foreach(MapNode hallwayNode in hallwayNodes) {
-            hallwayNode.Seal(destroyable);
+        foreach(MapNode sealNode in sealNodes) {
+            sealNode.Seal(destroyable);
+        }
+        await MapGenerator.main.RunBlobGrid();
+        return sealNodes;
+    }
+
+    public static async UniTask SealAllRooms(MapGenData data, List<MapNode> sealNodes, bool destroyable = false) {
+        foreach(MapNode sealNode in sealNodes) {
+            sealNode.Seal(destroyable);
         }
         await MapGenerator.main.RunBlobGrid();
     }
 
-    public static async UniTask SealAllRooms(MapGenData data, List<MapNode> hallwayNodes, bool destroyable = false) {
-        foreach(MapNode hallwayNode in hallwayNodes) {
-            hallwayNode.Seal(destroyable);
-        }
-        await MapGenerator.main.RunBlobGrid();
-    }
-
-    public static async UniTask UnsealAllRooms(List<MapNode> hallwayNodes) {
-        if (hallwayNodes.Count > 0) {
-            foreach(MapNode hallwayNode in hallwayNodes) {
-                hallwayNode.Unseal();
+    public static async UniTask UnsealAllRooms(List<MapNode> sealNodes) {
+        if (sealNodes != null && sealNodes.Count > 0) {
+            foreach(MapNode sealNode in sealNodes) {
+                sealNode.Unseal();
             }
             await MapGenerator.main.RunBlobGrid();
         }

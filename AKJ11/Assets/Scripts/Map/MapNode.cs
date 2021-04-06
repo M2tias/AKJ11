@@ -39,13 +39,13 @@ public class MapNode
         }
     }
 
-    public MapNode(int x, int y, NodeContainer container, Transform viewContainer, MapConfig config)
+    public MapNode(int x, int y, NodeContainer container, Transform viewContainer, MapConfig config, bool renderFloor = false)
     {
         Rect = new RectInt(new Vector2Int(x, y), Vector2Int.one);
         MapGen = new MapGenerationData(this);
         this.container = container;
         view = Prefabs.Get<MapNodeView>();
-        view.Initialize(this, viewContainer, config);
+        view.Initialize(this, viewContainer, config, renderFloor);
     }
 
 

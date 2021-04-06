@@ -20,6 +20,8 @@ public class MapGenerator : MonoBehaviour
     private int DebugCurrentLevel;
     [SerializeField]
     private string DebugSeed = "";
+    [SerializeField]
+    private int DebugIntSeed;
 
     [SerializeField]
     private bool NextLevelButton = false;
@@ -31,7 +33,8 @@ public class MapGenerator : MonoBehaviour
     private RandomNumberGenerator rng;
 
     private MapGenData data;
-    List<MapNode> hallwayNodes;
+    List<MapNode> sealNodes;
+    List<MapNode> towerSealNodes;
 
     void Awake()
     {
@@ -45,6 +48,9 @@ public class MapGenerator : MonoBehaviour
         currentLevel = DebugCurrentLevel;
         if (DebugSeed.Trim() != "") {
             RandomNumberGenerator.SetInstance(new RandomNumberGenerator(DebugSeed));
+        }
+        else if (DebugIntSeed != default(int)) {
+            RandomNumberGenerator.SetInstance(new RandomNumberGenerator(DebugIntSeed));
         }
         if (NextLevelButton) {
             Prefabs.Get<NextLevelButton>();
@@ -98,12 +104,13 @@ public class MapGenerator : MonoBehaviour
         GameStateManager.main.StartTime();
     }
 
-    public async void SealRooms() {
-        await RoomSealer.SealAllRooms(data, hallwayNodes);
+    public async void SealAllRooms(bool destroyable = false) {
+        await RoomSealer.SealAllRooms(data, sealNodes, destroyable);
     }
 
     public async void UnsealAllRooms() {
-        await RoomSealer.UnsealAllRooms(hallwayNodes);
+        await RoomSealer.UnsealAllRooms(sealNodes);
+        await RoomSealer.UnsealAllRooms(towerSealNodes);
     }
 
     public async UniTask RunBlobGrid() {
@@ -166,11 +173,11 @@ public class MapGenerator : MonoBehaviour
         TorchSpawner.Spawn(data);
         PlaceItems(data);
         nodeContainer.Render();
-        hallwayNodes = RoomSealer.FindHallwayNodes(data);
-        BackgroundCreator.CreateFloor(data, config, nodeContainer, hallwayNodes);
+        sealNodes = RoomSealer.FindNodesToSeal(data);
         if (config.SealTower) {
-            await RoomSealer.SealTower(data, true);
+            towerSealNodes = await RoomSealer.SealTower(data, nodeContainer, true);
         }
+        BackgroundCreator.CreateFloor(data, config, nodeContainer);
     }
 
     async UniTask<List<CaveEnclosure>> GenerateAndFindEnclosures()

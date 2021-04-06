@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using Cysharp.Threading.Tasks;
 
 public class BackgroundCreator {
 
@@ -17,8 +18,8 @@ public class BackgroundCreator {
         CreateBGSprite(nodeContainer, config, "OutsideBot", new Vector2(tiledPosition.x, -outsideSize / 2 - 0.5f), new Vector2Int(config.Size + outsideSize * 2, outsideSize));
     }
 
-    public static void CreateFloor(MapGenData data, MapConfig config, NodeContainer nodeContainer, List<MapNode> hallwayNodes) {
-        List<MapNode> extraFloorNodes = new List<MapNode>(hallwayNodes);
+    public static async UniTask CreateFloor(MapGenData data, MapConfig config, NodeContainer nodeContainer) {
+        List<MapNode> extraFloorNodes = await FindHallwayNodes(data, nodeContainer);
         Transform container = Prefabs.Get<Transform>();
         container.name ="ExtraFloor";
         container.SetParent(nodeContainer.ViewContainer);
@@ -29,13 +30,31 @@ public class BackgroundCreator {
             .ForEach(node => extraFloorNodes.Add(node));
         });
         foreach(MapNode node in extraFloorNodes) {
-            MapNode newNode = new MapNode(node.X, node.Y, nodeContainer, container, config);
+            MapNode newNode = new MapNode(node.X, node.Y, nodeContainer, container, config, true);
             newNode.IsWall = false;
             newNode.SetStyle(node.GetStyle());
             newNode.SetSpriteConfig(BlobGrid.EmptyTileId);
             newNode.SetOrderOffset(-5);
             newNode.Render();
         }
+    }
+
+    public static async UniTask<List<MapNode>> FindHallwayNodes(MapGenData data, NodeContainer nodeContainer) {
+        List<MapNode> hallwayNodes = new List<MapNode>();
+        await EnclosureEdgeFinder.FindEdges(nodeContainer, data.RoomsAndTower);
+        foreach(MapNode node in data.RoomsAndTower.Nodes) {
+                if (!hallwayNodes.Contains(node)) {
+                    hallwayNodes.Add(node);
+                }
+        }
+        foreach(MapNode edgeNode in data.RoomsAndTower.Edges) {
+            foreach (MapNode neighbor in nodeContainer.FindAllNeighbors(edgeNode)) {
+                if (!hallwayNodes.Contains(neighbor)) {
+                    hallwayNodes.Add(neighbor);
+                }
+            }
+        }
+        return hallwayNodes;
     }
 
     private static void CreateBGSprite(NodeContainer nodeContainer, MapConfig config, string spriteName, Vector2 position, Vector2Int size) {

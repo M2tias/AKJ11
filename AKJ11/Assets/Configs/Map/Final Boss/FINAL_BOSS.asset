@@ -30,5 +30,5 @@ MonoBehaviour:
     <Entities>k__BackingField:
     - {fileID: 11400000, guid: b5dcdbcfb1d9bc247a86ea759797efd0, type: 2}
   <Items>k__BackingField: []
-  <CaveTileStyle>k__BackingField: {fileID: 11400000, guid: 909f881d511b9ab47a45beca55fb82af, type: 2}
+  <CaveTileStyle>k__BackingField: {fileID: 11400000, guid: fe93aed14d4a6fc4b8544f332189624b, type: 2}
   <KeySpawn>k__BackingField: 2

@@ -340,16 +340,16 @@ RectTransform:
   m_GameObject: {fileID: 3132900327603495965}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.1, y: 0.1, z: 1}
   m_Children:
   - {fileID: 722871336761416198}
   m_Father: {fileID: 7426804648333845523}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_SizeDelta: {x: 6400, y: 3600}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &3157942618912174455
 GameObject:
@@ -1203,18 +1203,29 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 12800000, guid: 6e1569dc47f065c4f9cc23f9d40891a1, type: 3}
-    m_FontSize: 30
+    m_FontSize: 128
     m_FontStyle: 0
-    m_BestFit: 1
-    m_MinSize: 3
-    m_MaxSize: 167
-    m_Alignment: 1
+    m_BestFit: 0
+    m_MinSize: 0
+    m_MaxSize: 256
+    m_Alignment: 4
     m_AlignByGeometry: 0
     m_RichText: 1
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 
+  m_Text: 'The end.
+
+
+    Thanks for playing!
+
+
+    Seed: 17167156
+
+    Time: 00:34.86
+
+    Total
+    XP: 0'
 --- !u!114 &8642822746583552039
 MonoBehaviour:
   m_ObjectHideFlags: 0
