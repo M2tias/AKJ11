@@ -45,6 +45,16 @@ public class SpellBaseConfig : ScriptableObject
     [field: SerializeField]
     public Sprite ProjectileSprite { get; private set; }
 
+    [field: SerializeField]
+    public SpellType SpellType {get; private set;}
+
+}
+
+public enum SpellType {
+    None,
+    MagicMissile,
+    FireBall,
+    Wall
 }
 
 public enum SpellStats

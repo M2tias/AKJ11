@@ -33,6 +33,9 @@ public class SpellLevelRuntime : ScriptableObject
     [field: SerializeField]
     public bool IsUnlocked { get; set; }
 
+    [field: SerializeField]
+    public SpellType SpellType {get; private set;}
+
     public void Initialize()
     {
         DamageLevel = 0;

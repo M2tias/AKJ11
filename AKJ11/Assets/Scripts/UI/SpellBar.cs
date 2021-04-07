@@ -27,4 +27,10 @@ public class SpellBar : MonoBehaviour
             wall.Cooldown();
         }
     }
+
+    public void UpdateAll() {
+        fireBall.UpdateLevel();
+        magicMissile.UpdateLevel();
+        wall.UpdateLevel();
+    }
 }

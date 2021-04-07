@@ -211,6 +211,7 @@ public class SpellStatsUI : MonoBehaviour
         spellRuntime.SpeedLevel += SpeedPoints;
         ResetValues();
         ResetTexts();
+        SpellBar.main.UpdateAll();
     }
 
     private void DisableStatButtons()

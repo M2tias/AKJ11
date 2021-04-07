@@ -52,3 +52,4 @@ MonoBehaviour:
   - 0
   - 0
   <ProjectileSprite>k__BackingField: {fileID: 21300000, guid: 57deb3f5d0ecc7d43bf8a470ff7f71c4, type: 3}
+  <SpellType>k__BackingField: 3

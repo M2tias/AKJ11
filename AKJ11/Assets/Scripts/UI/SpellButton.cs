@@ -18,11 +18,23 @@ public class SpellButton : MonoBehaviour
     private Image coolDownImage;
     [SerializeField]
     private Text txtName;
+    [SerializeField]
+    private Text txtDamage;
+
+    [SerializeField]
+    private Text txtCooldown;
+
+    [SerializeField]
+    private Text txtDot;
+    [SerializeField]
+    private Text txtBounces;
 
     private float cooldownTimer = 0;
     private bool onCooldown = false;
 
     private float coolDown = -1;
+
+    private SpellLevelRuntime spellLevelRuntime;
 
     void Start() {
         Init();
@@ -31,6 +43,7 @@ public class SpellButton : MonoBehaviour
         txtName.text = Spell.Name;
         icon.sprite = Spell.ProjectileSprite;
         originalColor = background.color;
+        spellLevelRuntime = Experience.main.GetSpellLevelRuntime(Spell.SpellType);
     }
 
     void Update() {
@@ -46,6 +59,20 @@ public class SpellButton : MonoBehaviour
         }
     }
 
+    public void UpdateLevel() {
+        txtCooldown.text = $"{spellLevelRuntime.CooldownLevel + 1}";
+        if (spellLevelRuntime.SpellType == SpellType.Wall) {
+            return;
+        }
+        txtDamage.text = $"{spellLevelRuntime.DamageLevel + 1}";
+        txtDot.text = $"{spellLevelRuntime.DotLevel + 1}";
+        if (spellLevelRuntime.SpellType == SpellType.FireBall) {
+            txtBounces.text = $"{spellLevelRuntime.AoeLevel + 1}";
+        } else if (spellLevelRuntime.SpellType == SpellType.MagicMissile) {
+            txtBounces.text = $"{spellLevelRuntime.BouncesLevel + 1}";
+        }
+    }
+
     public void Cooldown() {
         onCooldown = true;
         background.color = cooldownColor;
@@ -53,4 +80,5 @@ public class SpellButton : MonoBehaviour
         cooldownTimer = 0f;
         coolDown = Experience.main.GetCooldown(Spell);
     }
+
 }

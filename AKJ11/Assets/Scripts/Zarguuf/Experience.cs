@@ -43,6 +43,7 @@ public class Experience : MonoBehaviour
         spell1Runtime.Initialize();
         spell2Runtime.Initialize();
         spellWallRuntime.Initialize();
+        SpellBar.main.UpdateAll();
         spell1Runtime.IsUnlocked = spell1Config.IsUnlocked;
         spell2Runtime.IsUnlocked = spell2Config.IsUnlocked;
         spellWallRuntime.IsUnlocked = spellWallConfig.IsUnlocked;
@@ -130,6 +131,18 @@ public class Experience : MonoBehaviour
     public int GetLevel()
     {
         return level;
+    }
+
+    public SpellLevelRuntime GetSpellLevelRuntime(SpellType spellType) {
+        if (spellType == SpellType.MagicMissile) {
+            return spell1Runtime;
+        }
+        else if (spellType == SpellType.FireBall) {
+            return spell2Runtime;
+        } else if (spellType == SpellType.Wall) {
+            return spellWallRuntime;
+        }
+        return null;
     }
 
     public SpellLevelRuntime GetSpell1Runtime()
