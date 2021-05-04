@@ -127,22 +127,22 @@ public class MapPopulator
         if (entitySpawn.Location == SpawnStrategy.Random)
         {
             if (entitySpawn.CanSpawnInHallways) {
-                List<MapNode> possibleNodes =  data.NonTowerNodes.Where(node => !node.MapGen.EntitySpawnsHere).ToList();
+                List<MapNode> possibleNodes =  data.NonTowerNodes.Where(node => !node.IsEdge && !node.MapGen.EntitySpawnsHere).ToList();
                 node = possibleNodes[rng.Range(0, data.NonTowerNodes.Count)];
             } else {
-                List<MapNode> possibleNodes =  data.CaveNodes.Where(node => !node.MapGen.EntitySpawnsHere).ToList();
+                List<MapNode> possibleNodes =  data.CaveNodes.Where(node => !node.IsEdge && !node.MapGen.EntitySpawnsHere).ToList();
                 node = possibleNodes[rng.Range(0, data.CaveNodes.Count)];
             }
         }
         else if (entitySpawn.Location == SpawnStrategy.CenterOfTheEnclosure)
         {
             CaveEnclosure enclosure = DetermineEnclosure(data, entitySpawn, rng);
-            node = enclosure.Nodes.OrderBy(node => enclosure.DistanceFromMidPoint(node)).FirstOrDefault();
+            node = enclosure.Nodes.Where(node => !node.IsEdge).OrderBy(node => enclosure.DistanceFromMidPoint(node)).FirstOrDefault();
         }
         else if (entitySpawn.Location == SpawnStrategy.MaxDistanceFromPlayer)
         {
             CaveEnclosure enclosure = DetermineEnclosure(data, entitySpawn, rng);
-            node = enclosure.Nodes.OrderByDescending(node => node.Distance(data.Player.Node)).FirstOrDefault();
+            node = enclosure.Nodes.Where(node => !node.IsEdge).OrderByDescending(node => node.Distance(data.Player.Node)).FirstOrDefault();
         }
         if (node == null) {
             MonoBehaviour.print($"Something went wrong, Entity {entitySpawn} doesn't have a spawnNode.");
