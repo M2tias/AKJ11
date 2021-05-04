@@ -157,7 +157,8 @@ public class MapNodeView : MonoBehaviour
             Destroy(wallShield.gameObject);
         }
         if (brokenWallIndicator != null) {
-            Destroy(brokenWallIndicator.gameObject);
+            brokenWallIndicator.Hide();
+            brokenWallIndicator.ShowParticleEffect();
         }
     }
 
