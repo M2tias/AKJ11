@@ -49,7 +49,8 @@ public class MapNode
     }
 
 
-    public void SetOrderOffset(int offset) {
+    public void SetOrderOffset(int offset)
+    {
         view.SetOrderOffset(offset);
     }
 
@@ -58,7 +59,8 @@ public class MapNode
         view.SetStyle(style);
     }
 
-    public TileStyle GetStyle() {
+    public TileStyle GetStyle()
+    {
         return view.Style;
     }
 
@@ -72,14 +74,30 @@ public class MapNode
         view.Render();
     }
 
-    public void Seal(bool destroyable = false) {
+    public void Seal(bool destroyable = false)
+    {
         MapGen.Uncarve();
         view.Seal(destroyable);
     }
 
-    public void Unseal() {
+    public void Unseal()
+    {
         MapGen.Carve();
         view.Unseal();
+    }
+
+    public void KillNeighbors()
+    {
+        if (!view.IsDestroyable)
+        {
+            return;
+        }
+        view.Die();
+        Neighbors.ForEach(neighbor => {
+            if (!neighbor.view.IsDead && neighbor.view.IsDestroyable) {
+                neighbor.KillNeighbors();
+            }
+        });
     }
 
     public void SetSpriteConfig(int spriteConfig)
@@ -100,7 +118,7 @@ public class MapGenerationData
     private MapNode node;
     public bool AllNeighborsAreWalls { get; set; } = false;
 
-    public bool EntitySpawnsHere {get; set;} = false;
+    public bool EntitySpawnsHere { get; set; } = false;
 
     public MapGenerationData(MapNode node)
     {

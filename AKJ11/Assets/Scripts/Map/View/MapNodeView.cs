@@ -25,6 +25,7 @@ public class MapNodeView : MonoBehaviour
 
     int orderOffset = 0;
     bool dead = false;
+    public bool IsDead { get { return dead; } }
     int oldSpriteConfig = -1;
 
     private WallShield wallShield;
@@ -59,14 +60,17 @@ public class MapNodeView : MonoBehaviour
     }
     public void Render()
     {
-        if (dead) {
+        if (dead)
+        {
             return;
         }
         Sprite sprite = spriteRenderer.sprite;
-        if (oldSpriteConfig != spriteConfig || sprite == null) {
+        if (oldSpriteConfig != spriteConfig || sprite == null)
+        {
             sprite = GetSprite();
             spriteRenderer.sprite = sprite;
-            if (brokenWallIndicator != null) {
+            if (brokenWallIndicator != null)
+            {
                 brokenWallIndicator.SetSprite(spriteRenderer.sprite);
             }
             if (spriteConfig != BlobGrid.EmptyTileId)
@@ -89,6 +93,7 @@ public class MapNodeView : MonoBehaviour
     }
 
     private bool isDestroyable = false;
+    public bool IsDestroyable { get { return isDestroyable; } }
 
     private int GetOrder()
     {
@@ -127,7 +132,8 @@ public class MapNodeView : MonoBehaviour
         this.style = style;
     }
 
-    public void SetOrderOffset(int offset) {
+    public void SetOrderOffset(int offset)
+    {
         orderOffset = offset;
     }
 
@@ -136,15 +142,20 @@ public class MapNodeView : MonoBehaviour
         this.spriteConfig = spriteConfig;
     }
 
-    public void Seal(bool destroyable) {
+    public void Seal(bool destroyable)
+    {
         isDestroyable = destroyable;
-        if (!isDestroyable) {
-            if (wallShield == null) {
+        if (!isDestroyable)
+        {
+            if (wallShield == null)
+            {
                 wallShield = Prefabs.Get<WallShield>();
                 wallShield.transform.SetParent(transform);
                 wallShield.transform.localPosition = Vector2.zero;
             }
-        } else if (brokenWallIndicator == null) {
+        }
+        else if (brokenWallIndicator == null)
+        {
             brokenWallIndicator = Prefabs.Get<BrokenWallIndicator>();
             brokenWallIndicator.transform.SetParent(transform);
             brokenWallIndicator.transform.localPosition = Vector2.zero;
@@ -152,29 +163,50 @@ public class MapNodeView : MonoBehaviour
         }
     }
 
-    public void Unseal() {
-        if (wallShield != null) {
+    public void Unseal()
+    {
+        if (wallShield != null)
+        {
             Destroy(wallShield.gameObject);
         }
-        if (brokenWallIndicator != null) {
+        if (brokenWallIndicator != null)
+        {
             brokenWallIndicator.Hide();
             brokenWallIndicator.ShowParticleEffect();
         }
     }
 
-    public void Die() {
+    public void Die()
+    {
+        if (!isDestroyable || dead)
+        {
+            return;
+        }
+        Invoke("PlayWallBreakSound", UnityEngine.Random.Range(0.05f, 0.3f));
         polygonCollider2D.enabled = false;
         mapNode.IsWall = false;
         spriteRenderer.enabled = false;
         dead = true;
         Unseal();
-        MapGenerator.main.RunBlobGrid();
     }
 
-    void OnTriggerEnter2D(Collider2D collider2D) {
-        if (isDestroyable) {
-            if (collider2D.gameObject.layer == LayerMask.NameToLayer("PlayerWeapon")) {
-                Die();
+    private bool deadSoundPlayed = false;
+    public void PlayWallBreakSound() {
+        if (!deadSoundPlayed) {
+            SoundManager.main.PlaySound(GameSoundType.WallBreak);
+            deadSoundPlayed = true;
+        }
+    }
+
+    void OnTriggerEnter2D(Collider2D collider2D)
+    {
+        if (isDestroyable)
+        {
+            if (collider2D.gameObject.layer == LayerMask.NameToLayer("PlayerWeapon"))
+            {
+                PlayWallBreakSound();
+                mapNode.KillNeighbors();
+                MapGenerator.main.RunBlobGrid();
             }
         }
     }
