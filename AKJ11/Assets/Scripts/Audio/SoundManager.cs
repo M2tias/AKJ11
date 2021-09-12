@@ -41,7 +41,8 @@ public enum GameSoundType {
     Heal,
     PickupXP,
     OpenSpellBook,
-    CloseSpellBook
+    CloseSpellBook,
+    WallBreak
 }
 
 [System.Serializable]
