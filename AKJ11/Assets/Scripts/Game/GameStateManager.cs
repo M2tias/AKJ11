@@ -17,26 +17,35 @@ public class GameStateManager : MonoBehaviour
 
     private MusicPlayer musicPlayer;
 
-    void Awake() {
+    void Awake()
+    {
         main = this;
         musicPlayer = MusicPlayer.GetInstance();
     }
 
-    public void LevelStarted(MapConfig config, int levelIndex) {
-        if (config.MusicConfig != null) {
+    public void LevelStarted(MapConfig config, int levelIndex)
+    {
+        if (config.MusicConfig != null)
+        {
             musicPlayer.SetConfig(config.MusicConfig);
         }
-        if (!musicPlayer.HasConfig) {
+        if (!musicPlayer.HasConfig)
+        {
             musicPlayer.SetConfig(Configs.main.DefaultMusic);
         }
-        if (timer == null) {
+        if (timer == null)
+        {
             timer = new Timer();
-            if (UITimer.main != null) {
+            if (UITimer.main != null)
+            {
                 UITimer.main.timer = timer;
             }
-        } else {
-            if (Configs.main.Campaign.IsLastLevel(config)) {
-               StopTime();
+        }
+        else
+        {
+            if (Configs.main.Campaign.IsLastLevel(config))
+            {
+                StopTime();
             }
         }
         currentLevel = levelIndex;
@@ -46,41 +55,59 @@ public class GameStateManager : MonoBehaviour
         Debug.Log($"Started level '{config.name}' (#{levelIndex}).");
     }
 
-    public string GetFormattedTime() {
-        if (timer == null) {
+    public string GetFormattedTime()
+    {
+        if (timer == null)
+        {
             return "-";
         }
         return timer.GetString();
     }
 
-    public void StopTime() {
-        if (timer != null) {
+    public void StopTime()
+    {
+        if (timer != null)
+        {
             timer.Pause();
         }
         Time.timeScale = 0f;
+        if (Shooting.main != null)
+        {
+            Shooting.main.ShootingEnabled = false;
+        }
     }
 
-    public void StartTime() {
-        if (timer != null && !Configs.main.Campaign.IsLastLevel(currentConfig)) {
+    public void StartTime()
+    {
+        if (timer != null && !Configs.main.Campaign.IsLastLevel(currentConfig))
+        {
             timer.Unpause();
         }
         Time.timeScale = 1f;
+        if (Shooting.main != null)
+        {
+            Shooting.main.ShootingEnabled = true;
+        }
     }
 
-    public void LevelEnded() {
+    public void LevelEnded()
+    {
         Debug.Log($"Level {currentConfig.name} (number {currentLevel + 1}) ended.");
     }
 
-    public void EntityWokeUp(GameEntity entity) {
+    public void EntityWokeUp(GameEntity entity)
+    {
         wokeEntities.Add(entity);
         Debug.Log($"Entity {entity} woke up.");
     }
 
-    public void EntityDied(GameEntity deadEntity) {
+    public void EntityDied(GameEntity deadEntity)
+    {
         Debug.Log($"Entity {deadEntity} died.");
         deadEntities.Add(deadEntity);
         wokeEntities.Remove(deadEntity);
-        if (currentConfig.KeySpawn == KeySpawn.LastEntityDrops && wokeEntities.Count == 0) {
+        if (currentConfig.KeySpawn == KeySpawn.LastEntityDrops && wokeEntities.Count == 0)
+        {
             RandomNumberGenerator rng = RandomNumberGenerator.GetInstance();
             List<MapNode> possibleEntranceNodes = MapGenerator.main.GetNodeContainer().Nodes
                 .Where(node => !node.IsWall && !node.IsEdge && IsBetweenRange(node.Distance(deadEntity.Node), 3, 5))
@@ -100,7 +127,8 @@ public class GameStateManager : MonoBehaviour
         MapPopulator.PlaceKey(position);
     }
 
-    private void Update() {
+    private void Update()
+    {
         musicPlayer.Update();
     }
 }

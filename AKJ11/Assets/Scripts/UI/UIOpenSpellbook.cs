@@ -24,11 +24,6 @@ public class UIOpenSpellbook : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.I) || Input.GetKeyDown(KeyCode.Tab))
-        {
-            Toggle();
-        }
-
         if(Experience.main.GetUnusedStatPoints() >  0)
         {
             bookImage.sprite = pointsLeftBook;
@@ -45,28 +40,27 @@ public class UIOpenSpellbook : MonoBehaviour
 
     [SerializeField]
     private GameObject spellBook;
-    public void Open() {
+
+    public void ApplyPoints() {
+        spell1Done.Invoke();
+        spell2Done.Invoke();
+        spellWallDone.Invoke();
+    }
+
+    private void Open() {
         spellBook.SetActive(true);
         if (SoundManager.main != null) {
             SoundManager.main.PlaySound(GameSoundType.OpenSpellBook);
         }
     }
 
-    public void Close() {
+    private void Close() {
         spellBook.SetActive(false);
         spell1Done.Invoke();
         spell2Done.Invoke();
         spellWallDone.Invoke();
         if (SoundManager.main != null) {
             SoundManager.main.PlaySound(GameSoundType.CloseSpellBook);
-        }
-    }
-
-    public void Toggle() {
-        if (spellBook.activeSelf) {
-            Close();
-        } else {
-            Open();
         }
     }
 }

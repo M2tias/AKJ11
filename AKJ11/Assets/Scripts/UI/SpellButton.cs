@@ -19,15 +19,13 @@ public class SpellButton : MonoBehaviour
     [SerializeField]
     private Text txtName;
     [SerializeField]
-    private Text txtDamage;
-
+    private UISpellLevel levelDamage;
     [SerializeField]
-    private Text txtCooldown;
-
+    private UISpellLevel levelCooldown;
     [SerializeField]
-    private Text txtDot;
+    private UISpellLevel levelDot;
     [SerializeField]
-    private Text txtBounces;
+    private UISpellLevel levelBounces;
 
     private float cooldownTimer = 0;
     private bool onCooldown = false;
@@ -60,16 +58,16 @@ public class SpellButton : MonoBehaviour
     }
 
     public void UpdateLevel() {
-        txtCooldown.text = $"{spellLevelRuntime.CooldownLevel + 1}";
+        levelCooldown.SetLevel(spellLevelRuntime.CooldownLevel);
         if (spellLevelRuntime.SpellType == SpellType.Wall) {
             return;
         }
-        txtDamage.text = $"{spellLevelRuntime.DamageLevel + 1}";
-        txtDot.text = $"{spellLevelRuntime.DotLevel + 1}";
+        levelDamage.SetLevel(spellLevelRuntime.DamageLevel);
+        levelDot.SetLevel(spellLevelRuntime.DotLevel);
         if (spellLevelRuntime.SpellType == SpellType.FireBall) {
-            txtBounces.text = $"{spellLevelRuntime.AoeLevel + 1}";
+            levelBounces.SetLevel(spellLevelRuntime.AoeLevel);
         } else if (spellLevelRuntime.SpellType == SpellType.MagicMissile) {
-            txtBounces.text = $"{spellLevelRuntime.BouncesLevel + 1}";
+            levelBounces.SetLevel(spellLevelRuntime.BouncesLevel);
         }
     }
 

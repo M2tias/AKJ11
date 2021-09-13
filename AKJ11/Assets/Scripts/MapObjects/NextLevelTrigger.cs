@@ -28,8 +28,10 @@ public class NextLevelTrigger : MonoBehaviour
         if (triggerEnabled) {
             if (other.gameObject.tag == "Player") {
                 main = null;
-                MapGenerator.main.LevelEnd();
+                LevelEndMenu.main.Open();
             }
         }
     }
+
+
 }

@@ -336,11 +336,23 @@ public class Fireball : MonoBehaviour
         }
     }
 
+    public void KillClean() {
+        trailEffects.ForEach(effect => effect.gameObject.SetActive(false));
+        if (BounceEffect != null) {
+            BounceEffect.gameObject.SetActive(false);
+        }
+        if (explosionParticle != null) {
+            explosionParticle.gameObject.SetActive(false);
+        }
+        gameObject.SetActive(false);
+    }
+
+    private ParticleSystem explosionParticle;
     private ParticleSystem CreateExplosion(ParticleSystem prefab)
     {
-        var expl = Instantiate(prefab);
-        expl.transform.position = transform.position;
-        return expl;
+        explosionParticle = Instantiate(prefab);
+        explosionParticle.transform.position = transform.position;
+        return explosionParticle;
     }
 
     public int PlayerLevel
