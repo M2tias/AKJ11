@@ -25,6 +25,9 @@ public class GameStateManager : MonoBehaviour
 
     public void LevelStarted(MapConfig config, int levelIndex)
     {
+        if (!RunHistoryDb.RunStarted) {
+            RunHistoryDb.StartRun();
+        }
         if (config.MusicConfig != null)
         {
             musicPlayer.SetConfig(config.MusicConfig);
@@ -52,7 +55,12 @@ public class GameStateManager : MonoBehaviour
         currentConfig = config;
         deadEntities = new List<GameEntity>();
         wokeEntities = new List<GameEntity>();
-        Debug.Log($"Started level '{config.name}' (#{levelIndex}).");
+        if (Configs.main.Campaign.IsLastLevel(config)) {
+            Debug.Log($"The end! Level '{config.name}' (#{levelIndex}).");
+            GameOver(true);
+        } else {
+            Debug.Log($"Started level '{config.name}' (#{levelIndex}).");
+        }
     }
 
     public string GetFormattedTime()
@@ -115,6 +123,10 @@ public class GameStateManager : MonoBehaviour
             MapPopulator.PlaceNextLevelTrigger(possibleEntranceNodes[rng.Range(0, possibleEntranceNodes.Count)]);
             MapPopulator.PlaceKey(deadEntity.Node);
         }
+    }
+
+    public void GameOver(bool playerWin) {
+        RunHistoryDb.SaveCurrent(playerWin, PlayerCharacter.GetInstance().GetComponentInChildren<Hurtable>());
     }
 
     private static bool IsBetweenRange(float value, float min, float max)

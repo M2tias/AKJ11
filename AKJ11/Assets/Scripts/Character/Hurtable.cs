@@ -7,6 +7,9 @@ using System.Linq;
 public class Hurtable : MonoBehaviour
 {
     private float currentHealth = 5;
+    public float Health { get { return currentHealth; } }
+    private float damageTaken = 0;
+    public float DamageTaken { get { return damageTaken; } }
     private float dotDamage = 0;
     private float dotDuration = 0;
     private float dotStarted = 0;
@@ -72,8 +75,10 @@ public class Hurtable : MonoBehaviour
         spriteRenderers = new List<SpriteRenderer>(GetComponentsInChildren<SpriteRenderer>());
         spriteRenderers.AddRange(GetComponents<SpriteRenderer>());
         origColors = spriteRenderers.Select(rend => rend.color).ToList();
-        if (gameObject.tag == "Player") {
-            if (UIHealth.main != null) {
+        if (gameObject.tag == "Player")
+        {
+            if (UIHealth.main != null)
+            {
                 UIHealth.main.SetHp(config.MaxHealth, healthConfig.MaxHealth);
             }
         }
@@ -85,7 +90,8 @@ public class Hurtable : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!initialized) {
+        if (!initialized)
+        {
             return;
         }
         if (dotDamage > 0 && Time.time - dotStarted > dotDuration)
@@ -95,7 +101,7 @@ public class Hurtable : MonoBehaviour
             dotting = false;
         }
 
-        if(dotDamage > 0 && Time.time - dotLastDamage > dotPeriod)
+        if (dotDamage > 0 && Time.time - dotLastDamage > dotPeriod)
         {
             Hurt(dotDamage);
             dotLastDamage = Time.time;
@@ -109,16 +115,17 @@ public class Hurtable : MonoBehaviour
         tint();
     }
 
-    public void Hurt(float damage)
+    public bool Hurt(float damage)
     {
-        Hurt(damage, null);
+        return Hurt(damage, null);
     }
 
-    public void Hurt(float damage, Experience playerExp)
+    public bool Hurt(float damage, Experience playerExp)
     {
+        bool wasKilledByDamage = false;
         if (Immune)
         {
-            return;
+            return false;
         }
 
         if (enemy != null)
@@ -131,7 +138,8 @@ public class Hurtable : MonoBehaviour
             playerExperience = playerExp;
         }
 
-        if (SoundManager.main != null) {
+        if (SoundManager.main != null)
+        {
             SoundManager.main.PlaySound(config.HitSound);
         }
 
@@ -142,12 +150,15 @@ public class Hurtable : MonoBehaviour
                 damagedCallback.Invoke(damage);
             }
             currentHealth -= damage;
-            if (UIWorldCanvas.main != null && config.ShowDamageNumber) {
+            if (UIWorldCanvas.main != null && config.ShowDamageNumber)
+            {
                 UIWorldCanvas.main.ShowNumber((Vector2)transform.position + dmgOffset, -damage, ResourceType.HP, false);
             }
+            damageTaken += damage;
             if (currentHealth <= 0)
             {
                 Die();
+                wasKilledByDamage = true;
             }
             else
             {
@@ -159,43 +170,57 @@ public class Hurtable : MonoBehaviour
                 damaged = Time.time;
             }
         }
-        if (gameObject.tag == "Player") {
-            if (UIHealth.main != null) {
+        if (gameObject.tag == "Player")
+        {
+            if (UIHealth.main != null)
+            {
                 UIHealth.main.SetHp(currentHealth, healthConfig.MaxHealth);
             }
         }
+        return wasKilledByDamage;
     }
 
-    public void Die() {
+    public void Die()
+    {
         if (deadAction != null)
         {
             deadAction.Invoke();
         }
 
-        if (deathAction != null) {
+        if (deathAction != null)
+        {
             deathAction.Invoke();
         }
 
-        if (SoundManager.main != null) {
+        if (SoundManager.main != null)
+        {
             SoundManager.main.PlaySound(config.DeathSound);
         }
 
         if (playerExperience != null && expGainConfig != null)
         {
             Experience.main.AddExperience(expGainConfig.GainedExperience);
-            if (UIWorldCanvas.main != null) {
+            if (UIWorldCanvas.main != null)
+            {
                 UIWorldCanvas.main.ShowNumber((Vector2)transform.position + xpOffset, expGainConfig.GainedExperience, ResourceType.XP);
             }
         }
     }
 
-    public void GainHealth(int amount) {
+    public void GainHealth(int amount)
+    {
         currentHealth = Mathf.Clamp(currentHealth + amount, 0, config.MaxHealth);
-        if (gameObject.tag == "Player") {
-            if (UIHealth.main != null) {
+        if (gameObject.tag == "Player")
+        {
+            if (UIHealth.main != null)
+            {
                 UIHealth.main.SetHp(currentHealth, healthConfig.MaxHealth);
             }
         }
+    }
+
+    public bool HasMaxHealth() {
+        return currentHealth >= config.MaxHealth;
     }
 
     public void DisableInvulnerability()
@@ -240,7 +265,8 @@ public class Hurtable : MonoBehaviour
             dotStarted = Time.time;
             dotDuration = duration;
         }
-        else {
+        else
+        {
             dotDamage = damage;
             dotDuration = duration;
             dotStarted = Time.time;

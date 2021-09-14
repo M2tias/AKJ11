@@ -62,6 +62,7 @@ public class Fireball : MonoBehaviour
         transform.transform.Rotate(Vector3.forward, angleDiff);
         moveDir = direction.normalized;
         spellRuntime = runtime;
+        RunHistoryDb.AddSpellUse(runtime.SpellType);
     }
 
     public void SetConfig(SpellBaseConfig config)
@@ -174,7 +175,8 @@ public class Fireball : MonoBehaviour
         }
         hitSomeone = true;
 
-        if (!bouncing) {
+        if (!bouncing)
+        {
             Hurtable hurtable = other.GetComponent<Hurtable>();
             hitTarget(hurtable);
             DoAoeDamage(other.gameObject);
@@ -277,12 +279,18 @@ public class Fireball : MonoBehaviour
         {
             if (damage > 0)
             {
-                h.Hurt(damage, Experience.main);
+                bool wasKilled = h.Hurt(damage, Experience.main);
+                if (wasKilled)
+                {
+                    RunHistoryDb.AddSpellKill(spellRuntime.SpellType);
+                }
+                RunHistoryDb.AddSpellDamage(spellRuntime.SpellType, damage);
             }
 
             if (dotTickDamage > 0)
             {
                 h.Dot(dotTickDamage, dotDuration);
+                RunHistoryDb.AddSpellDamage(spellRuntime.SpellType, dotTickDamage);
             }
         }
     }
@@ -292,12 +300,18 @@ public class Fireball : MonoBehaviour
         if (hurtable == null) return;
         if (damage > 0)
         {
-            hurtable.Hurt(damage, Experience.main);
+            bool wasKilled = hurtable.Hurt(damage, Experience.main);
+            if (wasKilled)
+            {
+                RunHistoryDb.AddSpellKill(spellRuntime.SpellType);
+            }
+            RunHistoryDb.AddSpellDamage(spellRuntime.SpellType, damage);
         }
 
         if (dotTickDamage > 0)
         {
             hurtable.Dot(dotTickDamage, dotDuration);
+            RunHistoryDb.AddSpellDamage(spellRuntime.SpellType, dotTickDamage);
         }
     }
 
@@ -336,12 +350,15 @@ public class Fireball : MonoBehaviour
         }
     }
 
-    public void KillClean() {
+    public void KillClean()
+    {
         trailEffects.ForEach(effect => effect.gameObject.SetActive(false));
-        if (BounceEffect != null) {
+        if (BounceEffect != null)
+        {
             BounceEffect.gameObject.SetActive(false);
         }
-        if (explosionParticle != null) {
+        if (explosionParticle != null)
+        {
             explosionParticle.gameObject.SetActive(false);
         }
         gameObject.SetActive(false);

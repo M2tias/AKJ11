@@ -445,7 +445,7 @@ MonoBehaviour:
   DebugCurrentLevel: 0
   DebugSeed: 
   DebugIntSeed: 0
-  NextLevelButton: 0
+  NextLevelButton: 1
 --- !u!114 &207710858
 MonoBehaviour:
   m_ObjectHideFlags: 0
