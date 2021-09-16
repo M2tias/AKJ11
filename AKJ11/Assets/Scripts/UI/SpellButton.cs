@@ -42,6 +42,10 @@ public class SpellButton : MonoBehaviour
         icon.sprite = Spell.ProjectileSprite;
         originalColor = background.color;
         spellLevelRuntime = Experience.main.GetSpellLevelRuntime(Spell.SpellType);
+        levelDamage.SetType(SpellStatType.Damage);
+        levelCooldown.SetType(SpellStatType.CoolDown);
+        levelDot.SetType(SpellStatType.Dot);
+        levelBounces.SetType(SpellStatType.Aoe);
     }
 
     void Update() {

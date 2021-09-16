@@ -26,6 +26,9 @@ public class PickupableItem : MonoBehaviour
                     }
                     RunHistoryDb.AddPotion();
                 }
+                if (item.Config.Type == ResourceType.XP) {
+                    RunHistoryDb.AddXpBookPickup();
+                }
                 item.Gain();
                 Destroy(gameObject);
             }

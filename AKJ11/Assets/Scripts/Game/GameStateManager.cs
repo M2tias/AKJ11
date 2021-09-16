@@ -72,6 +72,14 @@ public class GameStateManager : MonoBehaviour
         return timer.GetString();
     }
 
+    public double GetTime() {
+        if (timer == null)
+        {
+            return 0;
+        }
+        return timer.GetTime();
+    }
+
     public void StopTime()
     {
         if (timer != null)

@@ -115,6 +115,7 @@ public class Experience : MonoBehaviour
     {
         statPointsToUse -= pendingStatsPoints;
         totalPointsUsed += pendingStatsPoints;
+        RunHistoryDb.AddSkillPoints(pendingStatsPoints);
         pendingStatsPoints = 0;
     }
 

@@ -209,9 +209,12 @@ public class Hurtable : MonoBehaviour
 
     public void GainHealth(int amount)
     {
+        int maxAmountGained = (int)(config.MaxHealth-currentHealth);
+        int actualAmountGained = amount > maxAmountGained ? maxAmountGained : amount;
         currentHealth = Mathf.Clamp(currentHealth + amount, 0, config.MaxHealth);
         if (gameObject.tag == "Player")
         {
+            RunHistoryDb.AddHealthGain(actualAmountGained);
             if (UIHealth.main != null)
             {
                 UIHealth.main.SetHp(currentHealth, healthConfig.MaxHealth);

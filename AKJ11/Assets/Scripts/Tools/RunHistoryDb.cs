@@ -13,12 +13,16 @@ public class RunHistoryDb
         try
         {
             currentRun.RunSuccesful = playerWin;
-            currentRun.EndDate = System.DateTime.Now;
+            currentRun.FormattedEndDate = System.DateTime.Now.ToString("yyyy.MM.dd HH:mm:ss");
             currentRun.RunTime = GameStateManager.main.GetFormattedTime();
+            currentRun.RunTimeAsNumber = GameStateManager.main.GetTime();
             currentRun.Health = (int)playerHurtable.Health;
             currentRun.LevelReached = MapGenerator.main.CurrentLevel;
             currentRun.ExperiencePoints = Experience.main.TotalExpGained;
             currentRun.DamageTaken = (int)playerHurtable.DamageTaken;
+            currentRun.MagicMissileHistory.CreateSpellLevelStats();
+            currentRun.FireBallHistory.CreateSpellLevelStats();
+            currentRun.WallHistory.CreateSpellLevelStats();
             string runJson = JsonUtility.ToJson(currentRun);
             RunHistoryKeys runHistoryKeys = LoadHistoryKeys();
             PlayerPrefs.SetString(currentRun.Name, runJson);
@@ -35,8 +39,6 @@ public class RunHistoryDb
     private static RunHistoryKeys LoadHistoryKeys()
     {
         string runHistoryKeyString = PlayerPrefs.GetString("RunHistoryKeys", "");
-        MonoBehaviour.print("Run history keys:");
-        MonoBehaviour.print(runHistoryKeyString);
         if (runHistoryKeyString != "")
         {
             return JsonUtility.FromJson<RunHistoryKeys>(runHistoryKeyString);
@@ -62,6 +64,7 @@ public class RunHistoryDb
 
     public static void StartRun()
     {
+        RunStarted = true;
         RandomNumberGenerator rng = RandomNumberGenerator.GetInstance();
         currentRun = new RunHistory(rng.Seed);
     }
@@ -72,9 +75,44 @@ public class RunHistoryDb
         {
             return;
         }
-
         currentRun.PotionsPickedUp++;
+        MonoBehaviour.print($"Potion picked up (total: {currentRun.PotionsPickedUp}).");
     }
+
+
+    public static void AddXpBookPickup()
+    {
+        if (currentRun == null)
+        {
+            return;
+        }
+
+        currentRun.XPBooksPickedUp++;
+        MonoBehaviour.print($"Xp book picked up (total: {currentRun.XPBooksPickedUp}).");
+    }
+
+    public static void AddSkillPoints(int value)
+    {
+        if (currentRun == null)
+        {
+            return;
+        }
+
+        currentRun.SkillPointsDistributed += value;
+        MonoBehaviour.print($"Skill points distributed: {value} (total {currentRun.SkillPointsDistributed}).");
+    }
+
+    public static void AddHealthGain(int value)
+    {
+        if (currentRun == null)
+        {
+            return;
+        }
+
+        currentRun.HealthGained += value;
+        MonoBehaviour.print($"Health gained: {value} (total {currentRun.HealthGained}).");
+    }
+
 
     public static void AddSpellUse(SpellType spellType)
     {
@@ -119,8 +157,10 @@ public class RunHistoryDb
 }
 
 [System.Serializable]
-public class RunHistoryKeys {
-    public RunHistoryKeys() {
+public class RunHistoryKeys
+{
+    public RunHistoryKeys()
+    {
         Keys = new List<string>();
     }
     public List<string> Keys;
@@ -133,9 +173,8 @@ public class RunHistory
     public RunHistory(string seed)
     {
         Seed = seed;
-        StartDate = System.DateTime.Now;
-        string formattedTime = StartDate.ToString("yyyy.MM.dd hh:mm:ss");
-        Name = $"{seed}-{formattedTime}";
+        FormattedStartDate = System.DateTime.Now.ToString("yyyy.MM.dd HH:mm:ss");
+        Name = $"{seed}-{FormattedStartDate}";
         MagicMissileHistory = new SpellHistory(SpellType.MagicMissile, Experience.main.GetSpellLevelRuntime(SpellType.MagicMissile));
         FireBallHistory = new SpellHistory(SpellType.FireBall, Experience.main.GetSpellLevelRuntime(SpellType.FireBall));
         WallHistory = new SpellHistory(SpellType.Wall, Experience.main.GetSpellLevelRuntime(SpellType.Wall));
@@ -144,26 +183,37 @@ public class RunHistory
     public SpellHistory MagicMissileHistory;
     public SpellHistory FireBallHistory;
     public SpellHistory WallHistory;
-    public System.DateTime StartDate;
-    public System.DateTime EndDate;
+    public string FormattedStartDate;
+    public string FormattedEndDate;
     public string Seed;
     public string RunTime;
+    public double RunTimeAsNumber;
     public bool RunSuccesful = false;
     public int Health;
     public int LevelReached;
     public int ExperiencePoints;
+    public int SkillPointsDistributed;
     public int DamageTaken;
     public int PotionsPickedUp;
+    public int XPBooksPickedUp;
+    public int HealthGained;
 }
 
 [System.Serializable]
 public class SpellHistory
 {
+    private SpellLevelRuntime runtime;
+
     public SpellHistory(SpellType spellType, SpellLevelRuntime spellLevelRunTime)
     {
+        runtime = spellLevelRunTime;
         SpellType = spellType;
-        SpellLevelStats = new SpellLevelStats(spellLevelRunTime, spellType);
         RunSpellStats = new RunSpellStats();
+    }
+
+    public void CreateSpellLevelStats()
+    {
+        SpellLevelStats = new SpellLevelStats(runtime, SpellType);
     }
 
     public void AddUse()

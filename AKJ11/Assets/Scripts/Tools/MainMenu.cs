@@ -10,8 +10,24 @@ public class MainMenu : MonoBehaviour
 
     [SerializeField]
     private InputField seedInput;
+    [SerializeField]
+    private UIHistoryView historyView;
 
     private FadeOptions fadeToBlack = new FadeOptions(Color.black, 0.2f);
+
+    public static MainMenu main;
+
+    void Awake() {
+        main = this;
+    }
+
+    public void SetSeedText(string newText) {
+        seedInput.text = newText;
+    }
+
+    public void OpenHistory() {
+        historyView.Open();
+    }
 
     public void SetUpRng()
     {
