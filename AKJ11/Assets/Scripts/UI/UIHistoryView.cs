@@ -25,6 +25,9 @@ public class UIHistoryView : MonoBehaviour
 
     public void Open()
     {
+        foreach(Transform child in singleRunContainer.transform) {
+            Destroy(child.gameObject);
+        }
         List<RunHistory> runHistories = RunHistoryDb.LoadAll();
         if (runHistories.Count == 0)
         {
@@ -59,7 +62,7 @@ public class UIHistoryView : MonoBehaviour
             {
                 closest = runHistory;
             }
-            runUI.transform.SetParent(singleRunContainer);
+            runUI.transform.SetParent(singleRunContainer, false);
             runUI.Initialize(runHistory);
         }
         if (victories > 0)
@@ -69,11 +72,11 @@ public class UIHistoryView : MonoBehaviour
         else
         {
             if (runHistories.Count == 1) {
-                generalInfo.text = $"A single attempt has been made: level {closest.LevelReached} on {closest.FormattedStartDate}.";
+                generalInfo.text = $"A single attempt has been made: depth {closest.LevelReached} on {closest.FormattedStartDate}.";
             }
             else if (closest != null)
             {
-                generalInfo.text = $"{runHistories.Count} attempts made. Furthest attempt: level {closest.LevelReached} on {closest.FormattedStartDate}.";
+                generalInfo.text = $"{runHistories.Count} attempts made. Furthest attempt: depth {closest.LevelReached} on {closest.FormattedStartDate}.";
             }
         }
     }

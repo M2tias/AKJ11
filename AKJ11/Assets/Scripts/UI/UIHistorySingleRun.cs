@@ -67,7 +67,7 @@ public class UIHistorySingleRun : MonoBehaviour
     private void ShowSingleStats(RunHistory runHistory)
     {
         AddSingleStat(healthIcon, runHistory.Health, "Health");
-        AddSingleStat(levelIcon, runHistory.LevelReached, "Level reached");
+        AddSingleStat(levelIcon, runHistory.LevelReached, "Depth reached");
         AddSingleStat(skillIcon, runHistory.SkillPointsDistributed, "Skill points distributed");
         AddSingleStat(xpIcon, runHistory.ExperiencePoints, "Total experience points");
         AddSingleStat(xpBookIcon, runHistory.XPBooksPickedUp, "Experience books picked up");
