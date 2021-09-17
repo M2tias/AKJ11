@@ -175,6 +175,10 @@ public class Hurtable : MonoBehaviour
             if (UIHealth.main != null)
             {
                 UIHealth.main.SetHp(currentHealth, healthConfig.MaxHealth);
+                if (damage > 0) {
+                    ScreenShakeEffect.main.Shake();
+                    ScreenFlashEffect.main.Flash();
+                }
             }
         }
         return wasKilledByDamage;

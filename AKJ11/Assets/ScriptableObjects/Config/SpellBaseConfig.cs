@@ -7,7 +7,7 @@ using UnityEngine.Events;
 public class SpellBaseConfig : ScriptableObject
 {
     [field: SerializeField]
-    public string Name {get; private set;} = "Spell";
+    public string Name { get; private set; } = "Spell";
 
     [field: SerializeField]
     public List<SpellStats> VisibleStats { get; private set; }
@@ -46,11 +46,15 @@ public class SpellBaseConfig : ScriptableObject
     public Sprite ProjectileSprite { get; private set; }
 
     [field: SerializeField]
-    public SpellType SpellType {get; private set;}
+    public SpellType SpellType { get; private set; }
+
+    [field: SerializeField]
+    public ScreenShakeOptions ScreenShake { get; private set; }
 
 }
 
-public enum SpellType {
+public enum SpellType
+{
     None,
     MagicMissile,
     FireBall,

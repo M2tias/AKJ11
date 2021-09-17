@@ -11,6 +11,9 @@ public class MapGenerator : MonoBehaviour
     NodeContainer nodeContainer;
     MapConfig config;
 
+    [SerializeField]
+    private Transform worldContainer;
+
     private FadeOptions fadeToBlack = new FadeOptions(Color.black, 0.2f);
     private FadeOptions fadeToTransparent = new FadeOptions(Color.clear, 0.5f);
 
@@ -106,7 +109,8 @@ public class MapGenerator : MonoBehaviour
         }
         GameStateManager.main.LevelStarted(config, currentLevel);
         Camera.main.GetComponent<FollowTarget>().SetPositionToTarget();
-        if (Shooting.main != null) {
+        if (Shooting.main != null)
+        {
             Shooting.main.KillActiveSpells();
         }
         await fader.Fade(fadeToTransparent);
@@ -152,6 +156,7 @@ public class MapGenerator : MonoBehaviour
             await nodeContainer.Kill();
         }
         nodeContainer = new NodeContainer(0, 0, config.Size, config.Size, config, config.CaveTileStyle);
+        nodeContainer.ViewContainer.transform.SetParent(worldContainer, false);
         if (Configs.main.Debug.DelayGeneration)
         {
             nodeContainer.Render();

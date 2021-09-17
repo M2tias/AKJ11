@@ -326,6 +326,10 @@ public class Fireball : MonoBehaviour
             collider.enabled = false;
             renderer.enabled = false;
             trailEffects.ForEach(effect => effect.Stop());
+            if (config.ScreenShake != null)
+            {
+                ScreenShakeEffect.main.Shake(config.ScreenShake);
+            }
             BounceEffect.Stop();
             CreateExplosion();
             Invoke("Destroy", 0.5f);
