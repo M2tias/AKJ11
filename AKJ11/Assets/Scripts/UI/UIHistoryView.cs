@@ -28,15 +28,12 @@ public class UIHistoryView : MonoBehaviour
         foreach(Transform child in singleRunContainer.transform) {
             Destroy(child.gameObject);
         }
+        historyViewContainer.SetActive(true);
         List<RunHistory> runHistories = RunHistoryDb.LoadAll();
         if (runHistories.Count == 0)
         {
             Debug.Log("No run histories found, don't show history view!");
             generalInfo.text = "No attempts found.";
-        }
-        else
-        {
-            historyViewContainer.SetActive(true);
         }
         runHistories.Reverse();
         int victories = 0;
