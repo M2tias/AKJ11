@@ -165,6 +165,7 @@ public class Shooting : MonoBehaviour
         SetCurrentSpell(Spell.fireball);
         ghostWallPos.SetActive(false);
         spellWallUsed = Time.time;
+        RunHistoryDb.AddSpellUse(SpellType.Wall);
         if (SpellBar.main != null)
         {
             SpellBar.main.SpellWasCast(spellWallConfig);
