@@ -53,3 +53,4 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 528de62820ca1ef48b03da69bd13bb69, type: 2}
   DefaultMusic: {fileID: 11400000, guid: e56c04b5b278e1d4795da271eb30ac0a, type: 2}
   <DefaultTileSheet>k__BackingField: {fileID: 11400000, guid: 5f50d7f49cddd374c965cc38e44bb21a, type: 2}
+  <GradientConfig>k__BackingField: {fileID: 11400000, guid: 37e7eddfb4cff0c489f03fbcc44cba20, type: 2}

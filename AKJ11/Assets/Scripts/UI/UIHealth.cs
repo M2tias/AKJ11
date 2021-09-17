@@ -19,6 +19,7 @@ public class UIHealth : MonoBehaviour
         float clamped = Mathf.Clamp(current, 0, max);
         txtCount.text = clamped.ToString();
         imgFill.fillAmount = clamped / max;
+        imgFill.color = Configs.main.GradientConfig.GetHealthColorAt(imgFill.fillAmount);
     }
 
 }

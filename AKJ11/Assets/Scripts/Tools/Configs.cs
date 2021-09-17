@@ -28,5 +28,8 @@ public class Configs : MonoBehaviour
     [field: SerializeField]
     public TilesheetConfig DefaultTileSheet {get; private set;}
 
+    [field: SerializeField]
+    public GradientConfig GradientConfig {get; private set;}
+
 }
 

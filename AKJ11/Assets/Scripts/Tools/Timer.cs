@@ -21,4 +21,8 @@ public class Timer
         return stopwatch.Elapsed.ToString(@"mm\:ss\.ff");
     }
 
+    public double GetTime() {
+        return stopwatch.Elapsed.TotalMilliseconds;
+    }
+
 }

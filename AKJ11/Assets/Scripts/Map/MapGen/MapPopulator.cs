@@ -43,7 +43,8 @@ public class MapPopulator
         List<MapNode> caveNodes = data.CaveNodes;
         List<MapNode> towerNodes = data.Tower.Nodes;
         MapNode keyNode = null;
-        if (data.Config.KeySpawn == KeySpawn.MaxDistanceFromPlayer || data.Config.KeySpawn == KeySpawn.Manual) {
+        if (data.Config.KeySpawn == KeySpawn.MaxDistanceFromPlayer || data.Config.KeySpawn == KeySpawn.Manual)
+        {
             if (caveNodes.Count > 0)
             {
                 keyNode = caveNodes.OrderByDescending(node => node.Distance(data.Player.Node)).First();
@@ -63,13 +64,15 @@ public class MapPopulator
         }
     }
 
-    public static void PlaceNextLevelTrigger(MapNode node) {
+    public static void PlaceNextLevelTrigger(MapNode node)
+    {
         NextLevelTrigger nextLevelTrigger = Prefabs.Get<NextLevelTrigger>();
         nextLevelTrigger.transform.SetParent(MapGenerator.main.GetContainer());
         nextLevelTrigger.Initialize(node.Position);
     }
 
-    public static void PlaceKey(MapNode node) {
+    public static void PlaceKey(MapNode node)
+    {
         PlaceKey(node.Position);
     }
 
@@ -123,34 +126,48 @@ public class MapPopulator
 
     private static MapNode DetermineEntitySpawnNode(MapGenData data, GameEntitySpawn entitySpawn, RandomNumberGenerator rng)
     {
-        MapNode node = null;
-        if (entitySpawn.Location == SpawnStrategy.Random)
+        try
         {
-            if (entitySpawn.CanSpawnInHallways) {
-                List<MapNode> possibleNodes =  data.NonTowerNodes.Where(node => !node.IsEdge && !node.MapGen.EntitySpawnsHere).ToList();
-                node = possibleNodes[rng.Range(0, data.NonTowerNodes.Count)];
-            } else {
-                List<MapNode> possibleNodes =  data.CaveNodes.Where(node => !node.IsEdge && !node.MapGen.EntitySpawnsHere).ToList();
-                node = possibleNodes[rng.Range(0, data.CaveNodes.Count)];
+            MapNode node = null;
+            if (entitySpawn.Location == SpawnStrategy.Random)
+            {
+                if (entitySpawn.CanSpawnInHallways)
+                {
+                    List<MapNode> possibleNodes = data.NonTowerNodes.Where(node => !node.IsEdge && !node.MapGen.EntitySpawnsHere).ToList();
+                    node = possibleNodes[rng.Range(0, possibleNodes.Count)];
+                }
+                else
+                {
+                    List<MapNode> possibleNodes = data.CaveNodes.Where(node => !node.IsEdge && !node.MapGen.EntitySpawnsHere).ToList();
+                    node = possibleNodes[rng.Range(0, possibleNodes.Count)];
+                }
             }
+            else if (entitySpawn.Location == SpawnStrategy.CenterOfTheEnclosure)
+            {
+                CaveEnclosure enclosure = DetermineEnclosure(data, entitySpawn, rng);
+                node = enclosure.Nodes.Where(node => !node.IsEdge).OrderBy(node => enclosure.DistanceFromMidPoint(node)).FirstOrDefault();
+            }
+            else if (entitySpawn.Location == SpawnStrategy.MaxDistanceFromPlayer)
+            {
+                CaveEnclosure enclosure = DetermineEnclosure(data, entitySpawn, rng);
+                node = enclosure.Nodes.Where(node => !node.IsEdge).OrderByDescending(node => node.Distance(data.Player.Node)).FirstOrDefault();
+            }
+            if (node == null)
+            {
+                MonoBehaviour.print($"Something went wrong, Entity {entitySpawn} doesn't have a spawnNode.");
+            }
+
+            return node;
         }
-        else if (entitySpawn.Location == SpawnStrategy.CenterOfTheEnclosure)
+        catch (Exception e)
         {
-            CaveEnclosure enclosure = DetermineEnclosure(data, entitySpawn, rng);
-            node = enclosure.Nodes.Where(node => !node.IsEdge).OrderBy(node => enclosure.DistanceFromMidPoint(node)).FirstOrDefault();
+            MonoBehaviour.print(e);
         }
-        else if (entitySpawn.Location == SpawnStrategy.MaxDistanceFromPlayer)
-        {
-            CaveEnclosure enclosure = DetermineEnclosure(data, entitySpawn, rng);
-            node = enclosure.Nodes.Where(node => !node.IsEdge).OrderByDescending(node => node.Distance(data.Player.Node)).FirstOrDefault();
-        }
-        if (node == null) {
-            MonoBehaviour.print($"Something went wrong, Entity {entitySpawn} doesn't have a spawnNode.");
-        }
-        return node;
+        return null;
     }
 
-    private static CaveEnclosure DetermineEnclosure(MapGenData data, GameEntitySpawn entitySpawn, RandomNumberGenerator rng) {
+    private static CaveEnclosure DetermineEnclosure(MapGenData data, GameEntitySpawn entitySpawn, RandomNumberGenerator rng)
+    {
         CaveEnclosure enclosure = entitySpawn.Area == SpawnPosition.Cave ? data.Rooms[rng.Range(0, data.Rooms.Count)] : data.Tower;
         if (enclosure == null)
         {
@@ -201,9 +218,12 @@ public struct MapGenData
     }
 
     private List<MapNode> nonTowerNodes;
-    public List<MapNode> NonTowerNodes {
-        get {
-            if (nonTowerNodes == null) {
+    public List<MapNode> NonTowerNodes
+    {
+        get
+        {
+            if (nonTowerNodes == null)
+            {
                 CaveEnclosure tower = Tower;
                 nonTowerNodes = RoomsAndTower.Nodes.Where(node => (!tower.Nodes.Contains(node))).ToList();
             }

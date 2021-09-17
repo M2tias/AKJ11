@@ -5,6 +5,11 @@ using UnityEngine;
 public class Shooting : MonoBehaviour
 {
 
+    public static Shooting main;
+    void Awake() {
+        main = this;
+    }
+
     [SerializeField]
     private Transform entityContainer;
     [SerializeField]
@@ -42,6 +47,25 @@ public class Shooting : MonoBehaviour
     private float spellWallUsed = -100f;
     private bool spellWallGhostActive = false;
 
+    private bool shootingEnabled = true;
+    public bool ShootingEnabled { get { return shootingEnabled; } set { shootingEnabled = value; } }
+
+    private GameObject activeMissile;
+    private GameObject activeFireBall;
+    private GameObject activeWall;
+
+    public void KillActiveSpells() {
+        if (activeMissile != null) {
+            activeMissile.GetComponent<Fireball>().KillClean();
+        }
+        if (activeFireBall != null) {
+            activeFireBall.GetComponent<Fireball>().KillClean();
+        }
+        if (activeWall != null) {
+            activeWall.SetActive(false);
+        }
+    }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -71,6 +95,9 @@ public class Shooting : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (!shootingEnabled) {
+            return;
+        }
         attack1CD = attackSpell1Config.Cooldown[Experience.main.GetSpell1Runtime().CooldownLevel];
         attack2CD = attackSpell2Config.Cooldown[Experience.main.GetSpell2Runtime().CooldownLevel];
         spellWallCD = spellWallConfig.Cooldown[Experience.main.GetSpellWallRuntime().CooldownLevel];
@@ -132,6 +159,8 @@ public class Shooting : MonoBehaviour
         Vector3 spawnPos = wallSpawnPos;
         wallInstance.GetComponent<Wall>().Initialize(spawnPos, targetDir);
 
+        activeWall = wallInstance;
+
         // after casting
         SetCurrentSpell(Spell.fireball);
         ghostWallPos.SetActive(false);
@@ -163,10 +192,13 @@ public class Shooting : MonoBehaviour
         Vector3 spawnPos = transform.position + targetDir.normalized * 0.6f;
 
         fireballInstance.GetComponent<Fireball>().Initialize(spawnPos, targetDir, Experience.main.GetSpell1Runtime());
-        if (SoundManager.main != null) {
+        activeMissile = fireballInstance;
+        if (SoundManager.main != null)
+        {
             SoundManager.main.PlaySound(GameSoundType.Zing);
         }
-        if (SpellBar.main != null) {
+        if (SpellBar.main != null)
+        {
             SpellBar.main.SpellWasCast(attackSpell1Config);
         }
     }
@@ -187,10 +219,14 @@ public class Shooting : MonoBehaviour
         fireballInstance.GetComponent<Fireball>().Initialize(spawnPos, targetDir, Experience.main.GetSpell2Runtime());
         fireballInstance.GetComponent<Fireball>().Initialize(spawnPos, targetDir, Experience.main.GetSpell2Runtime());
 
-        if (SoundManager.main != null) {
+        activeFireBall = fireballInstance;
+
+        if (SoundManager.main != null)
+        {
             SoundManager.main.PlaySound(GameSoundType.FireBall);
         }
-        if (SpellBar.main != null) {
+        if (SpellBar.main != null)
+        {
             SpellBar.main.SpellWasCast(attackSpell2Config);
         }
     }

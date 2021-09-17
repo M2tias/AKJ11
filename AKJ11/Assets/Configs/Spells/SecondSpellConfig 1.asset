@@ -53,3 +53,8 @@ MonoBehaviour:
   - 6
   <ProjectileSprite>k__BackingField: {fileID: -724823095469007254, guid: f78af5cbae9ac784c8dc3cefea6d0aec, type: 3}
   <SpellType>k__BackingField: 2
+  <ScreenShake>k__BackingField:
+    ShakeDuration: 0.2
+    ShakeMagnitude: 0.2
+    DampingSpeed: 1
+    Enabled: 1

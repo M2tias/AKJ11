@@ -11,10 +11,15 @@ public class MapGenerator : MonoBehaviour
     NodeContainer nodeContainer;
     MapConfig config;
 
+    [SerializeField]
+    private Transform worldContainer;
+
     private FadeOptions fadeToBlack = new FadeOptions(Color.black, 0.2f);
     private FadeOptions fadeToTransparent = new FadeOptions(Color.clear, 0.5f);
 
     private int currentLevel = 0;
+
+    public int CurrentLevel { get { return currentLevel; } }
 
     [SerializeField]
     private int DebugCurrentLevel;
@@ -46,13 +51,16 @@ public class MapGenerator : MonoBehaviour
         fader = FullscreenFade.main;
 #if UNITY_EDITOR
         currentLevel = DebugCurrentLevel;
-        if (DebugSeed.Trim() != "") {
+        if (DebugSeed.Trim() != "")
+        {
             RandomNumberGenerator.SetInstance(new RandomNumberGenerator(DebugSeed));
         }
-        else if (DebugIntSeed != default(int)) {
+        else if (DebugIntSeed != default(int))
+        {
             RandomNumberGenerator.SetInstance(new RandomNumberGenerator(DebugIntSeed));
         }
-        if (NextLevelButton) {
+        if (NextLevelButton)
+        {
             Prefabs.Get<NextLevelButton>();
         }
 #endif
@@ -75,7 +83,6 @@ public class MapGenerator : MonoBehaviour
             SoundManager.main.PlaySound(GameSoundType.DoorOpen);
         }
         GameStateManager.main.LevelEnded();
-        GameStateManager.main.StopTime();
         await fader.Fade(fadeToBlack);
         await NextLevel();
     }
@@ -92,28 +99,37 @@ public class MapGenerator : MonoBehaviour
 
     public async UniTask NextLevel()
     {
-        try {
+        try
+        {
             await NewMap();
         }
-        catch(Exception e) {
+        catch (Exception e)
+        {
             Debug.Log(e);
         }
         GameStateManager.main.LevelStarted(config, currentLevel);
         Camera.main.GetComponent<FollowTarget>().SetPositionToTarget();
+        if (Shooting.main != null)
+        {
+            Shooting.main.KillActiveSpells();
+        }
         await fader.Fade(fadeToTransparent);
         GameStateManager.main.StartTime();
     }
 
-    public async void SealAllRooms(bool destroyable = false) {
+    public async void SealAllRooms(bool destroyable = false)
+    {
         await RoomSealer.SealAllRooms(data, sealNodes, destroyable);
     }
 
-    public async void UnsealAllRooms() {
+    public async void UnsealAllRooms()
+    {
         await RoomSealer.UnsealAllRooms(sealNodes);
         await RoomSealer.UnsealAllRooms(towerSealNodes);
     }
 
-    public async UniTask RunBlobGrid() {
+    public async UniTask RunBlobGrid()
+    {
         await BlobGrid.Run(nodeContainer);
         nodeContainer.Render();
     }
@@ -140,6 +156,7 @@ public class MapGenerator : MonoBehaviour
             await nodeContainer.Kill();
         }
         nodeContainer = new NodeContainer(0, 0, config.Size, config.Size, config, config.CaveTileStyle);
+        nodeContainer.ViewContainer.transform.SetParent(worldContainer, false);
         if (Configs.main.Debug.DelayGeneration)
         {
             nodeContainer.Render();
@@ -162,7 +179,8 @@ public class MapGenerator : MonoBehaviour
         CaveEnclosure roomsAndTower = await FindAndConnectEnclosures();
         await BlobGrid.Run(nodeContainer);
         CreateNavMesh();
-        data = new MapGenData{
+        data = new MapGenData
+        {
             NodeContainer = nodeContainer,
             Config = config,
             Tower = tower,
@@ -174,7 +192,8 @@ public class MapGenerator : MonoBehaviour
         PlaceItems(data);
         nodeContainer.Render();
         sealNodes = RoomSealer.FindNodesToSeal(data);
-        if (config.SealTower) {
+        if (config.SealTower)
+        {
             towerSealNodes = await RoomSealer.SealTower(data, nodeContainer, true);
         }
         BackgroundCreator.CreateFloor(data, config, nodeContainer);
@@ -251,7 +270,8 @@ public class MapGenerator : MonoBehaviour
             enclosures = await EnclosureFinder.Find(nodeContainer);
         }
         await EnclosureEdgeFinder.FindEdges(nodeContainer, enclosures);
-        if (enclosures.Count == 1) {
+        if (enclosures.Count == 1)
+        {
             return enclosures[0];
         }
         return null;
@@ -273,8 +293,8 @@ public class MapGenerator : MonoBehaviour
 
     private void PlaceItems(MapGenData data)
     {
-        List <MapNode> towerNodes = new List<MapNode>(data.Tower.Nodes);
-        List <MapNode> nonTowerNodes = new List<MapNode>(data.NonTowerNodes);
+        List<MapNode> towerNodes = new List<MapNode>(data.Tower.Nodes);
+        List<MapNode> nonTowerNodes = new List<MapNode>(data.NonTowerNodes);
         try
         {
             if (config.Items.Count > 0)

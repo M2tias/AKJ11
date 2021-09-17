@@ -19,6 +19,16 @@ public class PickupableItem : MonoBehaviour
     void OnTriggerEnter2D(Collider2D other) {
         if (other.gameObject.tag == "Player") {
             if (item != null) {
+                if (item.Config.Type == ResourceType.HP) {
+                    Hurtable playerHurtable = other.gameObject.GetComponent<Hurtable>();
+                    if (playerHurtable.HasMaxHealth()) {
+                        return;
+                    }
+                    RunHistoryDb.AddPotion();
+                }
+                if (item.Config.Type == ResourceType.XP) {
+                    RunHistoryDb.AddXpBookPickup();
+                }
                 item.Gain();
                 Destroy(gameObject);
             }
